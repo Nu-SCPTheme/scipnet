@@ -1,1 +1,1 @@
-+ Scipnet - Frontend scripts for Mekhane
+= Scipnet - Frontend scripts for Mekhane

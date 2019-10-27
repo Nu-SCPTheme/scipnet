@@ -1,0 +1,33 @@
+{
+  "name": "mekhane-scipnet",
+  "version": "1.0.0",
+  "description": "Frontend code scripts for Mekhane project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typescript": "node node_modules/gulp/bin/gulp.js typescript",
+    "browserify": "node node_modules/gulp/bin/gulp.js browserify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nu-SCPTheme/scipnet.git"
+  },
+  "keywords": [
+    "mekhane"
+  ],
+  "author": "not_a_seagull",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Nu-SCPTheme/scipnet/issues"
+  },
+  "homepage": "https://github.com/Nu-SCPTheme/scipnet#readme",
+  "dependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.0",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^5.0.1",
+    "typescript": "^3.6.4"
+  }
+}

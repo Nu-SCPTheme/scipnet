@@ -1,5 +1,5 @@
 /*
- * bundle.ts
+ * rating.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,9 +18,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import setupPageUtils from "./page-utils";
+// functions that have to do with ratings
+import "core-js/features/promise";
 
-document.onload = function() {
-  console.log("Initialize SCIPNET onload scripts...");
-  setupPageUtils();
+import deeds from "./deeds";
+
+export async function ratePage(rating: number): Promise<void> {
+  if (rating > 1 || rating < -1) {
+    throw new Error("Invalid rating value")
+  }
+
+  const res = await deeds("voteOnPage", { rating: rating });
+
+  if ("notLoggedIn" in res && res.notLoggedIn) {
+    throw new Error("You must be logged in to vote on pages.");
+    return;
+  }
+
+  if ("result" in res && !res.result) {
+    throw new Error("Failed to voe on page.");
+    return;
+  }
+
+  // TODO: set rating up on all rating modules
 }

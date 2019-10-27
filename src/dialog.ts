@@ -1,5 +1,5 @@
 /*
- * bundle.ts
+ * dialog.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,9 +18,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import setupPageUtils from "./page-utils";
-
-document.onload = function() {
-  console.log("Initialize SCIPNET onload scripts...");
-  setupPageUtils();
+// intrusive and non-intrusive dialogs
+export function nonIntrusiveDialog(title: string, message: string) {
+  // TODO: dialog system
+  alert(`${title}: ${message}`);
 }

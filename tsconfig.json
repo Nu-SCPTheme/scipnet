@@ -10,7 +10,9 @@
     "baseUrl": ".",
     "sourceMap": true,
     "outDir": "dist",
-    "noEmitOnError": true
+    "noEmitOnError": true,
+
+    "lib": ["esnext", "dom"]
   },
   "include": [
     "src"

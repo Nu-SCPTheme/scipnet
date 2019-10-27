@@ -1,5 +1,5 @@
 /*
- * bundle.ts
+ * page-utils.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,9 +18,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import setupPageUtils from "./page-utils";
+// set up triggers relating to page utilities
+import "core-js/features/promise";
 
-document.onload = function() {
-  console.log("Initialize SCIPNET onload scripts...");
-  setupPageUtils();
+import { nonIntrusiveDialog } from "./dialog";
+import { ratePage } from "./rating";
+
+// wrap promises related to page utils
+function promiseWrapper(func: () => Promise<void>): () => void {
+  return function() {
+    func().then(() => {}).catch((err: Error) => {
+      nonIntrusiveDialog("Error", err.message);
+    });
+  }
+}
+
+export default function setupPageUtils() {
+  const upvoters = document.getElementsByClassName("upvoteButton");
+  for (let i = 0; i < upvoters.length; i++) { // a for of loop won't work here
+    let upvoter = upvoters[i];
+    upvoter.addEventListener("click", promiseWrapper(async () => {
+      ratePage(1);
+    }));
+  }
 }

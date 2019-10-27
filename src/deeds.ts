@@ -1,5 +1,5 @@
 /*
- * bundle.ts
+ * deeds.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,9 +18,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import setupPageUtils from "./page-utils";
+// function to interact with "deeds" AJAX request system
+import "core-js/features/promise";
 
-document.onload = function() {
-  console.log("Initialize SCIPNET onload scripts...");
-  setupPageUtils();
+import { ajaxRequest, AjaxJsonBody, AjaxJsonResult } from "./ajax";
+import Cookies = require("js-cookie");
+import getSlug from "./slug";
+
+const pagereqSlug = "/sys/pagereq";
+
+export default async function deeds(
+  name: string,
+  body: AjaxJsonBody, 
+): Promise<any> {
+  // check for login
+  body.name = name;
+  
+  const sessionId = Cookies.get("sessionId");
+  body.sessionId = sessionId;
+  body.pagename = getSlug();
+
+  const res = await ajaxRequest(pagereqSlug, body);
+  if (!(res instanceof String)) {
+    return res; 
+  }
+  throw new Error(`Expected JSON object, but instead got string ${res}`);
 }

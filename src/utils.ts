@@ -1,5 +1,5 @@
 /*
- * bundle.ts
+ * utils.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,9 +18,4 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import setupPageUtils from "./page-utils";
-
-document.onload = function() {
-  console.log("Initialize SCIPNET onload scripts...");
-  setupPageUtils();
-}
+export type Nullable<T> = T | null;

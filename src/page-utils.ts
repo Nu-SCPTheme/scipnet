@@ -33,12 +33,20 @@ function promiseWrapper(func: () => Promise<void>): () => void {
   }
 }
 
-export default function setupPageUtils() {
-  const upvoters = document.getElementsByClassName("upvoteButton");
-  for (let i = 0; i < upvoters.length; i++) { // a for of loop won't work here
-    let upvoter = upvoters[i];
-    upvoter.addEventListener("click", promiseWrapper(async () => {
-      ratePage(1);
+// setup rating trigger
+function setupRatingTrigger(className: string, rating: number) {
+  const voters = document.getElementsByClassName(className);
+  for (let i = 0; i < voters.length; i++) { // a for of loop won't work here
+    let voter = voters[i];
+    voter.addEventListener("click", promiseWrapper(async () => {
+      ratePage(rating);
     }));
   }
+}
+
+// setup triggers for page utilities
+export default function setupPageUtils() {
+  setupRatingTrigger("upvote-button", 1);
+  setupRatingTrigger("downvote-button", -1);
+  setupRatingTrigger("novote-button", 0);
 }

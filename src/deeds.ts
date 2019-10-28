@@ -25,7 +25,7 @@ import { ajaxRequest, AjaxJsonBody, AjaxJsonResult } from "./ajax";
 import Cookies = require("js-cookie");
 import getSlug from "./slug";
 
-const pagereqSlug = "/sys/pagereq";
+const pagereqSlug = "/sys/deeds";
 
 export default async function deeds(
   name: string,

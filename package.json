@@ -36,8 +36,9 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "coveralls": "^3.0.7",
+    "dom-parser": "^0.1.6",
     "mocha": "^6.2.2",
-    "mock": "^0.1.1",
+    "nock": "^11.6.0",
     "nyc": "^14.1.1",
     "simon": "^0.2.3"
   }

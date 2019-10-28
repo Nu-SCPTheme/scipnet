@@ -18,4 +18,61 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// no tests yet
+const Cookies = require("js-cookie");
+const DOMParser = require("dom-parser");
+const fs = require("fs");
+const nock = require("nock");
+
+const domParser = new DOMParser();
+
+let curRatings = [];
+function sumRating() {
+  let rating = 0;
+  for (const curRating of curRatings) {
+    rating += curRating.rating;
+  }
+  return rating;
+}
+
+const scope = nock("https://localhost").post("/sys/deeds").reply(200, (uri, body) => {
+  if (body.name === "voteOnPage") {
+    // emulate voting functionality
+    if (!body.sessionId) {
+      return { notLoggedIn: true, result: false };
+    }
+
+    if (body.rating > 1 || body.rating < -1) {
+      return { result: false, error: "Invalid rating value" };
+    } 
+
+    let found = false;
+    for (let i = 0; i < curRatings.length; i++) {
+      if (curRatings.sessionId === body.sessionId) {
+        curRatings[i].rating = body.rating;
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      curRatings.push({ sessionId: body.sessionId, rating: body.rating });
+    }
+
+    return { result: true, rating: sumRating() };
+  }
+}).persist();
+
+describe("Testing page utilities", function() {
+  /*before(function() {
+    let source = fs.readFileSync("test/testdoc.html");
+    document = domParser.parseFromString(source);
+    require("../dist/bundle.js");
+  });
+
+  describe("Rating module", function() {
+    it("Upvote", function() {
+      Cookies.set("sessionId", 1);
+      document.getElementsByClassName("upvote-button")[0].click();
+    }); 
+  });*/
+});

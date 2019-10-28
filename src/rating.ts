@@ -36,9 +36,13 @@ export async function ratePage(rating: number): Promise<void> {
   }
 
   if ("result" in res && !res.result) {
-    throw new Error("Failed to voe on page.");
+    throw new Error(`Failed to vote on page: ${res.error}`);
     return;
   }
 
-  // TODO: set rating up on all rating modules
+  // set rating on all rating modules
+  const ratings = document.getElementByClassName("rating");
+  for (let i = 0; i < ratings.length; i++) {
+    ratings[i].innerHTML = `${res.rating}`;
+  }
 }

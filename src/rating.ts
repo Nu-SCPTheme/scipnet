@@ -41,7 +41,7 @@ export async function ratePage(rating: number): Promise<void> {
   }
 
   // set rating on all rating modules
-  const ratings = document.getElementByClassName("rating");
+  const ratings = document.getElementsByClassName("rating");
   for (let i = 0; i < ratings.length; i++) {
     ratings[i].innerHTML = `${res.rating}`;
   }

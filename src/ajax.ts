@@ -23,6 +23,11 @@
 // promise polyfill
 import "core-js/features/promise";
 
+//import XHRPolyfill from "xmlhttprequest";
+//if (!global.XmlHttpRequest) {
+//  global.XmlHttpRequest = XHRPolyfill;
+//}
+
 import { Nullable } from "./utils";
 
 export type AjaxJsonBody = { [key: string]: any };

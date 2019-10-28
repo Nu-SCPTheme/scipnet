@@ -19,11 +19,9 @@
  */
 
 const Cookies = require("js-cookie");
-const DOMParser = require("dom-parser");
+const { JSDOM } = require("jsdom");
 const fs = require("fs");
 const nock = require("nock");
-
-const domParser = new DOMParser();
 
 let curRatings = [];
 function sumRating() {
@@ -62,17 +60,18 @@ const scope = nock("https://localhost").post("/sys/deeds").reply(200, (uri, body
   }
 }).persist();
 
-describe("Testing page utilities", function() {
-  /*before(function() {
-    let source = fs.readFileSync("test/testdoc.html");
-    document = domParser.parseFromString(source);
-    require("../dist/bundle.js");
-  });
+global.window = {
+  location: { pathname: "/page" }
+};
 
-  describe("Rating module", function() {
-    it("Upvote", function() {
-      Cookies.set("sessionId", 1);
-      document.getElementsByClassName("upvote-button")[0].click();
-    }); 
-  });*/
+document = new JSDOM(fs.readFileSync("test/testdoc.html")).window.document;
+
+const rating = require("../dist/sources/rating");
+
+describe("Testing page utilities", function() {
+  describe("Testing ratings", function() {
+    it("Upvote", function(done) {
+      rating.ratePage(1).then(done);
+    });
+  }); 
 });

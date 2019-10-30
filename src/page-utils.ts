@@ -20,6 +20,7 @@
 
 // set up triggers relating to page utilities
 import "core-js/features/promise";
+import $ = require("jquery");
 
 import { nonIntrusiveDialog } from "./dialog";
 import { ratePage } from "./rating";
@@ -35,13 +36,9 @@ function promiseWrapper(func: () => Promise<void>): () => void {
 
 // setup rating trigger
 function setupRatingTrigger(className: string, rating: number) {
-  const voters = document.getElementsByClassName(className);
-  for (let i = 0; i < voters.length; i++) { // a for of loop won't work here
-    let voter = voters[i];
-    voter.addEventListener("click", promiseWrapper(async () => {
-      ratePage(rating);
-    }));
-  }
+  $(`.${className}`).click(promiseWrapper(async () => {
+    await ratePage(rating);
+  }));
 }
 
 // setup triggers for page utilities

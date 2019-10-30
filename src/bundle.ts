@@ -17,10 +17,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import $ = require("jquery");
 
 import setupPageUtils from "./page-utils";
 
-document.onload = function() {
+$(function() {
   console.log("Initialize SCIPNET onload scripts...");
   setupPageUtils();
-}
+});

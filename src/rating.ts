@@ -20,6 +20,7 @@
 
 // functions that have to do with ratings
 import "core-js/features/promise";
+import $ = require("jquery");
 
 import deeds from "./deeds";
 
@@ -40,9 +41,5 @@ export async function ratePage(rating: number): Promise<void> {
     return;
   }
 
-  // set rating on all rating modules
-  const ratings = document.getElementsByClassName("rating");
-  for (let i = 0; i < ratings.length; i++) {
-    ratings[i].innerHTML = `${res.rating}`;
-  }
+  $(".rating").html(`${res.rating}`);
 }

@@ -23,12 +23,9 @@
 // promise polyfill
 import "core-js/features/promise";
 
-//import XHRPolyfill from "xmlhttprequest";
-//if (!global.XmlHttpRequest) {
-//  global.XmlHttpRequest = XHRPolyfill;
-//}
-
 import { Nullable } from "./utils";
+
+import $ = require("jquery");
 
 export type AjaxJsonBody = { [key: string]: any };
 export type AjaxJsonResult = { [key: string]: any };
@@ -39,35 +36,24 @@ export async function ajaxRequest(
   url: string, 
   body: Nullable<AjaxJsonBody> = null
 ): Promise<AjaxResult> {
-  return new Promise((
+   return new Promise((
     resolve: (res: AjaxResult) => void,
     reject: (err: Error) => void
   ) => {
-    function finishedLoad(this: XMLHttpRequest, ev: ProgressEvent) {
-      const response = <AjaxResult>(this.response);
-      if (this.responseType !== "json" && this.responseType !== "text") {
+    $.ajax(url, {
+      method: "POST",
+      contentType: "application/x-www-form-urlencoded",
+      dataType: "json text",
+      data: body
+    }).done(function(data: AjaxResult, textStatus: string, xhr: any) {
+      const response = data;
+      if (xhr.responseType !== "json" && xhr.responseType !== "text") {
         // response should be either json or test. anything else means an error has occurred
         reject(new Error("Received unhandled response type from XMLHttpRequest"));
       }
       resolve(response);
-    }
-
-    function aborted(ev: ProgressEvent) {
-      reject(new Error("AJAX request to server was aborted"));
-    }
-
-    function error(ev: ProgressEvent) {
-      reject(new Error("An error occurred during the AJAX request"));
-    }
-
-    const ajax = new XMLHttpRequest();
-    ajax.addEventListener("load", finishedLoad);
-    ajax.addEventListener("error", error);
-    ajax.addEventListener("abort", aborted);
-    
-    ajax.open("POST", url);
-    ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-   
-    ajax.send(new URLSearchParams(body));
+    }).fail(function(xhr: any, err: any, textStatus: string) {
+      reject(new Error(err));
+    });
   });
 }

@@ -1,0 +1,3 @@
+[submodule "mekhane-html-generation"]
+	path = mekhane-html-generation
+	url = https://github.com/Nu-SCPTheme/mekhane-html-generation.git

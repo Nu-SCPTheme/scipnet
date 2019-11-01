@@ -18,4 +18,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import "core-js/features/promise";
+
 export type Nullable<T> = T | null;
+
+// async version of setTimeout
+export async function timeout(ms: number): Promise<void> {
+  return new Promise((resolve: () => void, reject: any) => {
+    setTimeout(resolve, ms);
+  }); 
+}

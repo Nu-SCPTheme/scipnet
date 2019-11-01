@@ -1,5 +1,5 @@
 /*
- * rating.ts
+ * page-utils.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,28 +18,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// functions that have to do with ratings
+// set up triggers relating to page utilities
 import "core-js/features/promise";
 import $ = require("jquery");
 
-import deeds from "./deeds";
+import { nonIntrusiveDialog } from "./../dialog";
+import { ratePage } from "./rating";
 
-export async function ratePage(rating: number): Promise<void> {
-  if (rating > 1 || rating < -1) {
-    throw new Error("Invalid rating value")
+// wrap promises related to page utils
+function promiseWrapper(func: () => Promise<void>): () => void {
+  return function() {
+    func().then(() => {}).catch((err: Error) => {
+      nonIntrusiveDialog("Error", err.message);
+    });
   }
+}
 
-  const res = await deeds("voteOnPage", { rating: rating });
+// setup rating trigger
+function setupRatingTrigger(className: string, rating: number) {
+  $(`.page-rate-widget-box.${className}`).click(promiseWrapper(async () => {
+    await ratePage(rating);
+  }));
+}
 
-  if ("notLoggedIn" in res && res.notLoggedIn) {
-    throw new Error("You must be logged in to vote on pages.");
-    return;
-  }
-
-  if ("result" in res && !res.result) {
-    throw new Error(`Failed to vote on page: ${res.error}`);
-    return;
-  }
-
-  $(".rating").html(`${res.rating}`);
+// setup triggers for page utilities
+export default function setupPageUtils() {
+  setupRatingTrigger("rateup", 1);
+  setupRatingTrigger("ratedown", -1);
+  setupRatingTrigger("cancel", 0);
 }

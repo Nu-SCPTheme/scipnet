@@ -1,5 +1,5 @@
 /*
- * page-utils.ts
+ * opacity.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,32 +18,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// set up triggers relating to page utilities
+// allows opacity scaling, i.e. make things gradually appear
 import "core-js/features/promise";
+
 import $ = require("jquery");
 
-import { nonIntrusiveDialog } from "./dialog";
-import { ratePage } from "./rating";
+import { timeout } from "./utils";
 
-// wrap promises related to page utils
-function promiseWrapper(func: () => Promise<void>): () => void {
-  return function() {
-    func().then(() => {}).catch((err: Error) => {
-      nonIntrusiveDialog("Error", err.message);
-    });
+export default async function opacityScale(
+  element: JQuery,
+  mstime: number, 
+  start: number = 0, 
+  end: number = 100
+): Promise<void> {
+  // go every 5 ms
+  const interval = 5;
+  const increment = (end - start) / (mstime / interval);
+
+  let totalOpacity = start;
+  while (totalOpacity < end) {
+    element.css("opacity", totalOpacity);
+    await timeout(interval);
+    totalOpacity += increment;
   }
-}
 
-// setup rating trigger
-function setupRatingTrigger(className: string, rating: number) {
-  $(`.${className}`).click(promiseWrapper(async () => {
-    await ratePage(rating);
-  }));
-}
-
-// setup triggers for page utilities
-export default function setupPageUtils() {
-  setupRatingTrigger("upvote-button", 1);
-  setupRatingTrigger("downvote-button", -1);
-  setupRatingTrigger("novote-button", 0);
+  element.attr("style", "");
 }

@@ -38,7 +38,7 @@ export default async function opacityScale(
 
   let totalOpacity = start;
   while (totalOpacity < end) {
-    element.css("opacity", totalOpacity);
+    element.css("opacity", totalOpacity / 100); 
     await timeout(interval);
     totalOpacity += increment;
   }

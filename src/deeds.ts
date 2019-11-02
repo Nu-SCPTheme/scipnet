@@ -31,12 +31,14 @@ const pagereqSlug = "/sys/deeds";
 export default async function deeds(
   name: string,
   body: AjaxJsonBody, 
-): Promise<any> {
-  // check for login
+): Promise<any> { 
   body.name = name;
   
+  // get session id to check for login
   const sessionId = Cookies.get("sessionId");
   body.sessionId = sessionId;
+
+  // get slug to identify the page name
   body.pagename = getSlug();
 
   const res = await ajaxRequest(pagereqSlug, body);

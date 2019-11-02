@@ -41,7 +41,7 @@ function cbFromRoot(root: JQuery): CollapsibleBlock {
   const unfoldedBlock = root.find(".collapsible-block-unfolded").first();
   const uncollapseLink = foldedBlock.find(".collapsible-block-link").first();
   const collapseLink = unfoldedBlock.find(".collapsible-block-link").first();
-  const content = unfoldedBlock.find(".collapsible-block-content").first();
+  const content = unfoldedBlock.find(".collapsible-content").first();
   return {
     foldedBlock,
     unfoldedBlock,
@@ -65,7 +65,7 @@ async function uncollapse(link: JQuery): Promise<void> {
   collapsibleBlock.foldedBlock.addClass("vanished");
   collapsibleBlock.unfoldedBlock.removeClass("vanished");
   collapsibleBlock.content.removeClass("vanished");
-  await opacityScale(collapsibleBlock.content, 100);
+  await opacityScale(collapsibleBlock.content, 500);
 }
 
 export default function collapsibleSetup() {

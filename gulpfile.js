@@ -48,3 +48,5 @@ gulp.task("browserify", () => {
     .bundle()
     .pipe(fs.createWriteStream("dist/bundle.js"));
 });
+
+gulp.task("default", gulp.series(["typescript", "browserify"]));

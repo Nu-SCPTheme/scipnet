@@ -21,8 +21,5 @@ include sources.mk
 
 default: dist/bundle.js
 
-dist/sources/bundle.js: $(SOURCES)
-	npm run typescript
-
-dist/bundle.js: dist/sources/bundle.js
-	npm run browserify
+dist/bundle.js: $(SOURCES)
+	npm run gulp

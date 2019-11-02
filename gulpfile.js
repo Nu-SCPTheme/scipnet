@@ -43,7 +43,7 @@ gulp.task("typescript", () => {
 // bundle all javscript files into one package
 gulp.task("browserify", () => {
   createDir("dist");
-  return browserify("dist/sources/bundle.js")
+  return browserify("dist/sources/_entry.js")
     .transform("babelify", { presets: ["@babel/preset-env"] })
     .bundle()
     .pipe(fs.createWriteStream("dist/bundle.js"));

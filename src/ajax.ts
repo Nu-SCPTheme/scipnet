@@ -21,9 +21,6 @@
 // ajax functions
 
 // promise polyfill
-import "core-js/features/promise";
-import "regenerator-runtime";
-
 import { Nullable } from "./utils";
 
 import * as $ from "jquery";

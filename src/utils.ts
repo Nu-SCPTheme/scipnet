@@ -18,9 +18,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import "core-js/features/promise";
-import "regenerator-runtime";
-
 export type Nullable<T> = T | null;
 
 // async version of setTimeout

@@ -19,9 +19,6 @@
  */
 
 // allows opacity scaling, i.e. make things gradually appear
-import "core-js/features/promise";
-import "regenerator-runtime";
-
 import * as $ from "jquery";
 
 import { timeout } from "./utils";

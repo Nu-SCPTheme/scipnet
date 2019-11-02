@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "target": "es2018",
-    "removeComments": true,
+    "removeComments": false,
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": false,

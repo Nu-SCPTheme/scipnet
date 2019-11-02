@@ -1,5 +1,5 @@
 /*
- * opacity.ts
+ * index.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,29 +18,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// allows opacity scaling, i.e. make things gradually appear
-import "core-js/features/promise";
+import collapsibleSetup from "./collapsible";
 
-import * as $ from "jquery";
-
-import { timeout } from "./utils";
-
-export default async function opacityScale(
-  element: JQuery,
-  mstime: number, 
-  start: number = 0, 
-  end: number = 100
-): Promise<void> {
-  // go every 5 ms
-  const interval = 5;
-  const increment = (end - start) / (mstime / interval);
-
-  let totalOpacity = start;
-  while (totalOpacity < end) {
-    element.css("opacity", totalOpacity);
-    await timeout(interval);
-    totalOpacity += increment;
-  }
-
-  element.attr("style", "");
+export default function markdownSetup() {
+  collapsibleSetup();
 }

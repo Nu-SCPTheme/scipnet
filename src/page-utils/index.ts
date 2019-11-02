@@ -20,7 +20,7 @@
 
 // set up triggers relating to page utilities
 import "core-js/features/promise";
-import $ = require("jquery");
+import * as $ from "jquery";
 
 import { nonIntrusiveDialog } from "./../dialog";
 import { ratePage } from "./rating";

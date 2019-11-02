@@ -22,7 +22,7 @@
 import "core-js/features/promise";
 
 import { ajaxRequest, AjaxJsonBody, AjaxJsonResult } from "./ajax";
-import Cookies = require("js-cookie");
+import * as Cookies from "js-cookie";
 import getSlug from "./slug";
 
 const pagereqSlug = "/sys/deeds";

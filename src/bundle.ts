@@ -17,12 +17,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import $ = require("jquery");
 
-import setupPageUtils from "./page-utils";
+import * as $ from "jquery";
+
+import setupMarkdown from "./markdown/index";
+import setupPageUtils from "./page-utils/index";
 
 // document onload
 $(function() {
   console.log("Initialize SCIPNET onload scripts...");
+  setupMarkdown();
   setupPageUtils();
 });

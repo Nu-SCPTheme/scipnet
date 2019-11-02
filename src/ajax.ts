@@ -25,7 +25,7 @@ import "core-js/features/promise";
 
 import { Nullable } from "./utils";
 
-import $ = require("jquery");
+import * as $ from "jquery";
 
 export type AjaxJsonBody = { [key: string]: any };
 export type AjaxJsonResult = { [key: string]: any };

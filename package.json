@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo Tests are currently disabled",
     "typescript": "node node_modules/gulp/bin/gulp.js typescript",
-    "browserify": "node node_modules/gulp/bin/gulp.js browserify"
+    "browserify": "node node_modules/gulp/bin/gulp.js browserify",
+    "gulp": "node node_modules/gulp/bin/gulp.js"
   },
   "repository": {
     "type": "git",

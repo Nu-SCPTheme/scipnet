@@ -20,6 +20,7 @@
 
 // function to interact with "deeds" AJAX request system
 import "core-js/features/promise";
+import "regenerator-runtime";
 
 import { ajaxRequest, AjaxJsonBody, AjaxJsonResult } from "./ajax";
 import * as Cookies from "js-cookie";

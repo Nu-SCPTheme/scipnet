@@ -19,6 +19,7 @@
  */
 
 import "core-js/features/promise";
+import "regenerator-runtime";
 
 export type Nullable<T> = T | null;
 

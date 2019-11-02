@@ -9,7 +9,8 @@
     "baseUrl": ".",
     "sourceMap": true,
     "outDir": "dist",
-    "noEmitOnError": true
+    "noEmitOnError": true,
+    "module": "commonjs"
   },
   "include": [
     "src"

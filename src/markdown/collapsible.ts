@@ -20,6 +20,7 @@
 
 // code to make collapsibles work
 import "core-js/features/promise";
+import "regenerator-runtime";
 
 import * as $ from "jquery";
 

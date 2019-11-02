@@ -24,7 +24,7 @@ import setupMarkdown from "./markdown/index";
 import setupPageUtils from "./page-utils/index";
 
 // document onload
-$(function() {
+$(document).ready(function() {
   console.log("Initialize SCIPNET onload scripts...");
   setupMarkdown();
   setupPageUtils();

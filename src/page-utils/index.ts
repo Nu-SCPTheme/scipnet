@@ -20,6 +20,8 @@
 
 // set up triggers relating to page utilities
 import "core-js/features/promise";
+import "regenerator-runtime";
+
 import * as $ from "jquery";
 
 import { nonIntrusiveDialog } from "./../dialog";

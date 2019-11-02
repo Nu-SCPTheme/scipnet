@@ -20,6 +20,8 @@
 
 // functions that have to do with ratings
 import "core-js/features/promise";
+import "regenerator-runtime";
+
 import * as $ from "jquery";
 
 import deeds from "./../deeds";

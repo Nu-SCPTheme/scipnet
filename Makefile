@@ -23,4 +23,3 @@ default: dist/bundle.js
 
 dist/bundle.js: $(SOURCES)
 	npm run gulp
-	sed -i 's/Promise/global.Promise/g' dist/bundle.js

@@ -24,6 +24,8 @@ import * as $ from "jquery";
 import deeds from "./../deeds";
 
 export async function ratePage(rating: number): Promise<void> {
+  console.log(`Calling ratePage with rating ${rating}`);
+
   if (rating > 1 || rating < -1) {
     throw new Error("Invalid rating value")
   }

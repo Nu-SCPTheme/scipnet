@@ -35,7 +35,7 @@ function promiseWrapper(func: () => Promise<void>): () => void {
 
 // setup rating trigger
 function setupRatingTrigger(className: string, rating: number) {
-  $(`.page-rate-widget-box.${className}`).find("a").click(promiseWrapper(async () => {
+  $(".page-rate-widget-box").find(`.${className}`).find("a").click(promiseWrapper(async () => {
     await ratePage(rating);
   }));
 }

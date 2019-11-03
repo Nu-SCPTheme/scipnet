@@ -1,3 +1,5 @@
+//REPLACE
+
 /*
  * _entry.ts
  *
@@ -33,7 +35,11 @@ import "regenerator-runtime";
 
 // polyfill for String class and regular expression
 //import "core-js/features/regexp";
-//import "core-js/features/string";
+import "core-js/features/string";
+
+// NOTE: the //REPLACE comment above will be replaced with require("core-js/features/object");
+// We have to manually import it here too in order to signal Browserify to use it
+import "core-js/features/object";
 
 // polyfill for setTimeout
 import "core-js/features/set-timeout";

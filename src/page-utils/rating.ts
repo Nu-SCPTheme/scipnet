@@ -40,5 +40,10 @@ export async function ratePage(rating: number): Promise<void> {
     return;
   }
 
-  $(".rating").html(`${res.rating}`);
+  let ratingText = `${res.rating}`;
+  if (res.rating > 0) {
+    ratingText = `+${ratingText}`;
+  }
+
+  $(".rating").html(`rating: ${ratingText}`);
 }

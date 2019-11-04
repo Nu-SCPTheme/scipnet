@@ -12,10 +12,11 @@ jobs:
   include:
     node_js:
      - 8.10.0
+       env: UNDEFINE_PROMISES=yes
+     - 8.10.0
      - latest
-    env:
-     - UNDEFINE_PROMISES=yes
-     - UNDEFINE_PROMISES=no
+       env: UNDEFINE_PROMISES=yes
+     - latest
 
 cache:
  - npm

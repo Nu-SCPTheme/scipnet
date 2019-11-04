@@ -1,11 +1,21 @@
 language: node_js
 node_js:
  - 8.10.0
+ - latest
 
 matrix:
+  allow_failures:
+    - node_js: latest
+  fast_finish: true
+
+jobs:
   include:
-    - env: UNDEFINE_PROMISES=yes
-    - env: UNDEFINE_PROMISES=no 
+    node_js:
+     - 8.10.0
+     - latest
+    env:
+     - UNDEFINE_PROMISES=yes
+     - UNDEFINE_PROMISES=no
 
 cache:
  - npm

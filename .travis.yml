@@ -9,13 +9,8 @@ jobs:
   include:
     - name: "8.10.0 Build (Stable)"
       node_js: 8.10.0
-    - name: "8.10.0 Build (Undefine Promises)"
+    - name: "8.10.0 Build (Forced Polyfill)"
       node_js: 8.10.0
-      env: UNDEFINE_PROMISES=yes
-    - name: "13.0.1 Build (Latest)"
-      node_js: 13.0.1
-    - name: "13.0.1 Build (Undefine Promises)"
-      node_js: 13.0.1
       env: UNDEFINE_PROMISES=yes
 
 cache:

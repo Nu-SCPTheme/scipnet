@@ -5,7 +5,7 @@ node_js:
 matrix:
   include:
     - env: UNDEFINE_PROMISES=yes
-    - 
+    - env: UNDEFINE_PROMISES=no 
 
 cache:
  - npm

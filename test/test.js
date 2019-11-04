@@ -37,7 +37,7 @@ let testHTML = fs.readFileSync("test/testdoc.html", { encoding: "utf-8" });
 testHTML = nunjucks.renderString(testHTML, { 
   setPromises: (function() {
     if (process.env.UNDEFINE_PROMISES === "yes") {
-      return "global.Promise = undefined;";
+      return "window.Promise = undefined;";
     } else {
       return "";
     }

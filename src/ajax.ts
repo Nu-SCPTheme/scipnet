@@ -41,14 +41,10 @@ export async function ajaxRequest(
     $.ajax(url, {
       method: "POST",
       contentType: "application/x-www-form-urlencoded",
-      dataType: "json text",
+      dataType: "JSON",
       data: body
     }).done(function(data: AjaxResult, textStatus: string, xhr: any) {
       const response = data;
-      if (xhr.responseType !== "json" && xhr.responseType !== "text") {
-        // response should be either json or test. anything else means an error has occurred
-        reject(new Error("Received unhandled response type from XMLHttpRequest"));
-      }
       resolve(response);
     }).fail(function(xhr: any, err: any, textStatus: string) {
       reject(new Error(err));

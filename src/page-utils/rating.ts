@@ -32,12 +32,12 @@ export async function ratePage(rating: number): Promise<void> {
 
   const res = await deeds("voteOnPage", { rating: rating });
 
-  if ("notLoggedIn" in res && res.notLoggedIn) {
+  if (res.hasOwnProperty("notLoggedIn") && res.notLoggedIn) {
     throw new Error("You must be logged in to vote on pages.");
     return;
   }
 
-  if ("result" in res && !res.result) {
+  if (res.hasOwnProperty("result") && !res.result) {
     throw new Error(`Failed to vote on page: ${res.error}`);
     return;
   }

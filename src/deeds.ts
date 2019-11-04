@@ -39,6 +39,7 @@ export default async function deeds(
   body.pagename = getSlug();
 
   const res = await ajaxRequest(pagereqSlug, body);
+  console.log(`Return value from ajaxRequest is ${JSON.stringify(res)}`);
   if (!(res instanceof String)) {
     return res; 
   }

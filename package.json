@@ -4,7 +4,7 @@
   "description": "Frontend code scripts for Mekhane project",
   "main": "index.js",
   "scripts": {
-    "test": "echo Tests are currently disabled",
+    "test": "node node_modules/mocha/bin/mocha",
     "typescript": "node node_modules/gulp/bin/gulp.js typescript",
     "browserify": "node node_modules/gulp/bin/gulp.js browserify",
     "gulp": "node node_modules/gulp/bin/gulp.js"
@@ -44,9 +44,13 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "coveralls": "^3.0.7",
+    "jsdom": "^15.2.0",
     "mocha": "^6.2.2",
     "nock": "^11.6.0",
+    "nunjucks": "^3.2.0",
     "nyc": "^14.1.1",
-    "simon": "^0.2.3"
+    "simon": "^0.2.3",
+    "sinon": "^7.5.0",
+    "uuid": "^3.3.3"
   }
 }

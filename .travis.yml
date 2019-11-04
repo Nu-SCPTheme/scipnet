@@ -1,6 +1,12 @@
 language: node_js
 node_js:
  - 8.10.0
+ - latest
+
+matrix:
+  include:
+    - env: UNDEFINE_PROMISES=yes
+    - env: UNDEFINE_PROMISES=no
 
 cache:
  - npm
@@ -10,3 +16,8 @@ before_script:
 
 script:
  - npm run test
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always

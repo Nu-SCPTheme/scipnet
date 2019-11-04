@@ -19,7 +19,9 @@
  */
 
 import collapsibleSetup from "./collapsible";
+import tabviewSetup from "./tabview";
 
 export default function markdownSetup() {
   collapsibleSetup();
+  tabviewSetup();
 }

@@ -20,7 +20,45 @@
 
 import * as $ from "jquery";
 
+// "JQuery" can act as an array for html elements
 interface TabView {
-  selectors: Array<JQuery>;
-  tabs: Array<JQuery>; 
+  selectors: JQuery;
+  tabs: JQuery; 
+}
+
+function tabviewFromSelector(selector: HTMLElement): TabView {
+  let root = $(selector);
+  while (!root.hasClass("tabview")) {
+    root = root.parent(); // TODO: exit condition
+  }
+
+  return {
+    selectors: root.find(".tab-selector"),
+    tabs: root.find(".tab-content")
+  }
+}
+
+function switchTab(tabView: TabView, tab: number) {
+  tabView.selectors.removeClass("active");
+  tabView.selectors.find("a").attr("title", "");
+
+  const tabContent = $(tabView.selectors[tab]);
+  tabContent.addClass("active");
+  tabContent.find("a").attr("title", "Active");
+ 
+  tabView.tabs.css("display", "none"); 
+  $(tabView.tabs[tab]).css("display", "block");
+}
+
+export default function tabviewSetup() {
+  $(".tabview").each(function(this: HTMLElement) {
+    $(this).find(".tab-selector").each(function(index: number, obj: HTMLElement) {
+      let localizedIndex = index;
+      $(obj).find("a").click(function(this: HTMLElement) {
+        switchTab(tabviewFromSelector(this), localizedIndex);
+      });
+    });
+
+    switchTab(tabviewFromSelector(this), 0);
+  }); 
 }

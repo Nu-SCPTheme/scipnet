@@ -24,7 +24,8 @@ const fs = require("fs");
 const gulp = require("gulp");
 const ts = require("gulp-typescript");
 
-const tsProject = ts.createProject("tsconfig.json");
+const target = process.env.TS_TRANSPILE_TARGET || "es3";
+const tsProject = ts.createProject("tsconfig.json", { target });
 
 // helper function to create a directory if it does not exist yet
 function createDir(name) {

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "target": "es2018",
+    "target": "es3",
     "removeComments": false,
     "sourceMap": true,
     "strict": true,
@@ -10,12 +10,15 @@
     "sourceMap": true,
     "outDir": "dist",
     "noEmitOnError": true,
-    "module": "commonjs"
+    "module": "commonjs",
+    
+    "lib": ["es2015","dom"]
   },
   "include": [
     "src"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/special"
   ]
 }

@@ -78,6 +78,7 @@ beforeEach(() => {
       if (body.name === "voteOnPage") {
         if (!body.sessionId) return { notLoggedIn: true, result: false, error: "Not logged in" };
         
+        console.log(`Calling mock vote function with rating ${body.rating}`);
         const rating = parseInt(body.rating, 10); 
 
         // add or modify vote
@@ -104,26 +105,33 @@ beforeEach(() => {
     });
 });
 
+// helper functions
+function simulateClick(element) {
+  var evt = document.createEvent("HTMLEvents");
+  evt.initEvent("click", false, true);
+  element.dispatchEvent(evt)
+}
+
 describe("Rating module", () => {
   function testVote(buttonClassName, expectVote, expectRating, done) {
-    const rateSpan = document.getElementsByClassName(buttonClassName)[0];
-    rateSpan.firstChild.click();
-
-    // wait 500 milliseconds for new upvote to register
-    setTimeout(() => {
+    //const rateSpan = document.getElementsByClassName(buttonClassName)[0];
+    //rateSpan.firstChild.click();
+    window.ratePage(expectVote).then(() => { 
       let alertErr = alertFake.args[0];
       if (alertErr) alertErr = alertErr[0];
       else alertErr = "Unexpected error";
+   
+      console.log(votes);     
 
       expect(alertFake).to.have.property("callCount", 0, alertErr);
       expect(votes).to.have.lengthOf(1);
-      expect(votes[0]).to.have.property("vote", expectVote);
+      expect(votes[votes.length - 1]).to.have.property("vote", expectVote);
 
       // rating should be "1"
       let rating = document.getElementsByClassName("rating")[0];
       expect(rating).to.have.property("innerHTML", expectRating);
       done();
-    }, 500);
+    }, 2000);
   }
  
   it("Upvote", (done) => {
@@ -132,5 +140,9 @@ describe("Rating module", () => {
 
   it("Downvote", (done) => {
     testVote("ratedown", -1, "rating: -1", done);
+  });
+
+  it("Novote", (done) => {
+    testVote("cancel", 0, "rating: 0", done);
   });
 });

@@ -49,3 +49,9 @@ export async function ratePage(rating: number): Promise<void> {
 
   $(".rating").html(`rating: ${ratingText}`);
 }
+
+// put ratePage into the global namespace for testing
+declare var global: any;
+if (global) {
+  global.ratePage = ratePage;
+}

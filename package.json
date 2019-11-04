@@ -4,7 +4,7 @@
   "description": "Frontend code scripts for Mekhane project",
   "main": "index.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha",
+    "test": "node node_modules/mocha/bin/mocha --timeout 10000",
     "typescript": "node node_modules/gulp/bin/gulp.js typescript",
     "browserify": "node node_modules/gulp/bin/gulp.js browserify",
     "gulp": "node node_modules/gulp/bin/gulp.js"

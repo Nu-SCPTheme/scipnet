@@ -1,25 +1,17 @@
 language: node_js
-node_js:
- - 8.10.0
- - latest
 
 matrix:
   allow_failures:
     - node_js: latest
   fast_finish: true
-
+  
 jobs:
   include:
-    - node_js:
-     - 8.10.0
-    env: UNDEFINE_PROMISES=yes
-    - node_js:
-     - 8.10.0
-    - node_js:
-     - latest
-       env: UNDEFINE_PROMISES=yes
-    - node_js:
-     - latest
+    - name: "8.10.0 Build (Stable)"
+      node_js: 8.10.0
+    - name: "8.10.0 Build (Forced Polyfill)"
+      node_js: 8.10.0
+      env: UNDEFINE_PROMISES=yes
 
 cache:
  - npm

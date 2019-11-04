@@ -10,12 +10,15 @@ matrix:
 
 jobs:
   include:
-    node_js:
+    - node_js:
      - 8.10.0
-       env: UNDEFINE_PROMISES=yes
+    env: UNDEFINE_PROMISES=yes
+    - node_js:
      - 8.10.0
+    - node_js:
      - latest
        env: UNDEFINE_PROMISES=yes
+    - node_js:
      - latest
 
 cache:

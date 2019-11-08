@@ -30,7 +30,7 @@ export async function ratePage(rating: number): Promise<void> {
     throw new Error("Invalid rating value")
   }
 
-  const res = await deeds("voteOnPage", { rating: rating });
+  const res = await deeds("voteOnPage", { rating });
 
   if (res.hasOwnProperty("notLoggedIn") && res.notLoggedIn) {
     throw new Error("You must be logged in to vote on pages.");

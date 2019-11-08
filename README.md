@@ -17,11 +17,13 @@ Then, clone and build Scipnet:
 ```bash
 git clone https://github.com/Nu-SCPTheme/scipnet.git
 cd scipnet
-npm i --production # omit the production flag if you plan to run the test suite
-make # alternatively, run "make test" to run the test suite after build
+npm i --production
+make
 ```
 
 `make` will generate a file named `dist/bundle.js`. This is the file that will be included into the web page, and contains all frontend code.
+
+If you would like to run the test suite, omit the `--production` flag from `npm i` and then run `make test`.
 
 ## Compatibility
 

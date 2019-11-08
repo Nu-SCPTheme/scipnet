@@ -19,9 +19,12 @@
  */
 
 // run Mocha tests to determine if the frontend is functioning properly
-const { expect } = require("chai");
+const { assert, expect } = require("chai");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const express = require("express");
 const fs = require("fs");
-const nock = require("nock");
+const http = require("http");
 const nunjucks = require("nunjucks");
 const querystring = require("querystring");
 const sinon = require("sinon");
@@ -51,11 +54,54 @@ let window;
 let alertFake;
 let logFake;
 
-const mockUrl = "http://scp-wiki.net/";
+const port = 4848;
+const mockUrl = `http:///localhost:${port}`;
 
 // some variables to keep things consistent between requests
 let votes = [];
 const sessionId = uuid();
+
+// run a quick express server
+const app = express();
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post("/sys/deeds", async function(req, res) {
+  const body = req.body;
+
+  if (body.name === "voteOnPage") {
+    if (!body.sessionId) return { notLoggedIn: true, result: false, error: "Not logged in" };
+        
+    console.log(`Calling mock vote function with rating ${body.rating}`);
+    const rating = parseInt(body.rating, 10); 
+
+    // add or modify vote
+    let found = false;
+    for (let i = 0; i < votes.length; i++) {
+      if (votes[i].sessionId === body.sessionId) {
+        votes[i].vote = rating;
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) votes.push({sessionId: body.sessionId, vote: rating});
+
+    // get new vote total
+    let total = 0;
+    for (const vote of votes) {
+      total += vote.vote;
+    }
+
+    res.json({ result: true, rating: total });
+  } else {
+    console.log("An invalid request was made- possibly a DEEDS error");
+    res.json({ result: false, error: "Invalid request" });
+  }
+});
+
+let server = http.createServer(app);
 
 // run before each execution
 beforeEach(() => {
@@ -68,41 +114,15 @@ beforeEach(() => {
 
   // set up sinon mocks
   window.alert = alertFake = sinon.fake(); // TODO: this won't be necessary once dialog is rebuilt
-  console.log = logFake = sinon.fake();
+  console.log = logFake = sinon.fake(); 
+});
 
-  // set up deeds in nock
-  scope = nock(mockUrl)
-    .post("/sys/deeds")
-    .reply(200, (uri, body) => {
-      body = querystring.parse(body);
-      if (body.name === "voteOnPage") {
-        if (!body.sessionId) return { notLoggedIn: true, result: false, error: "Not logged in" };
-        
-        console.log(`Calling mock vote function with rating ${body.rating}`);
-        const rating = parseInt(body.rating, 10); 
+before((done) => {
+  server.listen(port, done);
+});
 
-        // add or modify vote
-        let found = false;
-        for (let i = 0; i < votes.length; i++) {
-          if (votes[i].sessionId === body.sessionId) {
-            votes[i].vote = rating;
-            found = true;
-            break;
-          }
-        }
-
-        if (!found) votes.push({sessionId: body.sessionId, vote: rating});
-
-        // get new vote total
-        let total = 0;
-        for (const vote of votes) total += vote.vote;
-
-        return { result: true, rating: total };
-      } else {
-        console.log("An invalid request was made- possibly a DEEDS error");
-        return { result: false, error: "Invalid request" };
-      }
-    });
+after((done) => {
+  server.close(done);
 });
 
 // helper functions
@@ -145,4 +165,16 @@ describe("Rating module", () => {
   it("Novote", (done) => {
     testVote("cancel", 0, "rating: 0", done);
   });
+});
+
+describe("Collapsibles", () => {
+  it("Open Collapsible", () => {
+    const uncollapseLink = document.getElementsByClassName("collapsible-block-link")[0]; 
+    simulateClick(uncollapseLink);
+  });
+
+  it("Close Collapsible", () => {
+    const collapseLink = document.getElementsByClassName("collapsible-block-link")[1]; 
+    simulateClick(collapseLink);   
+  }); 
 });

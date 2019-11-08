@@ -42,8 +42,11 @@
     "typescript": "^3.6.4"
   },
   "devDependencies": {
+    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
+    "cookie-parser": "^1.4.4",
     "coveralls": "^3.0.7",
+    "express": "^4.17.1",
     "jsdom": "^15.2.0",
     "mocha": "^6.2.2",
     "nock": "^11.6.0",

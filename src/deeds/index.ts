@@ -1,5 +1,5 @@
 /*
- * deeds.ts
+ * deeds/index.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -19,9 +19,9 @@
  */
 
 // function to interact with "deeds" AJAX request system
-import { ajaxRequest, AjaxJsonBody, AjaxJsonResult } from "./ajax";
+import { ajaxRequest, AjaxJsonBody, AjaxJsonResult } from "./../ajax";
 import * as Cookies from "js-cookie";
-import getSlug from "./slug";
+import getSlug from "./../slug";
 
 const pagereqSlug = "/sys/deeds";
 

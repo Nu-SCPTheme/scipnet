@@ -178,3 +178,15 @@ describe("Collapsibles", () => {
     simulateClick(collapseLink);   
   }); 
 });
+
+describe("Tabviews", () => {
+  it("Open Tab #2", () => {
+    const tabLink2 = document.getElementsByClassName("tab-selector")[1];
+    simulateClick(tabLink2);
+  });
+  
+  it("Open Tab #1", () => {
+    const tabLink1 = document.getElementsByClassName("tab-selector")[0];
+    simulateClick(tabLink1);
+  });
+});

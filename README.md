@@ -15,7 +15,19 @@ make # alternatively, run "make test" to run the test suite after build
 
 `make` will generate a file named `dist/bundle.js`. This is the file that will be included into the web page, and contains all frontend code.
 
+## Compatibility
+
+Portability was taken into account during design. At a minimum, Scipnet should work functionally on any browser that supports ECMAScript 5. This includes:
+
+* IE >= 9
+* Safari >= 6
+* Pretty much any modern browser (for more information, see [here](https://caniuse.com/#feat=es5))
+
+*In theory*, this should work on IE8 as well (and *maybe* IE7). However, I wouldn't be surprised if a few features didn't work, or if it just outright breaks.
+
 ## License
+
+**GNU AGPL**
 
 scipnet - Frontend scripts for mekhane
 Copyright (C) 2019 not_a_seagull

@@ -17,7 +17,7 @@ Then, clone and build Scipnet:
 ```bash
 git clone https://github.com/Nu-SCPTheme/scipnet.git
 cd scipnet
-npm i
+npm i --production # omit the production flag if you plan to run the test suite
 make # alternatively, run "make test" to run the test suite after build
 ```
 

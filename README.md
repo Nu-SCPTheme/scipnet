@@ -6,6 +6,14 @@ Scipnet is the name given to the scripts that run on the client side of Project 
 
 ## Installation
 
+First, you should have the node runtime installed, as well as some form of `make`. If you don't have these alreaady, you can download them via APT:
+
+```bash
+apt install node make
+```
+
+Then, clone and build Scipnet:
+
 ```bash
 git clone https://github.com/Nu-SCPTheme/scipnet.git
 cd scipnet

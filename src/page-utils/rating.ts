@@ -21,7 +21,7 @@
 // functions that have to do with ratings
 import * as $ from "jquery";
 
-import deeds from "./../deeds";
+import vote from "./../deeds/vote";
 
 export async function ratePage(rating: number): Promise<void> {
   console.log(`Calling ratePage with rating ${rating}`);
@@ -30,7 +30,7 @@ export async function ratePage(rating: number): Promise<void> {
     throw new Error("Invalid rating value")
   }
 
-  const res = await deeds("voteOnPage", { rating });
+  const res = (await vote(rating)).result;
 
   if (res.hasOwnProperty("notLoggedIn") && res.notLoggedIn) {
     throw new Error("You must be logged in to vote on pages.");

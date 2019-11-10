@@ -18,4 +18,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
  
- // call the DEEDS function for voting
+// call the DEEDS function for voting
+import * as $ from "jquery";
+
+import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
+
+const voteRequestClass: DeedsRequestClass = {
+  method: "vote",
+  methodClass: "page",
+  requestType: "POST"
+};
+
+export default async function vote(rating: number): Promise<DeedsSuccessResult> {
+  const voteRequest: DeedsRequest = {
+    reqInformation: voteRequestClass,
+    body: { rating }
+  };
+
+  return await makeDeedsRequest(voteRequest, "vote on page");
+}

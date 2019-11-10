@@ -70,11 +70,12 @@ export async function makeDeedsRequest(
       sessionId: Cookies.get("sessionId"),
       pagename: getSlug()
     };
+    console.log(`uri is ${uri}`);
 
     const doc = nlp(taskDescription);
 
     $.ajax(uri, {
-      data: request.body,
+      data: sentObject,
       dataType: "JSON",
       method: request.reqInformation.requestType 
     }).done((data: DeedsResult) => {

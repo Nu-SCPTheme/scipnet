@@ -67,38 +67,34 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/sys/deeds", async function(req, res) {
+app.post("/sys/page/vote", async function(req, res) {
   const body = req.body;
+  console.log(body);
 
-  if (body.name === "voteOnPage") {
-    if (!body.sessionId) return { notLoggedIn: true, result: false, error: "Not logged in" };
+  if (!body.sessionId) res.json({ errType: "not-logged-in", error: "User is not logged in" });
         
-    console.log(`Calling mock vote function with rating ${body.rating}`);
-    const rating = parseInt(body.rating, 10); 
+  console.log(`Calling mock vote function with rating ${body.rating}`);
+  const rating = parseInt(body.params.rating, 10); 
 
-    // add or modify vote
-    let found = false;
-    for (let i = 0; i < votes.length; i++) {
-      if (votes[i].sessionId === body.sessionId) {
-        votes[i].vote = rating;
-        found = true;
-        break;
-      }
+  // add or modify vote
+  let found = false;
+  for (let i = 0; i < votes.length; i++) {
+    if (votes[i].sessionId === body.sessionId) {
+      votes[i].vote = rating;
+      found = true;
+      break;
     }
-
-    if (!found) votes.push({sessionId: body.sessionId, vote: rating});
-
-    // get new vote total
-    let total = 0;
-    for (const vote of votes) {
-      total += vote.vote;
-    }
-
-    res.json({ result: true, rating: total });
-  } else {
-    console.log("An invalid request was made- possibly a DEEDS error");
-    res.json({ result: false, error: "Invalid request" });
   }
+
+  if (!found) votes.push({sessionId: body.sessionId, vote: rating});
+
+  // get new vote total
+  let total = 0;
+  for (const vote of votes) {
+    total += vote.vote;
+  }
+
+  res.json({ result: { rating: total } }); 
 });
 
 let server = http.createServer(app);

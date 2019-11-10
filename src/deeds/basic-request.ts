@@ -27,7 +27,10 @@ import * as path from "path";
 import getSlug from "./../slug";
 
 export type DeedsRequestType = "POST" | "PUT" | "DELETE";
-export type DeedsDataType = string | number | null;
+
+export type DeedsDataTypeSingular = string | number | null;
+export type DeedsDataType = DeedsDataTypeSingular | Array<DeedsDataTypeSingular>;
+
 export type DeedsBody = { [key: string]: DeedsDataType };
 export type DeedsMethodClass = "page" | "user";
 
@@ -48,7 +51,7 @@ export interface DeedsErrorResult {
 };
 
 export interface DeedsSuccessResult {
-  result: any; // TODO: more specific 
+  result: DeedsBody; 
 };
 
 export type DeedsResult = DeedsErrorResult | DeedsSuccessResult;

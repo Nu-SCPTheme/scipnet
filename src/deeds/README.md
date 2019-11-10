@@ -24,7 +24,7 @@ Scipnet expects one of the following in response:
 {
   "errType": "not-logged-in",
   "error": "User is not logged in"
-}``
+}```
 
 `errType` will only have an impact on the error relayed to the user if it is one of the following:
 

@@ -12,9 +12,6 @@ jobs:
     - name: "10.17.0 Build (Forced Polyfill)"
       node_js: 10.17.0
       env: UNDEFINE_PROMISES=yes
-    - name: "10.17.0 Build (Transpile to ES2018)"
-      node_js: 10.17.0
-      env: TS_TRANSPILE_TARGET=es2018
 
 cache:
  - npm

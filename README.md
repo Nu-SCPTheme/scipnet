@@ -17,7 +17,7 @@ Then, clone and build Scipnet:
 ```bash
 git clone https://github.com/Nu-SCPTheme/scipnet.git
 cd scipnet
-npm i --production
+npm install --production
 make
 ```
 

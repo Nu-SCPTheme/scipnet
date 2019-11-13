@@ -43,4 +43,6 @@ Scipnet expects one of the following in response:
 
 ## Operations:
 
-* `/sys/page/vote` - Expects parameter `rating` of value -1, 0, or 1. Expects result value `rating`, containing the new rating for the page, in return.
+* `/sys/page/vote` - Rate the page. Expects parameter `rating` of value -1, 0, or 1. Expects result value `rating`, containing the new rating for the page, in return.
+* `/sys/page/edit-lock` - Set an edit lock on the page. Expects result value `seconds`, describing how many seconds the user has for the edit lock.
+* `/sys/page/edit` - Edits the page. Expects parameters `src`, `title` and `comment.

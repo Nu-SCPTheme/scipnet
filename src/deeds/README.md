@@ -43,6 +43,13 @@ Scipnet expects one of the following in response:
 
 ## Operations:
 
+* `/sys/page/edit` - Edits the page. Expects parameters `src`, `title` and `comment`, which are the new page source, new title, and edit comment. Expects no result value aside from error.
+* `/sys/page/edit-lock` - Set an edit lock on the page. No parameters will be sent aside from sessionId and pagename. Expects result value `edit-lock-seconds`, describing how many seconds the user has for the edit lock.
+* `/sys/page/history` - Gets a list of revisions from the page's history. Expects parameters `page`, what page of the history to get, and `revisions-per-page`, the number of revisions to fit in each page. Expects result value `revisions` to consist of JSON objects of the following structure:
+```
+{
+  "rev-id": number;
+}
+```
+* `/sys/page/tags` - Sets the tags of the page. Expects parameter `tags`, an array of strings representing tags.
 * `/sys/page/vote` - Rate the page. Expects parameter `rating` of value -1, 0, or 1. Expects result value `rating`, containing the new rating for the page, in return.
-* `/sys/page/edit-lock` - Set an edit lock on the page. Expects result value `seconds`, describing how many seconds the user has for the edit lock.
-* `/sys/page/edit` - Edits the page. Expects parameters `src`, `title` and `comment.

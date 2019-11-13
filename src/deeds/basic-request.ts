@@ -28,7 +28,7 @@ import getSlug from "./../slug";
 
 export type DeedsRequestType = "POST" | "PUT" | "DELETE";
 
-export type DeedsDataTypeSingular = string | number | null;
+export type DeedsDataTypeSingular = string | number | boolean | null;
 export type DeedsDataType = DeedsDataTypeSingular | Array<DeedsDataTypeSingular>;
 
 export type DeedsBody = { [key: string]: DeedsDataType };
@@ -67,7 +67,7 @@ export async function makeDeedsRequest(
     const uri = path.join("/sys/", request.reqInformation.methodClass, request.reqInformation.method);
     const sentObject = {
       params: request.body,
-      sessionId: Cookies.get("sessionId"),
+      "session-id": Cookies.get("sessionId"),
       pagename: getSlug()
     };
     console.log(`uri is ${uri}`);
@@ -82,7 +82,7 @@ export async function makeDeedsRequest(
       if ((<DeedsErrorResult>data).error) {
         // tell what kind of error we have
         const error = (<DeedsErrorResult>data).error;
-        const errType = (<DeedsErrorResult>data).errType;
+        const errType = (<DeedsErrorResult>data)["err-type"];
         if (errType === "not-logged-in") {
           // @ts-ignore
           doc.nouns.toPlural();

@@ -49,6 +49,9 @@ Scipnet expects one of the following in response:
 ```
 {
   "rev-id": number;
+  "user": string; // should be a username module
+  "edited-on": Date;
+  "comment": string;
 }
 ```
 * `/sys/page/tags` - Sets the tags of the page. Expects parameter `tags`, an array of strings representing tags.

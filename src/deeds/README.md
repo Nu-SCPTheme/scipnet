@@ -1,22 +1,23 @@
 # Description of the supported Deeds API
 
-Scipnet will send an AJAX request to the specified URL, using either the POST, PUT, or DELETE method. This request will take the form of:
+(Note: this is provisional and should not be considered absolutely necessary until we have a solid diagram for our architecture)
+
+Scipnet MUST send an AJAX request to the specified URL, using either the GET, POST, PUT, or DELETE methods. This request will take the form of:
 
 ```
 {
   "params": {
-    "param1": 12,
-    "param2": "hello world",
-    "param3": null
+    "foo": 12,
+    "bar": "hello world",
+    "xop": null
   },
-  "session-id": "ed04430b-5369-43e2-bacf-dda192e1e921",
   "pagename": "scp-4800"
 }
 ```
 
-Elements within `params` may be either strings, numbers, or null. `session-id` is a string that uniquely identifies the active session. A UUID is recommended for this purpose, but any string value that is guaranteed to be unique and is generally unpredictable will suffice.
-
-Scipnet expects one of the following in response:
+Elements within `params` SHOULD be either strings, numbers, or null.
+ 
+Scipnet MUST recieve of the following in response:
 
 ## If there was an error:
 
@@ -27,11 +28,11 @@ Scipnet expects one of the following in response:
 }
 ```
 
-`errType` will only have an impact on the error relayed to the user if it is one of the following:
+`err-type` MAY only have an impact on the error relayed to the user if it is one of the following:
 
 * `"not-logged-in"`
 * `"internal-error"`
-* TODO: add more here if necessary
+* One of the errors specified below.
 
 ## If the operation was sucessful:
 
@@ -43,23 +44,146 @@ Scipnet expects one of the following in response:
 
 ## Operations:
 
-* `/sys/page/edit` - Edits the page. Expects parameters `src`, `title` and `comment`, which are the new page source, new title, and edit comment. Expects no result value aside from error.
-* `/sys/page/edit-lock` - Set an edit lock on the page. No parameters will be sent aside from sessionId and pagename. Expects result value `edit-lock-seconds`, describing how many seconds the user has for the edit lock.
-* `/sys/page/get-revision` - Gets either the source or data of a particular revision. Expects parameter `ftml`, a boolean determining whether to send raw source or processed source. Expects result value `src` containing the requested type of source.
-* `/sys/page/history` - Gets a list of revisions from the page's history. Expects parameters `page`, what page of the history to get, and `revisions-per-page`, the number of revisions to fit in each page. Expects result value `revisions` to consist of JSON objects of the following structure:
+*Note:* For all operations of prefix `/sys/page`, the server MUST expect parameter `pagename` containing a string corresponding to the page's slug, and MUST return error `"page-not-found"` if this slug does not correspond to a page.
+
+### `POST /sys/page/edit` 
+
+Edits the page.
+
+**Parameters:** 
+* `src` - The new page source to append. 
+* `title` - The new title for the page.
+* `comment` - A quick description of the edit.
+
+**Result:**
+Result MUST be ignored. Result SHOULD be a null value.
+
+**Errors:**
+* `"page-locked"` - The page has been locked by a moderator and cannot be edited without moderator privileges.
+
+### `POST /sys/page/edit-lock`
+
+Set an edit lock on the page. 
+
+**Parameters:**
+None
+
+**Result:**
+* `edit-lock-seconds` - A integer value that MUST be between 0 and 900, that MUST specify the number of seconds the user has the editlock for.
+
+**Errors:**
+* `"page-locked"` - The page has been locked by a moderator and cannot be edited without moderator privileges.
+ 
+### `GET /sys/page/get-revision` 
+
+Gets either the source or data of a particular revision.
+
+**Parameters:**
+* `ftml` - A boolean determining whether to send raw source or processed source. If it is set to `true`, the [ftml](https://github.com/Nu-SCPTheme/ftml) engine MUST be invoked in order to convert the page source to HTML.
+* `rev-key` - A primary key that MUST correspond a revision in the database.
+
+**Results:**
+* `src` - MUST contain the source of the page to display to the user.
+
+**Errors:**
+* `"rev-key-not-found"` - The provided `rev-key` did not correspond to a revision in the database.
+
+### `GET /sys/page/history` 
+
+Gets a list of revisions from the page's history. 
+
+**Parameters:**
+
+* `page` - A number between 0 and the number of pages of revisions the page's history has (with an upper limit of 9999) that represents which page of the history should be viewed.
+* `revisions-per-page` - A number that MUST be between 1 and 200 and SHOULD be between 10 and 200. 
+
+**Result:**
+* `revisions` - An array that MUST consist of JSON objects of the following structure:
 ```
 {
-  "rev-key": number; // should be the primary key of the revision
+  "rev-key": number; // MUST be the primary key of the revision
   "rev-id": number;
   "flag": string;
-  "user": string; // should be a username module
+  "user": string; // MUST be a username module
   "edited-on": Date;
   "comment": string;
 }
 ```
-* `/sys/page/parent` - Sets the parent(s) of the page. Expects parameter `parents` containing an array of strings representing the slugs of the new parent pages. Expects no result value aside from error.
-* `/sys/page/rename` - Renames the page. Expects parameter `new-slug` containing the value of the slug to rename to. Expects no result aside from error.
-* `/sys/page/revert-revision` - Reverts to a past revision. Expects parameter `rev-key` containing the primary key of the revision to revert to. Expects no result value aside from error.
-* `/sys/page/source` - Gets the source of the page. No parameters will be sent aside from session-id and pagename. Expecs result value `src` containing the requested source.
-* `/sys/page/tags` - Sets the tags of the page. Expects parameter `tags`, an array of strings representing tags.
-* `/sys/page/vote` - Rate the page. Expects parameter `rating` of value -1, 0, or 1. Expects result value `rating`, containing the new rating for the page, in return.
+
+**Errors:**
+* `"no-results-found"` - The selected parameters did not result in any revisions.
+
+### `POST /sys/page/parent` 
+
+Sets the parent(s) of the page.
+
+**Parameters:**
+* `parents` - An array that MUST contain strings that MUST correspond to the slugs of the new parent pages.
+
+**Result:**
+Result MUST be ignored. Result SHOULD be a null value.
+
+**Errors:**
+* `"invalid-slug"` - One or more of the slugs did not refer to a valid page.
+
+### `POST /sys/page/rename`
+
+Renames the page. 
+
+**Parameters:**
+* `new-slug` - MUST be a string to change the target page's slug to. This slug MUST be unique.
+
+**Result:**
+Result MUST be ignored. Result SHOULD be a null value.
+
+**Errors:**
+* `"page-already-exists"` - A page already exists with a given slug.
+
+### `POST /sys/page/revert-revision`
+
+Reverts to a past revision. 
+
+**Parameters:**
+* `rev-key` - A primary key that MUST correspond to a revision in the database. 
+
+**Result:**
+Result MUST be ignored. Result SHOULD be a null value.
+
+**Errors:**
+* `"rev-key-not-found"` - The provided `rev-key` did not correspond to a revision in the database.
+
+### `GET /sys/page/source`
+
+Gets the source of the page. 
+
+**Parameters:**
+None
+
+**Result:**
+* `src` - MUST be a string containing the Markdown describing the page.
+
+**Errors:**
+No special errors.
+
+### `POST /sys/page/tags`
+
+Sets the tags of the page.
+
+**Parameters:**
+* `tags` - An array that MUST consist of strings representing tags.
+
+**Result:**
+Result MUST be ignored. Result SHOULD be a null value.
+
+**Errors:**
+No special errors.
+
+### `POST /sys/page/vote`
+
+Rate the page.
+
+**Parameters:**
+* `rating` - A number which MUST be of value -1, 0, or 1. 
+
+**Result:**
+* `score` - A number which MUST be the score of the page as evaluated by the scoring algorithm.

@@ -20,16 +20,17 @@
 
 // this file contains definitions for functions and classes used to make basic requests to the DEEDS function
 import * as $ from "jquery";
-import * as Cookies from "js-cookie";
 import * as nlp from "compromise";
 import * as path from "path";
 
 import getSlug from "./../slug";
 
-export type DeedsRequestType = "POST" | "PUT" | "DELETE";
+export type DeedsRequestType = "GET" | "POST" | "PUT" | "DELETE";
 
 export type DeedsDataTypeSingular = string | number | boolean | null;
-export type DeedsDataType = DeedsDataTypeSingular | Array<DeedsDataTypeSingular>;
+export type DeedsArrayDataType = Array<DeedsDataTypeSingular>;
+export type DeedsDictDataType = { [key: string]: DeedsDataTypeSingular | DeedsArrayDataType };
+export type DeedsDataType = DeedsDataTypeSingular | DeedsArrayDataType | DeedsDictDataType;
 
 export type DeedsBody = { [key: string]: DeedsDataType };
 export type DeedsMethodClass = "page" | "user";
@@ -67,7 +68,6 @@ export async function makeDeedsRequest(
     const uri = path.join("/sys/", request.reqInformation.methodClass, request.reqInformation.method);
     const sentObject = {
       params: request.body,
-      "session-id": Cookies.get("sessionId"),
       pagename: getSlug()
     };
     console.log(`uri is ${uri}`);

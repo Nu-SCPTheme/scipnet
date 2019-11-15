@@ -38,21 +38,21 @@ export interface DeedsRequestClass {
   method: string;
   methodClass: DeedsMethodClass;
   requestType: DeedsRequestType;
-};
+}
 
 export interface DeedsRequest {
   reqInformation: DeedsRequestClass;
   body: DeedsBody;
-};
+}
 
 export interface DeedsErrorResult {
-  errType: string;
+  "err-type": string;
   error: string;
-};
+}
 
 export interface DeedsSuccessResult {
   result: DeedsBody; 
-};
+}
 
 export type DeedsResult = DeedsErrorResult | DeedsSuccessResult;
 

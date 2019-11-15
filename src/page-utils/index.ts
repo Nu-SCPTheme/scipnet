@@ -30,7 +30,7 @@ function promiseWrapper(func: () => Promise<void>): () => void {
     func().then(() => {}).catch((err: Error) => {
       nonIntrusiveDialog("Error", err.message);
     });
-  }
+  };
 }
 
 // setup rating trigger

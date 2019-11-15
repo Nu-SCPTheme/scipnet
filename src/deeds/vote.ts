@@ -19,7 +19,7 @@
  */
  
 // call the DEEDS function for voting
-import * as $ from "jquery";
+import "jquery";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 

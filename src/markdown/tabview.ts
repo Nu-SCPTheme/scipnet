@@ -35,7 +35,7 @@ function tabviewFromSelector(selector: HTMLElement): TabView {
   return {
     selectors: root.find(".tab-selector"),
     tabs: root.find(".tab-content")
-  }
+  };
 }
 
 function switchTab(tabView: TabView, tab: number) {

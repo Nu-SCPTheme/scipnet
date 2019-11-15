@@ -35,6 +35,7 @@
     "browserify": "^16.5.0",
     "compromise": "^11.14.3",
     "core-js": "^3.3.6",
+    "eslint": "^6.6.0",
     "gulp": "^4.0.2",
     "gulp-typescript": "^5.0.1",
     "jquery": "^3.4.1",
@@ -44,11 +45,14 @@
     "typescript": "^3.6.4"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.7.0",
+    "@typescript-eslint/parser": "^2.7.0",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "cookie-parser": "^1.4.4",
     "coveralls": "^3.0.7",
     "express": "^4.17.1",
+    "gulp-eslint": "^6.0.0",
     "jsdom": "^15.2.0",
     "mocha": "^6.2.2",
     "nunjucks": "^3.2.0",

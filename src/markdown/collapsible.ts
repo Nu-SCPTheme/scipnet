@@ -31,7 +31,7 @@ interface CollapsibleBlock {
   uncollapseLink: JQuery;
   collapseLink: JQuery;
   content: JQuery;
-};
+}
 
 function cbFromRoot(root: JQuery): CollapsibleBlock {
   const foldedBlock = root.find(".collapsible-block-folded").first();
@@ -45,7 +45,7 @@ function cbFromRoot(root: JQuery): CollapsibleBlock {
     uncollapseLink,
     collapseLink,
     content
-  }
+  };
 }
 
 function collapse(link: JQuery) {

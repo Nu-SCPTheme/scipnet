@@ -22,7 +22,7 @@ export type Nullable<T> = T | null;
 
 // async version of setTimeout
 export async function timeout(ms: number): Promise<void> {
-  return new Promise((resolve: () => void, reject: any) => {
+  return new Promise((resolve: () => void) => {
     setTimeout(resolve, ms);
   }); 
 }

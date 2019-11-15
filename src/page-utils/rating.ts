@@ -27,20 +27,10 @@ export async function ratePage(rating: number): Promise<void> {
   console.log(`Calling ratePage with rating ${rating}`);
 
   if (rating > 1 || rating < -1) {
-    throw new Error("Invalid rating value")
+    throw new Error("Invalid rating value");
   }
 
   const res = (await vote(rating)).result;
-
-  if (res.hasOwnProperty("notLoggedIn") && res.notLoggedIn) {
-    throw new Error("You must be logged in to vote on pages.");
-    return;
-  }
-
-  if (res.hasOwnProperty("result") && !res.result) {
-    throw new Error(`Failed to vote on page: ${res.error}`);
-    return;
-  }
 
   let ratingText = `${res.rating}`;
   if (res.rating > 0) {

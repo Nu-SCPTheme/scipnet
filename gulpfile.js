@@ -20,6 +20,7 @@
 
 const babelify = require("babelify");
 const browserify = require("browserify");
+const eslint = require("gulp-eslint");
 const fs = require("fs");
 const gulp = require("gulp");
 const ts = require("gulp-typescript");
@@ -31,6 +32,14 @@ const tsProject = ts.createProject("tsconfig.json", { target });
 function createDir(name) {
   if (!fs.existsSync(name)) fs.mkdirSync(name);
 }
+
+// lint typescript code
+gulp.task("lint", () => {
+  return gulp.src("src/**/*.ts")
+    .pipe(eslint())
+    .pipe(eslint.formatEach("compact", process.stderr))
+    .pipe(eslint.failAfterError());
+});
 
 // compile typescript to javascript
 gulp.task("typescript", () => {
@@ -50,4 +59,4 @@ gulp.task("browserify", () => {
     .pipe(fs.createWriteStream("dist/bundle.js"));
 });
 
-gulp.task("default", gulp.series(["typescript", "browserify"]));
+gulp.task("default", gulp.series(["lint", "typescript", "browserify"]));

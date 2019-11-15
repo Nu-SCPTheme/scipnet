@@ -46,21 +46,6 @@ Scipnet MUST recieve of the following in response:
 
 *Note:* For all operations of prefix `/sys/page`, the server MUST expect parameter `pagename` containing a string corresponding to the page's slug, and MUST return error `"page-not-found"` if this slug does not correspond to a page.
 
-### `POST /sys/page/edit` 
-
-Edits the page.
-
-**Parameters:** 
-* `src: string` - The new page source to append. 
-* `title: string` - The new title for the page.
-* `comment: string` - The commit message for the edit.
-
-**Result:**
-Result MUST be ignored. Result SHOULD be a null value.
-
-**Errors:**
-* `"page-locked"` - The page has been locked by a moderator and cannot be edited without moderator privileges.
-
 ### `POST /sys/page/edit-lock`
 
 Set an edit lock on the page. 
@@ -177,6 +162,21 @@ None
 **Errors:**
 No special errors.
 
+### `POST /sys/page/source` 
+
+Edits the page.
+
+**Parameters:** 
+* `src: string` - The new page source to append. 
+* `title: string` - The new title for the page.
+* `comment: string` - The commit message for the edit.
+
+**Result:**
+Result MUST be ignored. Result SHOULD be a null value.
+
+**Errors:**
+* `"page-locked"` - The page has been locked by a moderator and cannot be edited without moderator privileges.
+
 ### `POST /sys/page/tags`
 
 Sets the tags of the page.
@@ -190,12 +190,12 @@ Result MUST be ignored. Result SHOULD be a null value.
 **Errors:**
 No special errors.
 
-### `POST /sys/page/vote`
+### `POST/DELETE /sys/page/vote`
 
 Rate the page.
 
 **Parameters:**
-* `rating: number` - A number which MUST be of value -1, 0, or 1. 
+* `rating: number` - A number which MUST be of value -1, 0, or 1. If the method is `DELETE`, this parameter is not required and is assumed to be zero.
 
 **Result:**
 * `score: number` - A number which MUST be the score of the page as evaluated by the scoring algorithm.

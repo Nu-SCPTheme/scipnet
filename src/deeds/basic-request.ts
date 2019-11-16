@@ -24,6 +24,7 @@ import * as nlp from "compromise";
 import * as path from "path";
 
 import getSlug from "./../slug";
+import { Nullable } from "./../utils";
 
 export type DeedsRequestType = "GET" | "POST" | "PUT" | "DELETE";
 
@@ -66,11 +67,16 @@ export async function makeDeedsRequest(
     reject: (err: Error) => void
   ) => {
     const uri = path.join("/sys/", request.reqInformation.methodClass, request.reqInformation.method);
-    const sentObject = {
+
+    let sentObject = {
       params: request.body,
-      pagename: getSlug()
+      pagename: <Nullable<string>>null
     };
-    console.log(`uri is ${uri}`);
+   
+    // set additional needed parameters
+    if (request.reqInformation.methodClass === "page") { 
+      sentObject.pagename = getSlug();
+    }
 
     const doc = nlp(taskDescription);
 
@@ -84,6 +90,7 @@ export async function makeDeedsRequest(
         const error = (<DeedsErrorResult>data).error;
         const errType = (<DeedsErrorResult>data)["err-type"];
         if (errType === "not-logged-in") {
+          // compromise has its types set up in a weird way, so let's just ignore this
           // @ts-ignore
           doc.nouns.toPlural();
           reject(new Error(`Must be logged in in order to ${doc.out()}`));

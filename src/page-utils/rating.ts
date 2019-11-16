@@ -21,6 +21,8 @@
 // functions that have to do with ratings
 import * as $ from "jquery";
 
+import closeUtilities from "./common";
+import getRatingModule from "./../deeds/rating-module";
 import vote from "./../deeds/vote";
 
 export async function ratePage(rating: number): Promise<void> {
@@ -38,6 +40,19 @@ export async function ratePage(rating: number): Promise<void> {
   }
 
   $(".rating").html(`rating: ${ratingText}`);
+}
+
+// opens the rating module block
+export async function openRatingBlock(): Promise<void> {
+  closeUtilities();
+
+  // get the source for the rating module
+  const { result } = await getRatingModule();
+  const ratingModule = <string> result["rating-module"];
+
+  const ratingBlock = $("#utility-rating-module");
+  ratingBlock.removeClass("vanished");
+  ratingBlock.html(ratingModule); 
 }
 
 // put ratePage into the global namespace for testing

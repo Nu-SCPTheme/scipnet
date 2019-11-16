@@ -22,7 +22,7 @@
 import * as $ from "jquery";
 
 import { nonIntrusiveDialog } from "./../dialog";
-import { ratePage } from "./rating";
+import { openRatingBlock, ratePage } from "./rating";
 
 // wrap promises related to page utils
 function promiseWrapper(func: () => Promise<void>): () => void {
@@ -45,4 +45,7 @@ export default function setupPageUtils() {
   setupRatingTrigger("rateup", 1);
   setupRatingTrigger("ratedown", -1);
   setupRatingTrigger("cancel", 0);
+
+  // add triggers to utility links
+  $("#utility-rating-link").click(openRatingBlock);
 }

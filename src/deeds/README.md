@@ -123,6 +123,19 @@ Result MUST be ignored. Result SHOULD be a null value.
 **Errors:**
 * `"invalid-slug"` - One or more of the slugs did not refer to a valid page.
 
+### `GET /sys/page/rating-module`
+
+Gets the HTML for the page's rating module.
+
+**Paramters:**
+None
+
+**Result**::
+* `rating-module` - The HTML of a rating module belonging to the current page.
+
+**Errors:**
+No special errors.
+
 ### `POST /sys/page/rename`
 
 Renames the page. 

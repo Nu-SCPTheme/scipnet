@@ -1,17 +1,10 @@
 language: node_js
-
-matrix:
-  allow_failures:
-    - node_js: latest
-  fast_finish: true
+node_js: 10.17.0
   
 jobs:
   include:
-    - name: "10.17.0 Build (Stable)"
-      node_js: 10.17.0
-    - name: "10.17.0 Build (Forced Polyfill)"
-      node_js: 10.17.0
-      env: UNDEFINE_PROMISES=yes
+    - env: UNDEFINE_PROMISES=no
+    - env: UNDEFINE_PROMISES=yes
 
 cache:
  - npm

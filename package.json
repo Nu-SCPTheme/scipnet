@@ -7,7 +7,8 @@
     "test": "node node_modules/mocha/bin/mocha --timeout 60000",
     "typescript": "node node_modules/gulp/bin/gulp.js typescript",
     "browserify": "node node_modules/gulp/bin/gulp.js browserify",
-    "gulp": "node node_modules/gulp/bin/gulp.js"
+    "gulp": "node node_modules/gulp/bin/gulp.js",
+    "uglify": "npm run gulp -- uglify"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "core-js": "^3.3.6",
     "eslint": "^6.6.0",
     "gulp": "^4.0.2",
+    "gulp-terser": "^1.2.0",
     "gulp-typescript": "^5.0.1",
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",

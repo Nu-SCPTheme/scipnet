@@ -23,6 +23,7 @@ const browserify = require("browserify");
 const eslint = require("gulp-eslint");
 const fs = require("fs");
 const gulp = require("gulp");
+const terser = require("gulp-terser");
 const ts = require("gulp-typescript");
 
 const target = process.env.TS_TRANSPILE_TARGET || "es3";
@@ -59,4 +60,16 @@ gulp.task("browserify", () => {
     .pipe(fs.createWriteStream("dist/bundle.js"));
 });
 
-gulp.task("default", gulp.series(["lint", "typescript", "browserify"]));
+// minify the resulting bundle
+gulp.task("uglify", () => {
+  createDir("dist");
+  return gulp.src("dist/bundle.js")
+    .pipe(terser({
+      "compress": {
+        "passes": 3
+      }
+    }))
+    .pipe(gulp.dest("dist"));
+});
+
+gulp.task("default", gulp.parallel(["lint", gulp.series(["typescript", "browserify"])]));

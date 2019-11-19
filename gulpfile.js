@@ -66,7 +66,8 @@ gulp.task("uglify", () => {
   return gulp.src("dist/bundle.js")
     .pipe(terser({
       "compress": {
-        "passes": 3
+        "passes": 3,
+        "properties": false
       }
     }))
     .pipe(gulp.dest("dist"));

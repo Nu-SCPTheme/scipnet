@@ -32,6 +32,7 @@ Scipnet MUST recieve of the following in response:
 
 * `"not-logged-in"`
 * `"internal-error"`
+* `"page-locked"`
 * One of the errors specified below.
 
 ## If the operation was sucessful:
@@ -57,33 +58,7 @@ None
 * `edit-lock-seconds: number` - A integer value that MUST be between 0 and 900, that MUST specify the number of seconds the user has the editlock for.
 
 **Errors:**
-* `"page-locked"` - The page has been locked by a moderator and cannot be edited without moderator privileges.
-
-### `GET /sys/page/get-rendered-revision`
-
-Gets the rendered version of a source for a revision.
-
-**Parameters:**
-* `rev-key: number` - A primary key that MUST correspond to a revision in the database.
-
-**Results:**
-* `html: string` - A string containing the HTML render of the revision.
-
-**Errors:**
-* `"rev-key-not-found"` - The provided `rev-key` did not correspond to a revision in the database.
- 
-### `GET /sys/page/get-revision` 
-
-Gets either the source of a particular revision.
-
-**Parameters:**
-* `rev-key: number` - A primary key that MUST correspond to a revision in the database.
-
-**Results:**
-* `src: string` - MUST contain the source of the page to display to the user.
-
-**Errors:**
-* `"rev-key-not-found"` - The provided `rev-key` did not correspond to a revision in the database.
+None outside of standard errors.
 
 ### `GET /sys/page/history` 
 
@@ -136,6 +111,19 @@ None
 **Errors:**
 No special errors.
 
+### `GET /sys/page/rendered-revision`
+
+Gets the rendered version of a source for a revision.
+
+**Parameters:**
+* `rev-key: number` - A primary key that MUST correspond to a revision in the database.
+
+**Results:**
+* `html: string` - A string containing the HTML render of the revision.
+
+**Errors:**
+* `"rev-key-not-found"` - The provided `rev-key` did not correspond to a revision in the database.
+
 ### `POST /sys/page/rename`
 
 Renames the page. 
@@ -158,6 +146,19 @@ Reverts to a past revision.
 
 **Result:**
 Result MUST be ignored. Result SHOULD be a null value.
+
+**Errors:**
+* `"rev-key-not-found"` - The provided `rev-key` did not correspond to a revision in the database.
+
+### `GET /sys/page/revision` 
+
+Gets either the source of a particular revision.
+
+**Parameters:**
+* `rev-key: number` - A primary key that MUST correspond to a revision in the database.
+
+**Results:**
+* `src: string` - MUST contain the source of the page to display to the user.
 
 **Errors:**
 * `"rev-key-not-found"` - The provided `rev-key` did not correspond to a revision in the database.

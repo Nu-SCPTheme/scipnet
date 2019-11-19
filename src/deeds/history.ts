@@ -1,5 +1,5 @@
 /*
- * deeds/edit-lock.ts
+ * deeds/history.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,22 +18,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// call the DEEDS function for edit locks
+// call the DEEDS function for retrieving the history
 import "jquery";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
-const editLockRequestClass: DeedsRequestClass = {
-  method: "edit-lock",
+const historyRequestClass: DeedsRequestClass = {
+  method: "history",
   methodClass: "page",
-  requestType: "POST"
+  requestType: "GET"
 };
 
-export default async function setEditLock(): Promise<DeedsSuccessResult> {
-  const editLockRequest: DeedsRequest = {
-    reqInformation: editLockRequestClass,
-    body: { }
+export default async function getHistory(page: number, revisionsPerPage: number): Promise<DeedsSuccessResult> {
+  const historyRequest: DeedsRequest = {
+    reqInformation: historyRequestClass,
+    body: { 
+      page,
+      "revisions-per-page": revisionsPerPage
+    }
   };
 
-  return await makeDeedsRequest(editLockRequest, "set editlock");
+  return await makeDeedsRequest(historyRequest, "retrieve the history");
 }
+

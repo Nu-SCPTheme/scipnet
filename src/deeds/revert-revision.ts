@@ -1,5 +1,5 @@
 /*
- * deeds/edit-lock.ts
+ * deeds/revert-revision.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,22 +18,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// call the DEEDS function for edit locks
+// call the DEEDS function to revert to a past revision
 import "jquery";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
-const editLockRequestClass: DeedsRequestClass = {
-  method: "edit-lock",
+const revertRevisionRequestClass: DeedsRequestClass = {
+  method: "revert-revision",
   methodClass: "page",
   requestType: "POST"
 };
 
-export default async function setEditLock(): Promise<DeedsSuccessResult> {
-  const editLockRequest: DeedsRequest = {
-    reqInformation: editLockRequestClass,
-    body: { }
+export default async function revertToRevision(revKey: number): Promise<DeedsSuccessResult> {
+  const revertRevisionRequest: DeedsRequest = {
+    reqInformation: revertRevisionRequestClass,
+    body: {
+      "rev-key": revKey
+    }
   };
 
-  return await makeDeedsRequest(editLockRequest, "set editlock");
+  return await makeDeedsRequest(revertRevisionRequest, "revert to past revision");
 }
+

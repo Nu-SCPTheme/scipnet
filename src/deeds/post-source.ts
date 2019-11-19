@@ -1,5 +1,5 @@
 /*
- * deeds/edit-lock.ts
+ * deeds/post-source.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,22 +18,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// call the DEEDS function for edit locks
+// call the DEEDS function for setting the source of a page
 import "jquery";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
-const editLockRequestClass: DeedsRequestClass = {
-  method: "edit-lock",
+const postSourceRequestClass: DeedsRequestClass = {
+  method: "source",
   methodClass: "page",
   requestType: "POST"
 };
 
-export default async function setEditLock(): Promise<DeedsSuccessResult> {
-  const editLockRequest: DeedsRequest = {
-    reqInformation: editLockRequestClass,
-    body: { }
+export default async function setSource(
+  src: string,
+  title: string,
+  comment: string
+): Promise<DeedsSuccessResult> {
+  const postSourceRequest: DeedsRequest = {
+    reqInformation: postSourceRequestClass,
+    body: {
+      src, title, comment
+    }
   };
 
-  return await makeDeedsRequest(editLockRequest, "set editlock");
+  return await makeDeedsRequest(postSourceRequest, "set page source");
 }
+

@@ -1,5 +1,5 @@
 /*
- * deeds/edit-lock.ts
+ * deeds/revision.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,22 +18,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// call the DEEDS function for edit locks
+// call the DEEDS function for getting the source of a revision
 import "jquery";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
-const editLockRequestClass: DeedsRequestClass = {
-  method: "edit-lock",
+const revisionRequestClass: DeedsRequestClass = {
+  method: "revision",
   methodClass: "page",
-  requestType: "POST"
+  requestType: "GET"
 };
 
-export default async function setEditLock(): Promise<DeedsSuccessResult> {
-  const editLockRequest: DeedsRequest = {
-    reqInformation: editLockRequestClass,
-    body: { }
+export default async function getRevision(revKey: number): Promise<DeedsSuccessResult> {
+  const revisionRequest: DeedsRequest = {
+    reqInformation: revisionRequestClass,
+    body: {
+      "rev-key": revKey
+    }
   };
 
-  return await makeDeedsRequest(editLockRequest, "set editlock");
+  return await makeDeedsRequest(revisionRequest, "retrieve revision");
 }
+

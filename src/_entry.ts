@@ -27,8 +27,10 @@ import "core-js/stable";
 declare var global: any;
 
 // polyfill for promises
+/*
 import * as BluebirdPromise from "bluebird";
 global.Promise = BluebirdPromise;
+*/
 
 import * as $ from "jquery";
 

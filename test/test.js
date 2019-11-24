@@ -71,9 +71,12 @@ app.post("/sys/page/vote", async function(req, res) {
   const body = req.body;
   console.log(body);
 
-  if (!req.cookies["sessionId"]) res.json({ errType: "not-logged-in", error: "User is not logged in" });
+  if (!req.cookies["sessionId"]) {
+    res.json({ errType: "not-logged-in", error: "User is not logged in" });
+    return;
+  }
        
-  console.log(`Calling mock vote function with rating ${body.rating}`);
+  console.log(`Calling mock vote function with rating ${body.params.rating}`);
   const rating = parseInt(body.params.rating, 10); 
 
   // add or modify vote

@@ -62,56 +62,47 @@ export async function makeDeedsRequest(
   request: DeedsRequest,
   taskDescription: string,
   taskDescriptionPlural: string
-): BluebirdPromise<DeedsSuccessResult> {
-  return new BluebirdPromise((
-    resolve: (dsr: DeedsSuccessResult) => void,
-    reject: (err: Error) => void
-  ) => {
-    const uri = path.join("/sys/", request.reqInformation.methodClass, request.reqInformation.method);
+): BluebirdPromise<DeedsSuccessResult> { 
+  const uri = path.join("/sys/", request.reqInformation.methodClass, request.reqInformation.method);
 
-    let sentObject = {
-      params: request.body,
-      pagename: <Nullable<string>>null
-    };
+  let sentObject = {
+    params: request.body,
+    pagename: <Nullable<string>>null
+  };
    
-    // set additional needed parameters
-    if (request.reqInformation.methodClass === "page") { 
-      sentObject.pagename = getSlug();
-    }
+  // set additional needed parameters
+  if (request.reqInformation.methodClass === "page") { 
+    sentObject.pagename = getSlug();
+  }
 
-    // send AJAX request
-    $.ajax(uri, {
+  // send AJAX request
+  let res;
+  try {
+    res = await $.ajax(uri, {
       data: sentObject,
       dataType: "JSON",
       method: request.reqInformation.requestType 
-    }).done(function(this: XMLHttpRequest, data: DeedsResult) {
-      // status should be 200
-      // using bracket notation here in order to avoid errors on browsers where "status"
-      // is a reserved keyword
-      if (this["status"] !== 200) {
-        reject(new Error("AJAX request returned an unhandled status code"));
-      }
-
-      if ((<DeedsErrorResult>data).error) {
-        // tell what kind of error we have
-        const error = (<DeedsErrorResult>data).error;
-        const errType = (<DeedsErrorResult>data)["err-type"];
-        if (errType === "not-logged-in") {
-          reject(new Error(`Must be logged in in order to ${taskDescriptionPlural}`));
-        } else if (errType === "internal-error") {
-          reject(new Error("An internal error occurred. Please contact a system administrator."));
-        } else {
-          reject(new Error(`An error occurred while attempting to ${taskDescription}: ${error}`));
-        }
-      } else {
-        resolve(<DeedsSuccessResult>data);
-      }
-    }).fail((xhr: any, textStatus: any, errorThrown: any) => {
-      let errorMessage = errorThrown;
-      if (errorMessage.message) {
-        errorMessage = errorMessage.message;
-      }
-      reject(new Error(`An AJAX error occurred: ${errorMessage}`));
     });
-  });
+  } catch(err) {
+    let errorMessage = err;
+    if (errorMessage.message) {
+      errorMessage = errorMessage.message;
+    }
+    throw new Error(`An AJAX error occured: ${errorMessage}`);
+  }
+ 
+  if ((<DeedsErrorResult>res).error) {
+    // tell what kind of error we have
+    const error = (<DeedsErrorResult>res).error;
+    const errType = (<DeedsErrorResult>res)["err-type"];
+    if (errType === "not-logged-in") {
+      throw new Error(`Must be logged in in order to ${taskDescriptionPlural}`);
+    } else if (errType === "internal-error") {
+      throw new Error("An internal error occurred. Please contact a system administrator.");
+    } else {
+      throw new Error(`An error occurred while attempting to ${taskDescription}: ${error}`);
+    }
+  } else {
+    return <DeedsSuccessResult>res;
+  }
 }

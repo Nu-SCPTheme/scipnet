@@ -36,5 +36,6 @@ export default async function vote(rating: number): BluebirdPromise<DeedsSuccess
     body: { rating }
   };
 
-  return await makeDeedsRequest(voteRequest, "vote on page", "vote on pages");
+  const res = await makeDeedsRequest(voteRequest, "vote on page", "vote on pages");
+  return res;
 }

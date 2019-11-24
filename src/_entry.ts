@@ -20,7 +20,9 @@
 
 // note: this is called _entry.ts so it comes first in the browserify bundle
 // this way, it's better to setup global polyfills here than anywhere else
-import "core-js/features/object";
+
+// imports from core-js, should polyfill out most standards
+import "core-js/stable";
 
 declare var global: any;
 
@@ -28,20 +30,13 @@ declare var global: any;
 import * as BluebirdPromise from "bluebird";
 global.Promise = BluebirdPromise;
 
-// polyfill for String class and regular expression
-//import "core-js/features/regexp";
-import "core-js/features/string";
-
-// polyfill for setTimeout
-import "core-js/features/set-timeout";
-
 import * as $ from "jquery";
 
 import setupMarkdown from "./markdown/index";
 import setupPageUtils from "./page-utils/index";
 
 // document onload
-$(document).ready(function() {
+$(function() {
   console.log("Initialize SCIPNET onload scripts...");
   setupMarkdown();
   setupPageUtils();

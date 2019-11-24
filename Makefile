@@ -24,9 +24,5 @@ default: dist/bundle.js
 dist/bundle.js: $(SOURCES)
 	npm run gulp
 
-        # The typescript compiler uses "Object.defineProperty"... "Object" may not exist in some browsers
-        # This is a little hack to get around that
-	sed -i -e "s/\/\/REPLACE/require\(\"core-js\/features\/object\"\);/g" dist/bundle.js
-
 test: dist/bundle.js test/test.js
 	npm run test

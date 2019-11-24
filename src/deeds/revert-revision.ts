@@ -20,6 +20,7 @@
 
 // call the DEEDS function to revert to a past revision
 import "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
@@ -29,7 +30,7 @@ const revertRevisionRequestClass: DeedsRequestClass = {
   requestType: "POST"
 };
 
-export default async function revertToRevision(revKey: number): Promise<DeedsSuccessResult> {
+export default async function revertToRevision(revKey: number): BluebirdPromise<DeedsSuccessResult> {
   const revertRevisionRequest: DeedsRequest = {
     reqInformation: revertRevisionRequestClass,
     body: {

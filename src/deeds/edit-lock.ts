@@ -20,6 +20,7 @@
 
 // call the DEEDS function for edit locks
 import "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
@@ -29,7 +30,7 @@ const editLockRequestClass: DeedsRequestClass = {
   requestType: "POST"
 };
 
-export default async function setEditLock(): Promise<DeedsSuccessResult> {
+export default async function setEditLock(): BluebirdPromise<DeedsSuccessResult> {
   const editLockRequest: DeedsRequest = {
     reqInformation: editLockRequestClass,
     body: { }

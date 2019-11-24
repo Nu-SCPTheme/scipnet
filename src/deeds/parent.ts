@@ -20,6 +20,7 @@
 
 // call the DEEDS function for setting a page's parents
 import "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
@@ -29,7 +30,7 @@ const parentRequestClass: DeedsRequestClass = {
   requestType: "POST"
 };
 
-export default async function setParent(parents: Array<string>): Promise<DeedsSuccessResult> {
+export default async function setParent(parents: Array<string>): BluebirdPromise<DeedsSuccessResult> {
   const parentRequest: DeedsRequest = {
     reqInformation: parentRequestClass,
     body: {

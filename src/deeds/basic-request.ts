@@ -22,6 +22,7 @@
 import * as $ from "jquery";
 import * as nlp from "compromise";
 import * as path from "path";
+import * as BluebirdPromise from "bluebird";
 
 import getSlug from "./../slug";
 import { Nullable } from "./../utils";
@@ -61,8 +62,8 @@ export type DeedsResult = DeedsErrorResult | DeedsSuccessResult;
 export async function makeDeedsRequest(
   request: DeedsRequest,
   taskDescription: string
-): Promise<DeedsSuccessResult> {
-  return new Promise((
+): BluebirdPromise<DeedsSuccessResult> {
+  return new BluebirdPromise((
     resolve: (dsr: DeedsSuccessResult) => void,
     reject: (err: Error) => void
   ) => {

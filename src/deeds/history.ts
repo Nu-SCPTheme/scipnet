@@ -20,6 +20,7 @@
 
 // call the DEEDS function for retrieving the history
 import "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
@@ -29,7 +30,7 @@ const historyRequestClass: DeedsRequestClass = {
   requestType: "GET"
 };
 
-export default async function getHistory(page: number, revisionsPerPage: number): Promise<DeedsSuccessResult> {
+export default async function getHistory(page: number, revisionsPerPage: number): BluebirdPromise<DeedsSuccessResult> {
   const historyRequest: DeedsRequest = {
     reqInformation: historyRequestClass,
     body: { 

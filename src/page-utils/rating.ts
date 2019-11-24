@@ -20,12 +20,13 @@
 
 // functions that have to do with ratings
 import * as $ from "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import closeUtilities from "./common";
 import getRatingModule from "./../deeds/rating-module";
 import vote from "./../deeds/vote";
 
-export async function ratePage(rating: number): Promise<void> {
+export async function ratePage(rating: number): BluebirdPromise<void> {
   console.log(`Calling ratePage with rating ${rating}`);
 
   if (rating > 1 || rating < -1) {
@@ -43,7 +44,7 @@ export async function ratePage(rating: number): Promise<void> {
 }
 
 // opens the rating module block
-export async function openRatingBlock(): Promise<void> {
+export async function openRatingBlock(): BluebirdPromise<void> {
   closeUtilities();
 
   // get the source for the rating module

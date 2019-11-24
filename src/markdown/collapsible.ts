@@ -20,6 +20,7 @@
 
 // code to make collapsibles work
 import * as $ from "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import opacityScale from "./../opacity";
 
@@ -56,7 +57,7 @@ function collapse(link: JQuery) {
   collapsibleBlock.content.addClass("vanished");
 }
 
-async function uncollapse(link: JQuery): Promise<void> {
+async function uncollapse(link: JQuery): BluebirdPromise<void> {
   // root should be 2 elements above
   const collapsibleBlock = cbFromRoot(link.parent().parent());
   collapsibleBlock.foldedBlock.addClass("vanished");

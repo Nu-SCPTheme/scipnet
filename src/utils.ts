@@ -18,11 +18,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import * as BluebirdPromise from "bluebird";
+
 export type Nullable<T> = T | null;
 
 // async version of setTimeout
-export async function timeout(ms: number): Promise<void> {
-  return new Promise((resolve: () => void) => {
+export async function timeout(ms: number): BluebirdPromise<void> {
+  return new BluebirdPromise((resolve: () => void) => {
     setTimeout(resolve, ms);
   }); 
 }

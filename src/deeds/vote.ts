@@ -20,6 +20,7 @@
  
 // call the DEEDS function for voting
 import "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
@@ -29,7 +30,7 @@ const voteRequestClass: DeedsRequestClass = {
   requestType: "POST"
 };
 
-export default async function vote(rating: number): Promise<DeedsSuccessResult> {
+export default async function vote(rating: number): BluebirdPromise<DeedsSuccessResult> {
   const voteRequest: DeedsRequest = {
     reqInformation: voteRequestClass,
     body: { rating }

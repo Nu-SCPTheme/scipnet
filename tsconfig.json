@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "target": "es3",
-    "removeComments": false,
+    "removeComments": true,
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": false,
@@ -12,7 +12,7 @@
     "noEmitOnError": true,
     "module": "commonjs",
     
-    "lib": ["es2015","dom"]
+    "lib": ["dom"]
   },
   "include": [
     "src"

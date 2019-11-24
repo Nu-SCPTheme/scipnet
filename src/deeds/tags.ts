@@ -20,6 +20,7 @@
 
 // call the DEEDS function for setting tags
 import "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
@@ -29,7 +30,7 @@ const tagsRequestClass: DeedsRequestClass = {
   requestType: "POST"
 };
 
-export default async function setEditLock(tags: Array<string>): Promise<DeedsSuccessResult> {
+export default async function setEditLock(tags: Array<string>): BluebirdPromise<DeedsSuccessResult> {
   const tagsRequest: DeedsRequest = {
     reqInformation: tagsRequestClass,
     body: { tags }

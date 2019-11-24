@@ -20,6 +20,7 @@
 
 // call the DEEDS function for renaming pages
 import "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
@@ -29,7 +30,7 @@ const renameRequestClass: DeedsRequestClass = {
   requestType: "POST"
 };
 
-export default async function renamePage(newSlug: string): Promise<DeedsSuccessResult> {
+export default async function renamePage(newSlug: string): BluebirdPromise<DeedsSuccessResult> {
   const renameRequest: DeedsRequest = {
     reqInformation: renameRequestClass,
     body: {

@@ -20,6 +20,7 @@
 
 // call the DEEDS function for setting the source of a page
 import "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
@@ -33,7 +34,7 @@ export default async function setSource(
   src: string,
   title: string,
   comment: string
-): Promise<DeedsSuccessResult> {
+): BluebirdPromise<DeedsSuccessResult> {
   const postSourceRequest: DeedsRequest = {
     reqInformation: postSourceRequestClass,
     body: {

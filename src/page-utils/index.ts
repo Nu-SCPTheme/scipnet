@@ -20,12 +20,13 @@
 
 // set up triggers relating to page utilities
 import * as $ from "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { nonIntrusiveDialog } from "./../dialog";
 import { openRatingBlock, ratePage } from "./rating";
 
 // wrap promises related to page utils
-function promiseWrapper(func: () => Promise<void>): () => void {
+function promiseWrapper(func: () => BluebirdPromise<void>): () => void {
   return function() {
     func().then(() => {}).catch((err: Error) => {
       nonIntrusiveDialog("Error", err.message);
@@ -35,9 +36,12 @@ function promiseWrapper(func: () => Promise<void>): () => void {
 
 // setup rating trigger
 function setupRatingTrigger(className: string, rating: number) {
-  $(".page-rate-widget-box").find(`.${className}`).find("a").click(promiseWrapper(async () => {
-    await ratePage(rating);
-  }));
+  $(".page-rate-widget-box")
+    .find(`.${className}`)
+    .find("a")
+    .click(promiseWrapper(async (): BluebirdPromise<void> => {
+      await ratePage(rating);
+    }));
 }
 
 // setup triggers for page utilities

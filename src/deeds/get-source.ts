@@ -20,6 +20,7 @@
 
 // call the DEEDS function for getting the source of the page
 import "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
@@ -29,7 +30,7 @@ const getSourceRequestClass: DeedsRequestClass = {
   requestType: "GET"
 };
 
-export default async function getSource(): Promise<DeedsSuccessResult> {
+export default async function getSource(): BluebirdPromise<DeedsSuccessResult> {
   const getSourceRequest: DeedsRequest = {
     reqInformation: getSourceRequestClass,
     body: { }

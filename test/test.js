@@ -100,7 +100,7 @@ app.post("/sys/page/vote", async function(req, res) {
 let server = http.createServer(app);
 
 // run before each execution
-beforeEach(() => {
+before(() => {
   window = (new JSDOM(testHTML, { 
    runScripts: "dangerously",
    url: mockUrl

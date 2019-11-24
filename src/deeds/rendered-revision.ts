@@ -20,6 +20,7 @@
 
 // call the DEEDS function for getting the rendered version of revisions
 import "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
@@ -29,7 +30,7 @@ const renderedRevisionRequestClass: DeedsRequestClass = {
   requestType: "GET"
 };
 
-export default async function getRenderedRevision(revKey: number): Promise<DeedsSuccessResult> {
+export default async function getRenderedRevision(revKey: number): BluebirdPromise<DeedsSuccessResult> {
   const renderedRevisionRequest: DeedsRequest = {
     reqInformation: renderedRevisionRequestClass,
     body: { 

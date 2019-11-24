@@ -20,6 +20,7 @@
 
 // allows opacity scaling, i.e. make things gradually appear
 import * as $ from "jquery";
+import * as BluebirdPromise from "bluebird";
 
 import { timeout } from "./utils";
 
@@ -28,7 +29,7 @@ export default async function opacityScale(
   mstime: number, 
   start: number = 0, 
   end: number = 100
-): Promise<void> {
+): BluebirdPromise<void> {
   // go every 5 ms
   const interval = 5;
   const increment = (end - start) / (mstime / interval);

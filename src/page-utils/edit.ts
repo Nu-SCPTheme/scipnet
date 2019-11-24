@@ -21,7 +21,8 @@
 // functions for editing
 
 import * as $ from "jquery";
+import * as BluebirdPromise from "bluebird";
 
-export async function beginEditPage(): Promise<void> {
+export async function beginEditPage(): BluebirdPromise<void> {
   
 }

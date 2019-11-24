@@ -20,7 +20,6 @@
 
 // this file contains definitions for functions and classes used to make basic requests to the DEEDS function
 import * as $ from "jquery";
-import * as nlp from "compromise";
 import * as path from "path";
 import * as BluebirdPromise from "bluebird";
 
@@ -61,7 +60,8 @@ export type DeedsResult = DeedsErrorResult | DeedsSuccessResult;
 
 export async function makeDeedsRequest(
   request: DeedsRequest,
-  taskDescription: string
+  taskDescription: string,
+  taskDescriptionPlural: string
 ): BluebirdPromise<DeedsSuccessResult> {
   return new BluebirdPromise((
     resolve: (dsr: DeedsSuccessResult) => void,
@@ -79,26 +79,29 @@ export async function makeDeedsRequest(
       sentObject.pagename = getSlug();
     }
 
-    const doc = nlp(taskDescription);
-
+    // send AJAX request
     $.ajax(uri, {
       data: sentObject,
       dataType: "JSON",
       method: request.reqInformation.requestType 
-    }).done((data: DeedsResult) => {
+    }).done(function(this: XMLHttpRequest, data: DeedsResult) {
+      // status should be 200
+      // using bracket notation here in order to avoid errors on browsers where "status"
+      // is a reserved keyword
+      if (this["status"] !== 200) {
+        reject(new Error("AJAX request returned an unhandled status code"));
+      }
+
       if ((<DeedsErrorResult>data).error) {
         // tell what kind of error we have
         const error = (<DeedsErrorResult>data).error;
         const errType = (<DeedsErrorResult>data)["err-type"];
         if (errType === "not-logged-in") {
-          // compromise has its types set up in a weird way, so let's just ignore this
-          // @ts-ignore
-          doc.nouns.toPlural();
-          reject(new Error(`Must be logged in in order to ${doc.out()}`));
+          reject(new Error(`Must be logged in in order to ${taskDescriptionPlural}`));
         } else if (errType === "internal-error") {
           reject(new Error("An internal error occurred. Please contact a system administrator."));
         } else {
-          reject(new Error(`An error occurred while attempting to ${doc.out()}: ${error}`));
+          reject(new Error(`An error occurred while attempting to ${taskDescription}: ${error}`));
         }
       } else {
         resolve(<DeedsSuccessResult>data);

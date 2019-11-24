@@ -38,6 +38,5 @@ export default async function getRenderedRevision(revKey: number): BluebirdPromi
     }
   };
 
-  return await makeDeedsRequest(renderedRevisionRequest, "get the rendered revision");
+  return await makeDeedsRequest(renderedRevisionRequest, "get the rendered revision", "get rendered revisions");
 }
-

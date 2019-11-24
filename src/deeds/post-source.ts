@@ -42,6 +42,5 @@ export default async function setSource(
     }
   };
 
-  return await makeDeedsRequest(postSourceRequest, "set page source");
+  return await makeDeedsRequest(postSourceRequest, "edit page", "edit pages");
 }
-

@@ -38,6 +38,5 @@ export default async function revertToRevision(revKey: number): BluebirdPromise<
     }
   };
 
-  return await makeDeedsRequest(revertRevisionRequest, "revert to past revision");
+  return await makeDeedsRequest(revertRevisionRequest, "revert to past revision", "revert to past revisions");
 }
-

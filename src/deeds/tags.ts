@@ -36,6 +36,5 @@ export default async function setEditLock(tags: Array<string>): BluebirdPromise<
     body: { tags }
   };
 
-  return await makeDeedsRequest(tagsRequest, "set tags");
+  return await makeDeedsRequest(tagsRequest, "set tags", "set tags");
 }
-

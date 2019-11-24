@@ -36,5 +36,5 @@ export default async function setEditLock(): BluebirdPromise<DeedsSuccessResult>
     body: { }
   };
 
-  return await makeDeedsRequest(editLockRequest, "set editlock");
+  return await makeDeedsRequest(editLockRequest, "set edit lock", "set edit locks");
 }

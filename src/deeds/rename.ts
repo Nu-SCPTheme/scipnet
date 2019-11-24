@@ -38,6 +38,5 @@ export default async function renamePage(newSlug: string): BluebirdPromise<Deeds
     }
   };
 
-  return await makeDeedsRequest(renameRequest, "rename page");
+  return await makeDeedsRequest(renameRequest, "rename page", "rename pages");
 }
-

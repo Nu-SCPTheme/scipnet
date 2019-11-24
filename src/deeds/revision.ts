@@ -38,6 +38,5 @@ export default async function getRevision(revKey: number): BluebirdPromise<Deeds
     }
   };
 
-  return await makeDeedsRequest(revisionRequest, "retrieve revision");
+  return await makeDeedsRequest(revisionRequest, "retrieve revision", "retrieve revisions");
 }
-

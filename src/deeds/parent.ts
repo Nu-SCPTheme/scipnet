@@ -38,6 +38,5 @@ export default async function setParent(parents: Array<string>): BluebirdPromise
     }
   };
 
-  return await makeDeedsRequest(parentRequest, "set parent");
+  return await makeDeedsRequest(parentRequest, "set parent", "set parents");
 }
-

@@ -36,6 +36,6 @@ export default async function getSource(): BluebirdPromise<DeedsSuccessResult> {
     body: { }
   };
 
-  return await makeDeedsRequest(getSourceRequest, "get the page source");
+  return await makeDeedsRequest(getSourceRequest, "get the page source", "get the page source");
 }
 

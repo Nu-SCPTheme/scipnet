@@ -36,6 +36,5 @@ export default async function getRatingModule(): BluebirdPromise<DeedsSuccessRes
     body: { }
   };
 
-  return await makeDeedsRequest(ratingModuleRequest, "retrieve rating module");
+  return await makeDeedsRequest(ratingModuleRequest, "retrieve rating module", "retrieve rating modules");
 }
-

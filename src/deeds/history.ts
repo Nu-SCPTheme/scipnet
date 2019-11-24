@@ -39,6 +39,6 @@ export default async function getHistory(page: number, revisionsPerPage: number)
     }
   };
 
-  return await makeDeedsRequest(historyRequest, "retrieve the history");
+  return await makeDeedsRequest(historyRequest, "retrieve the history", "retrieve the history");
 }
 

@@ -15,10 +15,10 @@ apt install node make
 Then, clone and build Scipnet:
 
 ```bash
-git clone https://github.com/Nu-SCPTheme/scipnet.git
-cd scipnet
-npm install --production
-make
+$ git clone https://github.com/Nu-SCPTheme/scipnet.git
+$ cd scipnet
+$ npm install --production
+$ make
 ```
 
 `make` will generate a file named `dist/bundle.js`. This is the file that will be included into the web page, and contains all frontend code.
@@ -34,6 +34,16 @@ Portability was taken into account during design. At a minimum, Scipnet should w
 * Pretty much any modern browser (for more information, see [here](https://caniuse.com/#feat=es5))
 
 *In theory*, this should work on IE8 as well (and *maybe* IE7). However, I wouldn't be surprised if a few features didn't work, or if it just outright breaks.
+
+## Minification
+
+As of the time of writing, the resulting `dist/bundle.js` file is around 930 kilobytes. This is primarily due to the inclusion of frameworks such as [jQuery](https://github.com/jquery/jquery), [bluebird](https://github.com/petkaantonov/bluebird) and [core-js](https://github.com/zloirock/core-js) to increase compatibility with older browsers. Understandably, it would be better if the bundle file was smaller. If needed, you can run
+
+```bash
+$ npm run uglify
+```
+
+In order to use [terser](https://github.com/terser/terser) to minify the bundle file to around 300 kilobytes.
 
 ## License
 

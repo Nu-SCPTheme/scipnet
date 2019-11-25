@@ -43,7 +43,7 @@ As of the time of writing, the resulting `dist/bundle.js` file is around 930 kil
 $ npm run uglify
 ```
 
-In order to use [terser](https://github.com/terser/terser) to minify the bundle file to around 300 kilobytes.
+in order to use [terser](https://github.com/terser/terser) to minify the bundle file to around 300 kilobytes. If needed, a sourcemap file will be generated at `dist/bundle.js.map`.
 
 ## License
 

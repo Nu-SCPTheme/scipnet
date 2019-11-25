@@ -23,6 +23,7 @@ const browserify = require("browserify");
 const eslint = require("gulp-eslint");
 const fs = require("fs");
 const gulp = require("gulp");
+const sourcemaps = require("gulp-sourcemaps");
 const terser = require("gulp-terser");
 const ts = require("gulp-typescript");
 
@@ -64,12 +65,13 @@ gulp.task("browserify", () => {
 gulp.task("uglify", () => {
   createDir("dist");
   return gulp.src("dist/bundle.js")
+    .pipe(sourcemaps.init())
     .pipe(terser({
       "compress": {
-        "passes": 3,
         "properties": false
       }
     }))
+    .pipe(sourcemaps.write("./"))
     .pipe(gulp.dest("dist"));
 });
 

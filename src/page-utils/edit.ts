@@ -18,11 +18,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// functions for editing
-
+// functions for editing the page
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
+import getSource from "./../deeds/get-source";
+import setSource from "./../deeds/post-source";
+import setEditLock from "./../deeds/edit-lock";
+
 export async function beginEditPage(): BluebirdPromise<void> {
+  // first, set up an edit lock
+  const editLockSeconds = (await setEditLock()).result["edit-lock-seconds"];
+
+  // then, get the current page's source
+  const source = (await getSource()).result.src;
   
+  // open up the part of the page with the editor and fill in the source 
+  $("#edit-source-box").val(<string>source);
+  $("#utility-edit-block").removeClass("vanished");
+}
+
+export async function savePage(refresh: boolean): BluebirdPromise<void> {
+  const src = <string>$("#edit-source-box").val();
+  const title = <string>$("#edit-title-box").val();
+  const comment = <string>$("#edit-comment-box").val();
+
+  await setSource(src, title, comment);
+
+  if (refresh) {
+    window.location.reload();
+  }
 }

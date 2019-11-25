@@ -38,6 +38,7 @@
     "core-js": "^3.3.6",
     "eslint": "^6.6.0",
     "gulp": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-terser": "^1.2.0",
     "gulp-typescript": "^5.0.1",
     "jquery": "^3.4.1",

@@ -3,14 +3,15 @@ node_js: 10.17.0
   
 jobs:
   include:
-    - env: UNDEFINE_PROMISES=no
-    - env: UNDEFINE_PROMISES=yes
+    - env: UGLIFY=false
+    - env: UGLIFY=true
 
 cache:
  - npm
 
 before_script:
  - make
+ - if [ "$UGLIFY" = "true" ]; then npm run uglify; fi
 
 script:
  - npm run test

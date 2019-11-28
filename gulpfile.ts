@@ -18,22 +18,51 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const babelify = require("babelify");
-const browserify = require("browserify");
-const eslint = require("gulp-eslint");
-const fs = require("fs");
-const gulp = require("gulp");
-const sourcemaps = require("gulp-sourcemaps");
-const terser = require("gulp-terser");
-const ts = require("gulp-typescript");
+// some of these declaration files aren't fully written, hence the ts-ignore
+import * as _ from "lodash";
+import * as babelify from "babelify";
+import * as browserify from "browserify";
+import * as child_process from "child_process";
+// @ts-ignore
+import * as eslint from "gulp-eslint";
+import * as fs from "fs";
+import * as gulp from "gulp";
+import * as sourcemaps from "gulp-sourcemaps";
+// @ts-ignore
+import * as terser from "gulp-terser";
+import * as ts from "gulp-typescript";
+import * as watch from "gulp-watch";
 
+import { promisify } from "util";
+
+// tell which target to compile to
 const target = process.env.TS_TRANSPILE_TARGET || "es3";
 const tsProject = ts.createProject("tsconfig.json", { target });
 
+// other assorted env variables
+const includeCoreJs = (process.env.INCLUDE_CORE_JS === undefined ? true : process.env.INCLUDE_CORE_JS === "true");
+const minify = (process.env.MINIFY === undefined ? false : process.env.MINIFY === "true");
+
 // helper function to create a directory if it does not exist yet
-function createDir(name) {
-  if (!fs.existsSync(name)) fs.mkdirSync(name);
+function createDir(name: string) {
+  if (!fs.existsSync(name)) {
+    fs.mkdirSync(name);
+  }
 }
+
+const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
+
+// create a task that replaces one instance of data with another
+function createReplaceTask(name: string, replaced: string, replacement: string, filename: string) {
+  gulp.task(name, async () => {
+    let data = (await readFile(filename)).toString();
+    data = data.replace(replaced, replacement);
+    await writeFile(filename, data);
+  });
+}
+
+createReplaceTask("remove-corejs", `require("core-js/stable");`, "", "dist/sources/_entry.js");
 
 // lint typescript code
 gulp.task("lint", () => {
@@ -75,4 +104,19 @@ gulp.task("uglify", () => {
     .pipe(gulp.dest("dist"));
 });
 
-gulp.task("default", gulp.parallel(["lint", gulp.series(["typescript", "browserify"])]));
+let tasks: Array<any> = ["typescript", "browserify"];
+let preBrowserifyTasks = [];
+if (!includeCoreJs) {
+  preBrowserifyTasks.push("remove-corejs");
+}
+if (minify) {
+  tasks.push("uglify");
+}
+
+// add preBrowserifyTasks to tasks
+tasks.splice(1, 0, preBrowserifyTasks);
+
+// flatten the array
+tasks = _.flatten(tasks);
+
+gulp.task("default", gulp.parallel(["lint", gulp.series(tasks)]));

@@ -1,5 +1,5 @@
 /*
- * common.ts
+ * hide-all.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -22,7 +22,8 @@
 import * as $ from "jquery";
 
 const utilityBlocks = [
-  "utility-rating-module"
+  "utility-rating-module",
+  "utility-edit-block"
 ];
 
 export default function closeUtilities() {

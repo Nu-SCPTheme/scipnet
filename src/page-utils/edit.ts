@@ -22,11 +22,30 @@
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
+import cancelEditLock from "./../deeds/cancel-edit-lock";
+import closeUtilities from "./hide-all";
 import getSource from "./../deeds/get-source";
 import setSource from "./../deeds/post-source";
 import setEditLock from "./../deeds/edit-lock";
 
+let currentlyTyping = false;
+let editlockTimeout: ReturnType<typeof setTimeout>;
+
+// set timeout notification
+function setTimeoutNotification(secondsLeft: number) {
+  $("#edit-editlock-notification")
+    .html(`<b>Your edit lock will expire in ${secondsLeft} seconds.</b>`);
+
+  if (secondsLeft > 0 && !currentlyTyping) {
+    editlockTimeout = setTimeout(() => {
+      setTimeoutNotification(secondsLeft - 1);
+    }, 1000);
+  }
+}
+
 export async function beginEditPage(): BluebirdPromise<void> {
+  closeUtilities();
+
   // first, set up an edit lock
   const editLockSeconds = (await setEditLock()).result["edit-lock-seconds"];
 
@@ -35,6 +54,7 @@ export async function beginEditPage(): BluebirdPromise<void> {
   
   // open up the part of the page with the editor and fill in the source 
   $("#edit-source-box").val(<string>source);
+  setTimeoutNotification(<number>editLockSeconds);
   $("#utility-edit-block").removeClass("vanished");
 }
 
@@ -48,4 +68,34 @@ export async function savePage(refresh: boolean): BluebirdPromise<void> {
   if (refresh) {
     window.location.reload();
   }
+}
+
+export async function cancelEditPage(): BluebirdPromise<void> {
+  await cancelEditLock();
+
+  clearTimeout(editlockTimeout);
+  closeUtilities();
+}
+
+let keyTimer: ReturnType<typeof setTimeout>;
+const stopInterval = 200;
+
+// reset the edit lock
+async function resetEditLock(): BluebirdPromise<void> {
+  const elSeconds = (await setEditLock()).result["edit-lock-seconds"];
+  setTimeoutNotification(<number>elSeconds);
+}
+
+function resetEditLockSync() {
+  resetEditLock().then(() => { }).catch((err: Error) => { throw err; });
+}
+
+// setup to reset editlock after user has not typed for some time
+export function setupEditLockTrigger() {
+  $("#edit-source-box").keyup(() => {
+    clearTimeout(keyTimer);
+    keyTimer = setTimeout(resetEditLockSync, stopInterval);
+  }).keydown(() => {
+    clearTimeout(keyTimer);
+  });
 }

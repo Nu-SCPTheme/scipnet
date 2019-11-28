@@ -47,6 +47,19 @@ Scipnet MUST recieve of the following in response:
 
 *Note:* For all operations of prefix `/sys/page`, the server MUST expect parameter `pagename` containing a string corresponding to the page's slug, and MUST return error `"page-not-found"` if this slug does not correspond to a page.
 
+### `POST /sys/page/cancel-edit-lock`
+
+Cancels the edit lock the user has on the page.
+
+**Parameters:**
+None
+
+**Result:**
+None
+
+**Errors:**
+None outside of standard errors.
+
 ### `POST /sys/page/edit-lock`
 
 Set an edit lock on the page. 

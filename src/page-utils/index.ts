@@ -22,6 +22,7 @@
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
+import { beginEditPage, cancelEditPage, savePage, setupEditLockTrigger } from "./edit";
 import { nonIntrusiveDialog } from "./../dialog";
 import { openRatingBlock, ratePage } from "./rating";
 
@@ -50,6 +51,18 @@ export default function setupPageUtils() {
   setupRatingTrigger("ratedown", -1);
   setupRatingTrigger("cancel", 0);
 
+  setupEditLockTrigger();
+
   // add triggers to utility links
+  $("#utility-edit-link").click(promiseWrapper(beginEditPage));
   $("#utility-rating-link").click(openRatingBlock);
+
+  // add triggers to editor
+  $("#edit-cancel-button").click(promiseWrapper(cancelEditPage));
+  $("#edit-sac-button").click(promiseWrapper(async (): BluebirdPromise<void> => {
+    await savePage(false);
+  }));
+  $("#edit-save-button").click(promiseWrapper(async (): BluebirdPromise<void> => {
+    await savePage(true);
+  }));
 }

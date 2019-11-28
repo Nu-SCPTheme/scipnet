@@ -3,15 +3,14 @@ node_js: 10.17.0
   
 jobs:
   include:
-    - env: UGLIFY=false
-    - env: UGLIFY=true
+    - env: MINIFY=false
+    - env: MINIFY=true INCLUDE_CORE_JS=false
 
 cache:
  - npm
 
 before_script:
- - make
- - if [ "$UGLIFY" = "true" ]; then npm run uglify; fi
+ - npm run gulp
 
 script:
  - npm run test

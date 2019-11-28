@@ -22,7 +22,7 @@
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
-import closeUtilities from "./common";
+import closeUtilities from "./hide-all";
 import getRatingModule from "./../deeds/rating-module";
 import vote from "./../deeds/vote";
 

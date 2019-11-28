@@ -1,5 +1,5 @@
 /*
- * _entry.ts
+ * deeds/cancel-edit-lock.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,29 +18,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// note: this is called _entry.ts so it comes first in the browserify bundle
-// this way, it's better to setup global polyfills here than anywhere else
-
-// imports from core-js, should polyfill out most standards
-import "core-js/stable";
-
-declare var global: any;
-
-// polyfill for promises
-// note: not needed since we manually specify the return of BluebirdPromise on async functions
-/*
+// call the DEEDS function for cancelling an edit lock the user has
+import "jquery";
 import * as BluebirdPromise from "bluebird";
-global.Promise = BluebirdPromise;
-*/
 
-import * as $ from "jquery";
+import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
-import setupMarkdown from "./markdown/index";
-import setupPageUtils from "./page-utils/index";
+const cancelEditLockRequestClass: DeedsRequestClass = {
+  method: "cancel-edit-lock",
+  methodClass: "page",
+  requestType: "POST"
+};
 
-// document onload
-$(function() {
-  console.log("Initialize SCIPNET onload scripts...");
-  setupMarkdown();
-  setupPageUtils();
-});
+export default async function cancelEditLock(): BluebirdPromise<DeedsSuccessResult> {
+  const cancelEditLockRequest: DeedsRequest = {
+    reqInformation: cancelEditLockRequestClass,
+    body: { }
+  };
+
+  return await makeDeedsRequest(cancelEditLockRequest, "cancel edit lock", "cancel edit locks");
+}

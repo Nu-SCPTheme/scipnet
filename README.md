@@ -18,12 +18,14 @@ Then, clone and build Scipnet:
 $ git clone https://github.com/Nu-SCPTheme/scipnet.git
 $ cd scipnet
 $ npm install --production
-$ make
+$ npm run gulp
 ```
 
 `make` will generate a file named `dist/bundle.js`. This is the file that will be included into the web page, and contains all frontend code.
 
 If you would like to run the test suite, omit the `--production` flag from `npm i` and then run `make test`.
+
+Note: Compilation may fail if you do not have some form of `sed` installed in your shell.
 
 ## Compatibility
 
@@ -43,7 +45,20 @@ As of the time of writing, the resulting `dist/bundle.js` file is around 930 kil
 $ npm run uglify
 ```
 
+or, while running the main gulp build:
+
+```bash
+$ MINIFY=true npm run gulp
+```
+
 in order to use [terser](https://github.com/terser/terser) to minify the bundle file to around 300 kilobytes. If needed, a sourcemap file will be generated at `dist/bundle.js.map`.
+
+## Other Build Modifications
+
+The following environment flags can be set to modify the build process.
+
+* `INCLUDE_CORE_JS` - Include the `core-js` library. The default for this is option is `true`. If set to `false`, the browserify bundle will not include `core-js`. This will reduce the size of the bundle by a significant amount; however, compatibility with browsers libaries will be lost.
+* `MINIFY` - Run the `terser` minification library to reduce the bundle's file size if set to `true`. See the Minification section above for more information. 
 
 ## License
 

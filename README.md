@@ -57,7 +57,7 @@ in order to use [terser](https://github.com/terser/terser) to minify the bundle 
 
 The following environment flags can be set to modify the build process.
 
-* `INCLUDE_CORE_JS` - Include the `core-js` library. The default for this is option is `true`. If set to `false`, the browserify bundle will not include `core-js`. This will reduce the size of the bundle by a significant amount; however, compatibility with browsers libaries will be lost.
+* `INCLUDE_CORE_JS` - Include the `core-js` library. The default for this is option is `true`. If set to `false`, the browserify bundle will not include `core-js`. This will reduce the size of the bundle by a significant amount; however, compatibility with older browsers will be lost.
 * `MINIFY` - Run the `terser` minification library to reduce the bundle's file size if set to `true`. See the Minification section above for more information. 
 
 ## License

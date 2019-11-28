@@ -25,8 +25,6 @@ $ npm run gulp
 
 If you would like to run the test suite, omit the `--production` flag from `npm i` and then run `make test`.
 
-Note: Compilation may fail if you do not have some form of `sed` installed in your shell.
-
 ## Compatibility
 
 Portability was taken into account during design. At a minimum, Scipnet should work functionally on any browser that supports ECMAScript 5. This includes:

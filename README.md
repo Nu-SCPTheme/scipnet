@@ -21,7 +21,7 @@ $ npm install --production
 $ npm run gulp
 ```
 
-`make` will generate a file named `dist/bundle.js`. This is the file that will be included into the web page, and contains all frontend code.
+`gulp` will generate a file named `dist/bundle.js`. This is the file that will be included into the web page, and contains all frontend code.
 
 If you would like to run the test suite, omit the `--production` flag from `npm i` and then run `make test`.
 

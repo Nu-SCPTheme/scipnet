@@ -24,14 +24,7 @@
 // imports from core-js, should polyfill out most standards
 import "core-js/stable";
 
-declare var global: any;
-
-// polyfill for promises
-// note: not needed since we manually specify the return of BluebirdPromise on async functions
-/*
-import * as BluebirdPromise from "bluebird";
-global.Promise = BluebirdPromise;
-*/
+// promise polyfill, if needed, will be put here
 
 import * as $ from "jquery";
 

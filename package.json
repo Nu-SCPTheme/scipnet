@@ -43,6 +43,7 @@
     "browserify": "^16.5.0",
     "compromise": "^11.14.3",
     "core-js": "^3.3.6",
+    "es6-promise": "^4.2.8",
     "eslint": "^6.6.0",
     "gulp": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",

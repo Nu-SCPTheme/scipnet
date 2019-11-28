@@ -59,6 +59,12 @@ The following environment flags can be set to modify the build process.
 
 * `INCLUDE_CORE_JS` - Include the `core-js` library. The default for this is option is `true`. If set to `false`, the browserify bundle will not include `core-js`. This will reduce the size of the bundle by a significant amount; however, compatibility with browsers libaries will be lost.
 * `MINIFY` - Run the `terser` minification library to reduce the bundle's file size if set to `true`. See the Minification section above for more information. 
+* `PROMISE_TYPE` - Set the promise library used in the frontend. The following options are accepted:
+  * `bluebird` - Uses [petkaantonov/bluebird](https://github.com/petkaantonov/bluebird). This is the default.
+  * `default` - Uses the default promise in the environment. This may cause failures on browsers where `Promise` is not automatically defined.
+  * `corejs` - Uses the promise polyfill from the [core-js](https://github.com/zloirock/core-js) library.
+  * `es6` - Uses [stefanpenner/es6-promise](https://github.com/stefanpenner/es6-promise). Before using this, you must first run `npm i es6-promise`.
+  * `then` - Uses [then/promise](https://github.com/then/promise). Before using this, you must first run `npm i promise`.
 
 ## License
 

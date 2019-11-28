@@ -27,6 +27,7 @@ import * as child_process from "child_process";
 import * as eslint from "gulp-eslint";
 import * as fs from "fs";
 import * as gulp from "gulp";
+import * as path from "path";
 import * as sourcemaps from "gulp-sourcemaps";
 // @ts-ignore
 import * as terser from "gulp-terser";
@@ -42,6 +43,7 @@ const tsProject = ts.createProject("tsconfig.json", { target });
 // other assorted env variables
 const includeCoreJs = (process.env.INCLUDE_CORE_JS === undefined ? true : process.env.INCLUDE_CORE_JS === "true");
 const minify = (process.env.MINIFY === undefined ? false : process.env.MINIFY === "true");
+const promiseType = process.env.PROMISE_TYPE || "bluebird";
 
 // helper function to create a directory if it does not exist yet
 function createDir(name: string) {
@@ -50,6 +52,8 @@ function createDir(name: string) {
   }
 }
 
+const lstat = promisify(fs.lstat);
+const readdir = promisify(fs.readdir);
 const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 
@@ -57,12 +61,70 @@ const writeFile = promisify(fs.writeFile);
 function createReplaceTask(name: string, replaced: string, replacement: string, filename: string) {
   gulp.task(name, async () => {
     let data = (await readFile(filename)).toString();
-    data = data.replace(replaced, replacement);
+    data = data.split(replaced).join(replacement);
     await writeFile(filename, data);
   });
 }
 
 createReplaceTask("remove-corejs", `require("core-js/stable");`, "", "dist/sources/_entry.js");
+
+// create tasks to replace one promise type with another
+function createReplaceOnAllTask(name: string, replaced: string, replacement: string) {
+  gulp.task(name, async () => {
+    let promises: Array<Promise<void>> = [];
+
+    await (async function replace(dirname: string) {
+      for (const file of await readdir(dirname)) {
+        promises.push((async () => {
+          const filename = path.join(dirname, file);
+          if ((await lstat(filename)).isDirectory()) {
+            promises.push(replace(filename));
+          }
+
+          try {
+            let data = (await readFile(filename)).toString();
+            data = data.split(replaced).join(replacement);
+            await writeFile(filename, data); 
+          } catch (err) {
+            // this is ususally an attempt to read a directory
+            // console.error(`Failed to replace on ${filename}: ${err}`);
+          }
+        })());
+      }
+    })("dist/sources");
+    await Promise.all(promises);
+  });
+}
+
+// setup default promise usage
+createReplaceOnAllTask("reset-promise-name", "BluebirdPromise", "Promise");
+createReplaceOnAllTask("delete-bluebird-import", `var Promise = require("bluebird");`, "");
+gulp.task("default-promise", gulp.series("reset-promise-name", "delete-bluebird-import"));
+
+// setup core-js promise usage
+createReplaceTask("add-corejs-promise", `// promise polyfill, if needed, will be put here`, `require("core-js/features/promise");`, "dist/sources/_entry.js");
+gulp.task("corejs-promise", gulp.series("reset-promise-name", "delete-bluebird-import", "add-corejs-promise"));
+
+function createPromiseReplacementTask(name: string, promiseName: string, libName: string, modRequire: boolean) {
+  const pnName = `${name}-promise-name`;
+  const lnName = `${name}-lib-name`; 
+  const mrName = `${name}-modify-require`;
+
+  createReplaceOnAllTask(pnName, "BluebirdPromise", promiseName);
+  createReplaceOnAllTask(lnName, "bluebird", libName);
+
+  let tasks = [pnName, lnName];
+
+  if (modRequire) {
+    createReplaceOnAllTask(mrName, `require("${libName}");`, `require("${libName}").Promise;`);
+    tasks.push(mrName);
+  }
+  
+  gulp.task(name, gulp.series(tasks));
+}
+
+createPromiseReplacementTask("then-promise", "ThenPromise", "promise", false);
+createPromiseReplacementTask("es6-promise", "Es6Promise", "es6-promise", true);
 
 // lint typescript code
 gulp.task("lint", () => {
@@ -111,6 +173,17 @@ if (!includeCoreJs) {
 }
 if (minify) {
   tasks.push("uglify");
+}
+if (promiseType !== "bluebird") {
+  if (promiseType === "then") {
+    preBrowserifyTasks.push("then-promise");
+  } else if (promiseType === "corejs") {
+    preBrowserifyTasks.push("corejs-promise");
+  } else if (promiseType === "es6") {
+    preBrowserifyTasks.push("es6-promise");
+  } else if (promiseType === "default") {
+    preBrowserifyTasks.push("default-promise");
+  }
 }
 
 // add preBrowserifyTasks to tasks

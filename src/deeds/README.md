@@ -204,15 +204,15 @@ Result MUST be ignored. Result SHOULD be a null value.
 **Errors:**
 * `"page-locked"` - The page has been locked by a moderator and cannot be edited without moderator privileges.
 
-### `POST /sys/page/tags`
+### `GET/POST /sys/page/tags`
 
 Sets the tags of the page.
 
 **Parameters:**
-* `tags: string[]` - An array that MUST consist of strings representing tags.
+* `tags: string[]` - (Exclusive to `POST`) An array that MUST consist of strings representing tags.
 
 **Result:**
-Result MUST be ignored. Result SHOULD be a null value.
+* `tags: string[]` - (Exclusive to `GET`) An array containing strings representing the page's tags.
 
 **Errors:**
 No special errors.

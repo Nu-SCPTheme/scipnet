@@ -53,6 +53,7 @@
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "mathjax": "^3.0.0",
+    "lodash": "^4.17.15",
     "regenerator-runtime": "^0.13.3",
     "ts-node": "^8.5.4",
     "tslib": "^1.10.0",

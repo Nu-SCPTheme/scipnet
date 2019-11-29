@@ -19,7 +19,6 @@
  */
 
 // some of these declaration files aren't fully written, hence the ts-ignore
-import * as _ from "lodash";
 import * as babelify from "babelify";
 import * as browserify from "browserify";
 import * as child_process from "child_process";
@@ -190,6 +189,6 @@ if (promiseType !== "bluebird") {
 tasks.splice(1, 0, preBrowserifyTasks);
 
 // flatten the array
-tasks = _.flatten(tasks);
+tasks = tasks.flat(3);
 
 gulp.task("default", gulp.parallel(["lint", gulp.series(tasks)]));

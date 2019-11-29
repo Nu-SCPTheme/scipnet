@@ -31,7 +31,7 @@ import * as sourcemaps from "gulp-sourcemaps";
 // @ts-ignore
 import * as terser from "gulp-terser";
 import * as ts from "gulp-typescript";
-import * as watch from "gulp-watch";
+//import * as watch from "gulp-watch";
 
 import { promisify } from "util";
 
@@ -42,6 +42,7 @@ const target = process.env.TS_TRANSPILE_TARGET || "es3";
 const tsProject = ts.createProject("tsconfig.json", { target });
 
 // other assorted env variables
+const customJquery = (process.env.CUSTOM_JQUERY === undefined ? true : process.env.CUSTOM_JQUERY === "true");
 const includeCoreJs = (process.env.INCLUDE_CORE_JS === undefined ? true : process.env.INCLUDE_CORE_JS === "true");
 const minify = (process.env.MINIFY === undefined ? false : process.env.MINIFY === "true");
 const promiseType = process.env.PROMISE_TYPE || "bluebird";
@@ -167,6 +168,11 @@ gulp.task("uglify", () => {
     .pipe(gulp.dest("dist"));
 });
 
+// build a replacement version of jquery
+gulp.task("custom-jquery", () => (
+  child_process.spawn("python3", ["bin/build-custom-jquery.py"], { stdio: "inherit" })
+));
+
 let tasks: Array<any> = ["typescript", "browserify"];
 let preBrowserifyTasks = [];
 if (!includeCoreJs) {
@@ -185,6 +191,9 @@ if (promiseType !== "bluebird") {
   } else if (promiseType === "default") {
     preBrowserifyTasks.push("default-promise");
   }
+}
+if (customJquery) {
+  preBrowserifyTasks.push("custom-jquery");
 }
 
 // add preBrowserifyTasks to tasks

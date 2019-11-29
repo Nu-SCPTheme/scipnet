@@ -35,6 +35,8 @@ import * as watch from "gulp-watch";
 
 import { promisify } from "util";
 
+import "core-js/features/array/flat";
+
 // tell which target to compile to
 const target = process.env.TS_TRANSPILE_TARGET || "es3";
 const tsProject = ts.createProject("tsconfig.json", { target });
@@ -188,7 +190,8 @@ if (promiseType !== "bluebird") {
 // add preBrowserifyTasks to tasks
 tasks.splice(1, 0, preBrowserifyTasks);
 
-// flatten the array
+// flatten the array, this isn't standard in TS
+// @ts-ignore
 tasks = tasks.flat(3);
 
 gulp.task("default", gulp.parallel(["lint", gulp.series(tasks)]));

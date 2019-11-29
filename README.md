@@ -31,7 +31,7 @@ Although `scipnet` is meant to be built on a Linux-like operating system, it is 
 
 ## Compatibility
 
-Portability was taken into account during design. At a minimum, Scipnet should work functionally on any browser that supports ECMAScript 5. This includes:
+Portability was taken into account during design. Under default build settings, Scipnet should work functionally on any browser that supports ECMAScript 5. This includes:
 
 * IE >= 9
 * Safari >= 6

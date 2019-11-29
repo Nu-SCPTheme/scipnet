@@ -25,6 +25,10 @@ $ npm run gulp
 
 If you would like to run the test suite, omit the `--production` flag from `npm i` and then run `make test`.
 
+#### Note
+
+Although `scipnet` is meant to be built on a Linux-like operating system, it is designed to be browser-independent and should work with most operating systems with a web browser installed.
+
 ## Compatibility
 
 Portability was taken into account during design. At a minimum, Scipnet should work functionally on any browser that supports ECMAScript 5. This includes:

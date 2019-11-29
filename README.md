@@ -6,10 +6,10 @@ Scipnet is the name given to the scripts that run on the client side of Project 
 
 ## Installation
 
-First, you should have the `node` runtime installed. If you don't have it already, you can download it via APT:
+First, you should have the `node` runtime installed, as well as `python3` to run some build scripts. If you don't have them already, you can download them via APT:
 
 ```bash
-# apt install node
+# apt install node python3
 ```
 
 Then, clone and build Scipnet:

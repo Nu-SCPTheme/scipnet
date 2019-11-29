@@ -1,5 +1,5 @@
 /*
- * test.js
+ * test.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -19,26 +19,26 @@
  */
 
 // run Mocha tests to determine if the frontend is functioning properly
-const { assert, expect } = require("chai");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const express = require("express");
-const fs = require("fs");
-const http = require("http");
-const nunjucks = require("nunjucks");
-const querystring = require("querystring");
-const sinon = require("sinon");
-const uuid = require("uuid/v4");
+import { assert, expect } from "chai";
+import * as bodyParser from "body-parser";
+import * as cookieParser from "cookie-parser";
+import * as express from "express";
+import * as fs from "fs";
+import * as http from "http";
+import * as nunjucks from "nunjucks";
+import * as querystring from "querystring";
+import * as sinon from "sinon";
+import * as uuid from "uuid/v4";
 
 nunjucks.configure({ autoescape: false });
 
 // set up mock document and such
-const { JSDOM } = require("jsdom");
+import { JSDOM } from "jsdom";
 const bundle = fs.readFileSync("dist/bundle.js", { encoding: "utf-8" });
 
-let testHTML = fs.readFileSync("test/testdoc.html", { encoding: "utf-8" });
+let testHTML = fs.readFileSync("test/page.html", { encoding: "utf-8" });
 testHTML = nunjucks.renderString(testHTML, { 
-  setPromises: (function() {
+  setPromises: (() => {
     if (process.env.UNDEFINE_PROMISES === "yes") {
       return `window.Promise = undefined;`;
     } else {
@@ -48,17 +48,16 @@ testHTML = nunjucks.renderString(testHTML, {
   script: bundle 
 });
 
-let document;
-let scope;
-let window;
-let alertFake;
-let logFake;
+let document: HTMLDocument;
+let window: Window;
+let alertFake: sinon.SinonSpy;
+let logFake: sinon.SinonSpy;
 
 const port = 4848;
 const mockUrl = `http:///localhost:${port}`;
 
 // some variables to keep things consistent between requests
-let votes = [];
+let votes: Array<any> = [];
 const sessionId = uuid();
 
 // run a quick express server
@@ -67,7 +66,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/sys/page/vote", async function(req, res) {
+app.post("/sys/page/vote", async function(req: express.Request, res: express.Response) {
   const body = req.body;
   console.log(body);
 
@@ -116,27 +115,27 @@ before(() => {
   console.log = logFake = sinon.fake(); 
 });
 
-before((done) => {
+before((done: () => void) => {
   server.listen(port, done);
 });
 
-after((done) => {
+after((done: () => void) => {
   server.close(done);
 });
 
 // helper functions
-function simulateClick(element) {
+function simulateClick(element: Element) {
   var evt = document.createEvent("HTMLEvents");
   evt.initEvent("click", false, true);
   element.dispatchEvent(evt)
 }
 
 describe("Rating module", () => {
-  function testVote(buttonClassName, expectVote, expectRating, done) {
+  function testVote(buttonClassName: string, expectVote: number, expectRating: string, done: () => void) {
     //const rateSpan = document.getElementsByClassName(buttonClassName)[0];
     //rateSpan.firstChild.click();
-    window.ratePage(expectVote).then(() => { 
-      let alertErr = alertFake.args[0];
+    (<any>window).ratePage(expectVote).then(() => { 
+      let alertErr: any = alertFake.args[0];
       if (alertErr) alertErr = alertErr[0];
       else alertErr = "Unexpected error";
    
@@ -153,15 +152,15 @@ describe("Rating module", () => {
     }, 2000);
   }
  
-  it("Upvote", (done) => {
+  it("Upvote", (done: () => void) => {
     testVote("rateup", 1, "rating: +1", done);
   }); 
 
-  it("Downvote", (done) => {
+  it("Downvote", (done: () => void) => {
     testVote("ratedown", -1, "rating: -1", done);
   });
 
-  it("Novote", (done) => {
+  it("Novote", (done: () => void) => {
     testVote("cancel", 0, "rating: 0", done);
   });
 });

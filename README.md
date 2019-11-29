@@ -51,9 +51,11 @@ $ MINIFY=true npm run gulp
 
 in order to use [terser](https://github.com/terser/terser) to minify the bundle file to around 300 kilobytes. If needed, a sourcemap file will be generated at `dist/bundle.js.map`.
 
+If a smaller bundle is desired, setting `INCLUDE_CORE_JS` to `false` and `PROMISE_TYPE` to `default` is known to reduce the bundle’s size by around 500K (with a minified bundle weighing about 120K). This bundle should still work on *most* browsers (only IE8 and older should have any real problems).
+
 ## Other Build Modifications
 
-The following environment flags can be set to modify the build process.
+The following environment variables can be set to modify the build process.
 
 * `INCLUDE_CORE_JS` - Include the `core-js` library. The default for this is option is `true`. If set to `false`, the browserify bundle will not include `core-js`. This will reduce the size of the bundle by a significant amount; however, compatibility with older browsers will be lost.
 * `MINIFY` - Run the `terser` minification library to reduce the bundle's file size if set to `true`. See the Minification section above for more information. 

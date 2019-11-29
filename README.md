@@ -6,7 +6,7 @@ Scipnet is the name given to the scripts that run on the client side of Project 
 
 ## Installation
 
-First, you should have the node runtime installed, as well as some form of `make`. If you don't have these already, you can download them via APT:
+First, you should have the `node` runtime installed. If you don't have it already, you can download it via APT:
 
 ```bash
 # apt install node make

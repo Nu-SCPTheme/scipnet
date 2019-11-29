@@ -19,7 +19,6 @@
  */
 
 // some of these declaration files aren't fully written, hence the ts-ignore
-import * as _ from "lodash";
 import * as babelify from "babelify";
 import * as browserify from "browserify";
 import * as child_process from "child_process";
@@ -35,6 +34,8 @@ import * as ts from "gulp-typescript";
 import * as watch from "gulp-watch";
 
 import { promisify } from "util";
+
+import "core-js/features/array/flat";
 
 // tell which target to compile to
 const target = process.env.TS_TRANSPILE_TARGET || "es3";
@@ -189,7 +190,8 @@ if (promiseType !== "bluebird") {
 // add preBrowserifyTasks to tasks
 tasks.splice(1, 0, preBrowserifyTasks);
 
-// flatten the array
-tasks = _.flatten(tasks);
+// flatten the array, this isn't standard in TS
+// @ts-ignore
+tasks = tasks.flat(3);
 
 gulp.task("default", gulp.parallel(["lint", gulp.series(tasks)]));

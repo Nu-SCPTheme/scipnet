@@ -38,7 +38,7 @@ import { promisify } from "util";
 import "core-js/features/array/flat";
 
 // tell which target to compile to
-const target = process.env.TS_TRANSPILE_TARGET || "es3";
+const target = process.env.TS_TRANSPILE_TARGET || "es5";
 const tsProject = ts.createProject("tsconfig.json", { target });
 
 // other assorted env variables

@@ -74,6 +74,7 @@ log("Deleting jquery to save space")
 shutil.rmtree("jquery")
 
 # replace "jquery" in dist/sources files with "./../../{../}lib/jquery"
+log("Replacing \"jquery\" string in files with path to new library")
 def replacement(dirname, depth=1):
   newPath = "\"./../"
   for _ in range(depth):
@@ -82,6 +83,7 @@ def replacement(dirname, depth=1):
 
   for stat in os.listdir(dirname):
     filename = os.path.join(dirname, stat)
+    log("Running replacement on {}".format(filename))
     if os.path.isdir(filename):
       replacement(filename, depth + 1)
     else:

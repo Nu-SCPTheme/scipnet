@@ -22,7 +22,10 @@
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
+import closeUtilities from "./hide-all";
+
 import { beginEditPage, cancelEditPage, savePage, setupEditLockTrigger } from "./edit";
+import { clearTags, openTagBlock, submitTags } from "./tags";
 import { nonIntrusiveDialog } from "./../dialog";
 import { openRatingBlock, ratePage } from "./rating";
 
@@ -56,6 +59,7 @@ export default function setupPageUtils() {
   // add triggers to utility links
   $("#utility-edit-link").click(promiseWrapper(beginEditPage));
   $("#utility-rating-link").click(openRatingBlock);
+  $("#utility-tags-link").click(promiseWrapper(openTagBlock));
 
   // add triggers to editor
   $("#edit-cancel-button").click(promiseWrapper(cancelEditPage));
@@ -65,4 +69,9 @@ export default function setupPageUtils() {
   $("#edit-save-button").click(promiseWrapper(async (): BluebirdPromise<void> => {
     await savePage(true);
   }));
+
+  // add triggers to tagger
+  $("#tags-submit-button").click(promiseWrapper(submitTags));
+  $("#tags-clear-button").click(clearTags);
+  $("#tags-cancel-button").click(closeUtilities);
 }

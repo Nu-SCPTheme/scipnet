@@ -27,12 +27,13 @@ import "core-js/stable";
 // promise polyfill, if needed, will be put here
 
 import * as $ from "jquery";
+import * as BluebirdPromise from "bluebird";
 
-import setupMarkdown from "./markdown/index";
-import setupPageUtils from "./page-utils/index";
+import setupMarkdown from "./markdown";
+import setupPageUtils from "./page-utils";
 
 // document onload
-$(function() {
+$(() => {
   console.log("Initialize SCIPNET onload scripts...");
   setupMarkdown();
   setupPageUtils();

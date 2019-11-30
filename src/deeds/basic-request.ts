@@ -63,7 +63,7 @@ export async function makeDeedsRequest(
   taskDescription: string,
   taskDescriptionPlural: string
 ): BluebirdPromise<DeedsSuccessResult> { 
-  const uri = path.join("/sys/", request.reqInformation.methodClass, request.reqInformation.method);
+  const uri = `/sys/${request.reqInformation.methodClass}/${request.reqInformation.method}`;
 
   let sentObject = {
     params: request.body,

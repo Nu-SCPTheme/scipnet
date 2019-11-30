@@ -1,5 +1,5 @@
 /*
- * hide-all.ts
+ * deeds/get-tags.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,18 +18,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// exports a function that closes out all other utility blocks
-import * as $ from "jquery";
+// call the DEEDS function for getting tags
+import "jquery";
+import * as BluebirdPromise from "bluebird";
 
-// the map statement stores jquery here to reduce load times
-const utilityBlocks = [
-  "utility-rating-module",
-  "utility-edit-block",
-  "utility-tags-block"
-].map(e => $(`#${e}`));
+import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
-export default function closeUtilities() {
-  for (const utilityBlock of utilityBlocks) {
-    utilityBlock.addClass("vanished");
-  }
+const tagsRequestClass: DeedsRequestClass = {
+  method: "tags",
+  methodClass: "page",
+  requestType: "GET"
+};
+
+export default async function getTags(): BluebirdPromise<DeedsSuccessResult> {
+  const tagsRequest: DeedsRequest = {
+    reqInformation: tagsRequestClass,
+    body: { }
+  };
+
+  return await makeDeedsRequest(tagsRequest, "get tags", "get tags");
 }
+

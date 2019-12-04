@@ -28,6 +28,7 @@ import { beginEditPage, cancelEditPage, savePage, setupEditLockTrigger } from ".
 import { clearTags, openTagBlock, submitTags } from "./tags";
 import { nonIntrusiveDialog } from "./../dialog";
 import { openHistoryBlock } from "./history";
+import { openPageSourceBlock } from "./page-source";
 import { openRatingBlock, ratePage } from "./rating";
 
 // wrap promises related to page utils
@@ -60,6 +61,7 @@ export default function setupPageUtils() {
   // add triggers to utility links
   $("#utility-edit-link").click(promiseWrapper(beginEditPage));
   $("#utility-history-link").click(promiseWrapper(openHistoryBlock));
+  $("#utility-pagesrc-link").click(promiseWrapper(openPageSourceBlock));
   $("#utility-rating-link").click(openRatingBlock);
   $("#utility-tags-link").click(promiseWrapper(openTagBlock));
 

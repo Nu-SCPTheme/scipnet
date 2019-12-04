@@ -59,6 +59,7 @@ export default function setupPageUtils() {
 
   // add triggers to utility links
   $("#utility-edit-link").click(promiseWrapper(beginEditPage));
+  $("#utility-history-link").click(promiseWrapper(openHistoryBlock));
   $("#utility-rating-link").click(openRatingBlock);
   $("#utility-tags-link").click(promiseWrapper(openTagBlock));
 

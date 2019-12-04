@@ -30,4 +30,5 @@ const hBlock = $("#utility-history-block");
 export async function openHistoryBlock(): BluebirdPromise<void> {
   closeUtilities();
   let hw = await HistoryWidget.getInstance(hBlock);
+  hBlock.removeClass("vanished");
 }

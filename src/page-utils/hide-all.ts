@@ -25,7 +25,8 @@ import * as $ from "jquery";
 const utilityBlockIds = [
   "utility-rating-module",
   "utility-edit-block",
-  "utility-tags-block"
+  "utility-tags-block",
+  "utility-history-block"
 ];
 
 const utilityBlockSelector = $.map(utilityBlockIds, (utilityBlockId: string): string => {

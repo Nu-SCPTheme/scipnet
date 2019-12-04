@@ -116,7 +116,10 @@ export class HistoryWidget {
 
   // setup the revision list and other async elements
   async renderWidget(): BluebirdPromise<void> {
-    // first, load revision data
+    // first, set this.revisionsPerPage based on the selector's value
+    this.revisionsPerPage = parseInt(<string>this.selector.find("option:selected").val(), 10);
+
+    // then, load revision data
     await this.loadRevisions();
 
     // then, render the pager and the revision list

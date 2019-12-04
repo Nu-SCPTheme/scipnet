@@ -63,3 +63,13 @@ export class PotentiallyCompromised {
     }
   } 
 }
+
+// make a closure out of a class method
+export function classMethodToClosure(obj: any, methodName: string): Function {
+  return (function(instance: any): Function {
+    const func = obj.prototype[methodName];
+    return function(): any { 
+      return func.apply(obj, arguments);
+    };
+  })(obj);
+}

@@ -83,6 +83,7 @@ Gets a list of revisions from the page's history.
 * `revisions-per-page: number` - A number that MUST be between 1 and 200 and SHOULD be between 10 and 200. 
 
 **Result:**
+* `total-pages: number` - The number of total pages that would be existant using the current `revisions-per-page` parameter.
 * `revisions: object[]` - An array that MUST consist of JSON objects of the following structure:
 ```
 {

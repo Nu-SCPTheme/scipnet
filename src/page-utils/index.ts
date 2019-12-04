@@ -1,5 +1,5 @@
 /*
- * page-utils.ts
+ * page-utils/index.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -27,6 +27,7 @@ import closeUtilities from "./hide-all";
 import { beginEditPage, cancelEditPage, savePage, setupEditLockTrigger } from "./edit";
 import { clearTags, openTagBlock, submitTags } from "./tags";
 import { nonIntrusiveDialog } from "./../dialog";
+import { openHistoryBlock } from "./history";
 import { openRatingBlock, ratePage } from "./rating";
 
 // wrap promises related to page utils

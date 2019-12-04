@@ -1,4 +1,4 @@
-/*
+/*!
  * _entry.ts
  *
  * scipnet - Frontend scripts for mekhane

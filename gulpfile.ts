@@ -38,11 +38,12 @@ import { promisify } from "util";
 import "core-js/features/array/flat";
 
 // tell which target to compile to
-const target = process.env.TS_TRANSPILE_TARGET || "es5";
+const target = process.env.TS_TRANSPILE_TARGET || "es3";
 const tsProject = ts.createProject("tsconfig.json", { target });
 
 // other assorted env variables
-const customJquery = (process.env.CUSTOM_JQUERY === undefined ? true : process.env.CUSTOM_JQUERY === "true");
+const debug = (process.env.DEBUG === undefined ? false : process.env.DEBUG === "true");
+const customJquery = (process.env.CUSTOM_JQUERY === undefined ? !debug : process.env.CUSTOM_JQUERY === "true");
 const includeCoreJs = (process.env.INCLUDE_CORE_JS === undefined ? true : process.env.INCLUDE_CORE_JS === "true");
 const minify = (process.env.MINIFY === undefined ? false : process.env.MINIFY === "true");
 const promiseType = process.env.PROMISE_TYPE || "bluebird";

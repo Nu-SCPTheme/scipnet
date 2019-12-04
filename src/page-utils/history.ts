@@ -1,5 +1,5 @@
 /*
- * hide-all.ts
+ * page-utils/history.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,21 +18,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// exports a function that closes out all other utility blocks
+import * as BluebirdPromise from "bluebird";
 import * as $ from "jquery";
 
-// the map statement stores jquery here to reduce load times
-const utilityBlockIds = [
-  "utility-rating-module",
-  "utility-edit-block",
-  "utility-tags-block"
-];
+import { HistoryWidget } from "./../history";
 
-const utilityBlockSelector = $.map(utilityBlockIds, (utilityBlockId: string): string => {
-  return `#${utilityBlockId}`;
-}).join(", ");
-const utilityBlocks = $(utilityBlockSelector);
+import closeUtilities from "./hide-all";
 
-export default function closeUtilities() { 
-  utilityBlocks.addClass("vanished");
+const hBlock = $("#utility-history-block");
+
+export async function openHistoryBlock(): BluebirdPromise<void> {
+  closeUtilities();
+  let hw = await HistoryWidget.getInstance(hBlock);
 }

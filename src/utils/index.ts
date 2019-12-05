@@ -1,5 +1,5 @@
 /*
- * utils.ts
+ * utils/index.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull

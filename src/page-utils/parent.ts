@@ -1,5 +1,5 @@
 /*
- * hide-all.ts
+ * page-utils/parent.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,24 +18,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// exports a function that closes out all other utility blocks
+// set a page's parent
 import * as $ from "jquery";
+import * as BluebirdPromise from "bluebird";
 
-// the map statement stores jquery here to reduce load times
-const utilityBlockIds = [
-  "utility-rating-module",
-  "utility-edit-block",
-  "utility-tags-block",
-  "utility-history-block",
-  "utility-pagesrc-block",
-  "utility-parent-block"
-];
+import closeUtilities from "./hide-all";
+import getParent from "./../deeds/get-parent";
+import setParent from "./../deeds/post-parent";
 
-const utilityBlockSelector = $.map(utilityBlockIds, (utilityBlockId: string): string => {
-  return `#${utilityBlockId}`;
-}).join(", ");
-const utilityBlocks = $(utilityBlockSelector);
+const inputBox = $("#parent-box");
+const parentBlock = $("#utility-parent-block");
 
-export default function closeUtilities() { 
-  utilityBlocks.addClass("vanished");
+export async function openParentBlock(): BluebirdPromise<void> {
+  closeUtilities();
+
+  const { result } = await getParent();
+  const { parents } = result;
+  const parentText = (<Array<string>>parents).join(" ");
+
+  inputBox.val(parentText);  
+  parentBlock.removeClass("vanished");
+}
+
+export async function submitParents(): BluebirdPromise<void> {
+  const parents = (<string>inputBox.val()).split(" ");
+  await setParent(parents);
+
+  window.location.reload();
 }

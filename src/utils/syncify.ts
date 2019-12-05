@@ -1,5 +1,5 @@
 /*
- * deeds/parent.ts
+ * utils/syncify.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,25 +18,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// call the DEEDS function for setting a page's parents
-import "jquery";
+// there are many instances where an async function needs to be called in a sync way,
+// e.g. a click handler. These handlers usually don't care what happens after the promise
+// is resolved. This function wraps an async function into a non-async wrapper
 import * as BluebirdPromise from "bluebird";
 
-import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
-
-const parentRequestClass: DeedsRequestClass = {
-  method: "parent",
-  methodClass: "page",
-  requestType: "POST"
-};
-
-export default async function setParent(parents: Array<string>): BluebirdPromise<DeedsSuccessResult> {
-  const parentRequest: DeedsRequest = {
-    reqInformation: parentRequestClass,
-    body: {
-      parents
-    }
+export default function syncify(func: () => Promise<void>): () => void {
+  return () => {
+    func().then(() => { }).catch((err: Error) => { throw err; });
   };
-
-  return await makeDeedsRequest(parentRequest, "set parent", "set parents");
 }

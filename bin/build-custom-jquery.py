@@ -30,7 +30,7 @@ def log(msg):
 
 # pull Jquery from the repo
 log("Cloning jquery repository from GitHub...")
-return_code = subprocess.call(["git", "clone", "git://github.com/jquery/jquery.git"])
+return_code = subprocess.call(["git", "clone", "https://github.com/jquery/jquery.git"])
 
 os.chdir("jquery")
 

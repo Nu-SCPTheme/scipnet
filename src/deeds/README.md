@@ -99,6 +99,19 @@ Gets a list of revisions from the page's history.
 **Errors:**
 * `"no-results-found"` - The selected parameters did not result in any revisions.
 
+### `GET /sys/page/parent`
+
+Gets the parent(s) of the page.
+
+**Parameters:**
+None
+
+**Result:**
+* `parents: string[]` - An array that contains strings corresponding to the slugs of the parent pages.
+
+**Errors:**
+No special errors.
+
 ### `POST /sys/page/parent` 
 
 Sets the parent(s) of the page.
@@ -119,7 +132,7 @@ Gets the HTML for the page's rating module.
 **Paramters:**
 None
 
-**Result**::
+**Result**:
 * `rating-module` - The HTML of a rating module belonging to the current page.
 
 **Errors:**

@@ -1,5 +1,5 @@
 /*
- * hide-all.ts
+ * deeds/post-parent.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,24 +18,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// exports a function that closes out all other utility blocks
-import * as $ from "jquery";
+// call the DEEDS function for setting a page's parents
+import "jquery";
+import * as BluebirdPromise from "bluebird";
 
-// the map statement stores jquery here to reduce load times
-const utilityBlockIds = [
-  "utility-rating-module",
-  "utility-edit-block",
-  "utility-tags-block",
-  "utility-history-block",
-  "utility-pagesrc-block",
-  "utility-parent-block"
-];
+import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
-const utilityBlockSelector = $.map(utilityBlockIds, (utilityBlockId: string): string => {
-  return `#${utilityBlockId}`;
-}).join(", ");
-const utilityBlocks = $(utilityBlockSelector);
+const parentRequestClass: DeedsRequestClass = {
+  method: "parent",
+  methodClass: "page",
+  requestType: "POST"
+};
 
-export default function closeUtilities() { 
-  utilityBlocks.addClass("vanished");
+export default async function setParent(parents: Array<string>): BluebirdPromise<DeedsSuccessResult> {
+  const parentRequest: DeedsRequest = {
+    reqInformation: parentRequestClass,
+    body: {
+      parents
+    }
+  };
+
+  return await makeDeedsRequest(parentRequest, "set parent", "set parents");
 }

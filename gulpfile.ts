@@ -44,11 +44,11 @@ const target = process.env.TS_TRANSPILE_TARGET || "es3";
 const debug = (process.env.DEBUG === undefined ? false : process.env.DEBUG === "true");
 const customJquery = (process.env.CUSTOM_JQUERY === undefined ? !debug : process.env.CUSTOM_JQUERY === "true");
 const includeCoreJs = (process.env.INCLUDE_CORE_JS === undefined ? true : process.env.INCLUDE_CORE_JS === "true");
-const includeHelpers = (process.env.INCLUDE_HELPERS === undefined ? false : process.env.INCLUDE_HELPERS === "true");
+const includeHelpers = (process.env.INCLUDE_HELPERS === undefined ? true : process.env.INCLUDE_HELPERS === "true");
 const minify = (process.env.MINIFY === undefined ? false : process.env.MINIFY === "true");
 const promiseType = process.env.PROMISE_TYPE || "bluebird";
 
-const tsProject = ts.createProject("tsconfig.json", { target, includeHelpers });
+const tsProject = ts.createProject("tsconfig.json", { target, "importHelpers": includeHelpers });
 
 // helper function to create a directory if it does not exist yet
 function createDir(name: string) {
@@ -84,6 +84,7 @@ function createReplaceOnAllTask(name: string, replaced: string, replacement: str
           const filename = path.join(dirname, file);
           if ((await lstat(filename)).isDirectory()) {
             promises.push(replace(filename));
+            return;
           }
 
           try {
@@ -202,7 +203,7 @@ if (customJquery) {
 // add preBrowserifyTasks to tasks
 tasks.splice(1, 0, preBrowserifyTasks);
 
-// flatten the array, this isn't standard in TS
+// flatten the array, this isn't standard in TS but is imported above via core-js
 // @ts-ignore
 tasks = tasks.flat(3);
 

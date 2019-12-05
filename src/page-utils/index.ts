@@ -29,9 +29,11 @@ import { clearTags, openTagBlock, submitTags } from "./tags";
 import { nonIntrusiveDialog } from "./../dialog";
 import { openHistoryBlock } from "./history";
 import { openPageSourceBlock } from "./page-source";
+import { openParentBlock, submitParents } from "./parent";
 import { openRatingBlock, ratePage } from "./rating";
 
 // wrap promises related to page utils
+// NOTE: not using syncify to take advantage of nonIntrusiveDialog function
 function promiseWrapper(func: () => BluebirdPromise<void>): () => void {
   return function() {
     func().then(() => {}).catch((err: Error) => {
@@ -61,6 +63,7 @@ export default function setupPageUtils() {
   // add triggers to utility links
   $("#utility-edit-link").click(promiseWrapper(beginEditPage));
   $("#utility-history-link").click(promiseWrapper(openHistoryBlock));
+  $("#utility-parent-link").click(promiseWrapper(openParentBlock));
   $("#utility-pagesrc-link").click(promiseWrapper(openPageSourceBlock));
   $("#utility-rating-link").click(openRatingBlock);
   $("#utility-tags-link").click(promiseWrapper(openTagBlock));
@@ -78,4 +81,8 @@ export default function setupPageUtils() {
   $("#tags-submit-button").click(promiseWrapper(submitTags));
   $("#tags-clear-button").click(clearTags);
   $("#tags-cancel-button").click(closeUtilities);
+
+  // add triggers to parent editor
+  $("#parent-submit-button").click(promiseWrapper(submitParents));
+  $("#parent-cancel-button").click(closeUtilities);
 }

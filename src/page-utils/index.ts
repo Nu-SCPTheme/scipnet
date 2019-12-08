@@ -31,6 +31,7 @@ import { openHistoryBlock } from "./history";
 import { openPageSourceBlock } from "./page-source";
 import { openParentBlock, submitParents } from "./parent";
 import { openRatingBlock, ratePage } from "./rating";
+import { openRenameBlock, renamePage } from "./rename";
 
 // wrap promises related to page utils
 // NOTE: not using syncify to take advantage of nonIntrusiveDialog function
@@ -66,6 +67,7 @@ export default function setupPageUtils() {
   $("#utility-parent-link").click(promiseWrapper(openParentBlock));
   $("#utility-pagesrc-link").click(promiseWrapper(openPageSourceBlock));
   $("#utility-rating-link").click(openRatingBlock);
+  $("#utility-rename-link").click(openRenameBlock);
   $("#utility-tags-link").click(promiseWrapper(openTagBlock));
 
   // add triggers to editor
@@ -85,4 +87,8 @@ export default function setupPageUtils() {
   // add triggers to parent editor
   $("#parent-submit-button").click(promiseWrapper(submitParents));
   $("#parent-cancel-button").click(closeUtilities);
+
+  // add triggers to renamer
+  $("#rename-submit-button").click(promiseWrapper(renamePage));
+  $("#rename-cancel-button").click(closeUtilities);
 }

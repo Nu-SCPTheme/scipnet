@@ -45,7 +45,7 @@ export default function createRevisionList(revisions: Array<Revision>, frame: JQ
   for (const revision of revisions) {
     editedOn = revision.editedOn;
     revKey = revision.revKey;
-    $(`<tr id="revision-${revKey}></tr>`)
+    $(`<tr id="revision-${revKey}"></tr>`)
       // the number of the revision
       .append($(`<td>${revision.revId}. </td>`))
       // the two radio buttons that determine which revisions to compare

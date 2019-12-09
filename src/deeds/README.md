@@ -45,6 +45,59 @@ Scipnet MUST recieve of the following in response:
 
 ## Operations:
 
+### `POST /sys/auth/login`
+
+Logs in with the specified credentials and creates a session.
+
+**Parameters:**
+* `username: string` - MUST be either the username or the email of the user logging in.
+* `password: string` - MUST be the password of the user logging in.
+
+**Results:**
+* `auth-session: string` - A unique token that represents the user's session.
+
+**Errors:**
+* `credential-mismatch` - The credentials did not match any found in the server.
+
+### `POST /sys/auth/register`
+
+Register a new user in the system.
+
+**Parameters:**
+* `username: string` - MUST be a unique username.
+* `email: string` - MUST be a valid email address accessible to the user.
+* `password: string` - MUST be the password of the user logging in.
+
+**Results:**
+None
+
+**Errors:**
+* `username-already-exists` or `email-already-exists` - Either the user or the email already exist in the system.
+
+**Parameters:**
+* `username: string` - MUST be a unique username.
+* `email: string` - MUST be a valid email address accessible to the user.
+* `password: string` - MUST be the password of the user logging in.
+
+**Results:**
+None
+
+**Errors:**
+* `username-already-exists` or `email-already-exists` - Either the user or the email already exist in the system.
+
+### `POST /sys/auth/confirm-register`
+
+Confirm a registration via a code sent by email.
+
+**Parameters:**
+* `code: string` - MUST be the code sent to the user via email.
+
+**Results:**
+None
+
+**Errors:**
+* `invalid-code` - The code used was not valid.
+
 *Note:* For all operations of prefix `/sys/page`, the server MUST expect parameter `pagename` containing a string corresponding to the page's slug, and MUST return error `"page-not-found"` if this slug does not correspond to a page.
 
 ### `POST /sys/page/cancel-edit-lock`

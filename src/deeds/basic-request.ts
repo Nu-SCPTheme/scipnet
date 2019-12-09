@@ -34,7 +34,7 @@ export type DeedsDictDataType = { [key: string]: DeedsDataTypeSingular | DeedsAr
 export type DeedsDataType = DeedsDataTypeSingular | DeedsArrayDataType | DeedsDictDataType;
 
 export type DeedsBody = { [key: string]: DeedsDataType };
-export type DeedsMethodClass = "page" | "user";
+export type DeedsMethodClass = "auth" | "page" | "user";
 
 export interface DeedsRequestClass {
   method: string;

@@ -1,5 +1,5 @@
-/*!
- * _entry.ts
+/*
+ * deeds/register.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,25 +18,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// note: this is called _entry.ts so it comes first in the browserify bundle
-// this way, it's better to setup global polyfills here than anywhere else
-
-// imports from core-js, should polyfill out most standards
-import "core-js/stable";
-
-// promise polyfill, if needed, will be put here
-
-import * as $ from "jquery";
+// call the DEEDS function for registering a new user
+import "jquery";
 import * as BluebirdPromise from "bluebird";
 
-import setupAuth from "./login";
-import setupMarkdown from "./markdown";
-import setupPageUtils from "./page-utils";
+import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
-// document onload
-$(() => {
-  console.log("Initialize SCIPNET onload scripts...");
-  setupMarkdown();
-  setupAuth();
-  setupPageUtils();
-});
+const registerRequestClass: DeedsRequestClass = {
+  method: "register",
+  methodClass: "auth",
+  requestType: "POST"
+};
+
+export default async function register(
+  username: string,
+  email: string,
+  password: string
+): BluebirdPromise<DeedsSuccessResult> {
+  const registerRequest: DeedsRequest = {
+    reqInformation: registerRequestClass,
+    body: { username, email, password }
+  };
+
+  const res = await makeDeedsRequest(registerRequest, "login", "login");
+  return res;
+}
+

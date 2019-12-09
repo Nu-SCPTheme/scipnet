@@ -1,5 +1,5 @@
-/*!
- * _entry.ts
+/*
+ * deeds/login.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,25 +18,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// note: this is called _entry.ts so it comes first in the browserify bundle
-// this way, it's better to setup global polyfills here than anywhere else
-
-// imports from core-js, should polyfill out most standards
-import "core-js/stable";
-
-// promise polyfill, if needed, will be put here
-
-import * as $ from "jquery";
+// call the DEEDS function for logging in
+import "jquery";
 import * as BluebirdPromise from "bluebird";
 
-import setupAuth from "./login";
-import setupMarkdown from "./markdown";
-import setupPageUtils from "./page-utils";
+import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
 
-// document onload
-$(() => {
-  console.log("Initialize SCIPNET onload scripts...");
-  setupMarkdown();
-  setupAuth();
-  setupPageUtils();
-});
+const loginRequestClass: DeedsRequestClass = {
+  method: "login",
+  methodClass: "auth",
+  requestType: "POST"
+};
+
+export default async function login(username: string, password: string): BluebirdPromise<DeedsSuccessResult> {
+  const loginRequest: DeedsRequest = {
+    reqInformation: loginRequestClass,
+    body: { username, password }
+  };
+
+  const res = await makeDeedsRequest(loginRequest, "login", "login");
+  return res;
+}
+

@@ -55,6 +55,7 @@ Logs in with the specified credentials and creates a session.
 
 **Results:**
 * `auth-session: string` - A unique token that represents the user's session.
+* `cookie-preserve-time: number` - The length in seconds to preserve the cookie for.
 
 **Errors:**
 * `credential-mismatch` - The credentials did not match any found in the server.

@@ -45,9 +45,9 @@ excluded_modules = [
   "css/showHide",
   "dimensions",
   "effects",
+  "events/trigger",
   "offset",
-  "exports/global",
-  "exports/amd"
+  "exports"
 ]
 
 module_exclusion_arg = "custom:-{}".format(",-".join(excluded_modules))

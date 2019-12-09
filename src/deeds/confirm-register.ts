@@ -1,5 +1,5 @@
 /*
- * login/index.ts
+ * deeds/confirm-register.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,13 +18,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// this function will simply run all of the other functions within this folder
-import setupConfirmRegistration from "./confirm-register";
-import setupLogin from "./login";
-import setupRegistration from "./register";
+// call the DEEDS function for confirming a new user's registration
+import "jquery";
+import * as BluebirdPromise from "bluebird";
 
-export default function setupAuth() {
-  setupConfirmRegistration();
-  setupLogin();
-  setupRegistration();
+import { DeedsRequestClass, DeedsRequest, DeedsSuccessResult, makeDeedsRequest } from "./basic-request";
+
+const confirmRegisterRequestClass: DeedsRequestClass = {
+  method: "confirm-register",
+  methodClass: "auth",
+  requestType: "POST"
+};
+
+export default async function confirmRegister(code: string): BluebirdPromise<DeedsSuccessResult> {
+  const confirmRegisterRequest: DeedsRequest = {
+    reqInformation: confirmRegisterRequestClass,
+    body: { code }
+  };
+
+  const res = await makeDeedsRequest(confirmRegisterRequest, "confirm registration", "confirm registration");
+  return res;
 }
+

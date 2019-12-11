@@ -23,7 +23,7 @@ import * as Cookies from "js-cookie";
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
-import confirmRegister from "./../deeds/confirm-register";
+import { confirmRegistration } from "./../deeds";
 import syncify from "./../utils/syncify";
 
 const noConfEmail = 
@@ -53,7 +53,7 @@ export default function loadConfirmRegistration() {
 
     $("#submit-button").click(syncify(async (): BluebirdPromise<void> => {
       try {
-        await confirmRegister(<string>crInputBox.val());
+        await confirmRegistration(<string>crInputBox.val());
 
         // we're logged in
         window.location.href = "/sys/login";

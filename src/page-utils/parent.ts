@@ -23,8 +23,7 @@ import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
 import closeUtilities from "./hide-all";
-import getParent from "./../deeds/get-parent";
-import setParent from "./../deeds/post-parent";
+import { getParent, setParent } from "./../deeds";
 
 const inputBox = $("#parent-box");
 const parentBlock = $("#utility-parent-block");

@@ -133,6 +133,16 @@ function createPromiseReplacementTask(name: string, promiseName: string, libName
 createPromiseReplacementTask("then-promise", "ThenPromise", "promise", false);
 createPromiseReplacementTask("es6-promise", "Es6Promise", "es6-promise", true);
 
+// create a task to copy a file
+function createCopyTask(name: string, fr: string, to: string) {
+  gulp.task(name, () => {
+    return fs.createReadStream(fr).pipe(fs.createWriteStream(to));
+  });
+}
+
+createCopyTask("copy-over-deeds-index.js", "src/deeds/index.js", "dist/sources/deeds/index.js");
+createCopyTask("copy-over-requests.json", "src/deeds/requests.json", "dist/sources/deeds/requests.json");
+
 // lint typescript code
 gulp.task("lint", () => {
   return gulp.src("src/**/*.ts")
@@ -200,6 +210,8 @@ if (fullDeedsCompile) {
   preBrowserifyTasks.push("cleanup-deeds-typings");
 } else {
   tasks.splice(0, 0, "generate-deeds-typings");
+  preBrowserifyTasks.push("copy-over-deeds-index.js");
+  preBrowserifyTasks.push("copy-over-requests.json");
 }
 
 if (!includeCoreJs) {

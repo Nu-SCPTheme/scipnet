@@ -23,8 +23,8 @@ import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
 import closeUtilities from "./hide-all";
-import getRatingModule from "./../deeds/rating-module";
-import vote from "./../deeds/vote";
+
+import { getRatingModule, vote } from "./../deeds";
 
 export async function ratePage(rating: number): BluebirdPromise<void> {
   console.log(`Calling ratePage with rating ${rating}`);

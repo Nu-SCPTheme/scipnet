@@ -4,4 +4,6 @@ jquery/
 lib/
 bin/__pycache__
 
+src/deeds/index.d.ts
+
 mekhane-html-generation/

@@ -23,7 +23,7 @@ import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
 import closeUtilities from "./hide-all";
-import getSource from "./../deeds/get-source";
+import { getSource } from "./../deeds";
 
 // store blocks here for speed
 const utilityBlock = $("#utility-pagesrc-block");

@@ -26,9 +26,7 @@ import * as BluebirdPromise from "bluebird";
 import { flagFromString, Flag, Flags } from "./flags";
 import { PotentiallyCompromised } from "./../utils";
 
-import getRenderedRevision from "./../deeds/rendered-revision";
-import getRevision from "./../deeds/revision";
-import revertRevision from "./../deeds/revert-revision";
+import { getRenderedRevision, getRevision, revertToRevision } from "./../deeds";
 
 export class Revision extends PotentiallyCompromised {
   constructor(
@@ -95,6 +93,6 @@ export class Revision extends PotentiallyCompromised {
   async revert(): BluebirdPromise<void> {
     if (this.isCompromised) return;
 
-    await revertRevision(this.revKey);
+    await revertToRevision(this.revKey);
   }
 }

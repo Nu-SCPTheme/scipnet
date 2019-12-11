@@ -22,11 +22,9 @@
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
-import cancelEditLock from "./../deeds/cancel-edit-lock";
 import closeUtilities from "./hide-all";
-import getSource from "./../deeds/get-source";
-import setSource from "./../deeds/post-source";
-import setEditLock from "./../deeds/edit-lock";
+
+import { cancelEditLock, getSource, setSource, setEditLock } from "./../deeds";
 
 let currentlyTyping = false;
 let editlockTimeout: ReturnType<typeof setTimeout>;

@@ -23,7 +23,8 @@ import * as BluebirdPromise from "bluebird";
 
 import closeUtilities from "./hide-all";
 import getSlug from "./../slug";
-import rename from "./../deeds/rename";
+
+import { renamePage as rename } from "./../deeds";
 
 const renameBlock = $("#utility-rename-block");
 const renameBox = $("#rename-box");

@@ -23,7 +23,7 @@ import * as Cookies from "js-cookie";
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
-import register from "./../deeds/register";
+import { register } from "./../deeds";
 import syncify from "./../utils/syncify";
 
 // email regex

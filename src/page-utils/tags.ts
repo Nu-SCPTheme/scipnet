@@ -23,8 +23,7 @@ import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
 import closeUtilities from "./hide-all";
-import getTags from "./../deeds/get-tags";
-import setTags from "./../deeds/post-tags";
+import { getTags, setTags } from "./../deeds";
 
 // store the tag blocks here for speed purposes
 const tagBlock = $("#utility-tags-block");

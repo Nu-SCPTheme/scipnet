@@ -23,7 +23,7 @@ import * as Cookies from "js-cookie";
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
-import login from "./../deeds/login";
+import { login } from "./../deeds";
 import syncify from "./../utils/syncify";
 
 export default function setupLogin() {

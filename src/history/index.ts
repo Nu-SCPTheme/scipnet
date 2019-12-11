@@ -27,7 +27,7 @@ import { Pager } from "./../widgets/pager";
 import { Revision } from "./revision";
 
 import createRevisionList from "./revision-table";
-import getHistory from "./../deeds/history";
+import { getHistory } from "./../deeds";
 
 const revisionsPerPageOptions = [
   10,

@@ -8,7 +8,7 @@
     "plural-verb": "reset passwords",
     "body": [
       { "name": "email", "type": "string" }
-    ],
+    ]
   },
   {
     "name": "cancelEditLock",

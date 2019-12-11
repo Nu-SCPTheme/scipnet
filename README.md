@@ -62,6 +62,7 @@ If a smaller bundle is desired, setting `INCLUDE_CORE_JS` to `false` and `PROMIS
 The following environment variables can be set to modify the build process.
 
 * `CUSTOM_JQUERY` - Builds a custom version of the `jquery` library. This defaults to `true`, and will build a version of the library that excludes several unused features. In the event that it becomes necessary to use the stock version of `jquery`, this can be set to false.
+* `FULL_DEEDS_COMPILE` - Builds the DEEDS system statically rather than dynamically. Increases performance and compatibility at the cost of bundle size. Default is `false`.
 * `INCLUDE_CORE_JS` - Include the `core-js` library. The default for this is option is `true`. If set to `false`, the browserify bundle will not include `core-js`. This will reduce the size of the bundle by a significant amount; however, compatibility with older browsers will be lost.
 * `INCLUDE_HELPERS` - Toggles the `includeHelpers` option in tsconfig.json. The default for this is `true`.
 * `MINIFY` - Run the `terser` minification library to reduce the bundle's file size if set to `true`. See the Minification section above for more information. 

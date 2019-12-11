@@ -38,7 +38,7 @@ export default function loadConfirmRegistration() {
   const crBlock = $("#confirm-register-form");
   if (crBlock.length) {
     // check to see if there is a registration attempt cookie
-    const email = Cookies.get("registration-attempt-email");
+    const email = <string>Cookies.get("registration-attempt-email");
     if (!email) {
       crBlock.html(noConfEmail);
       return; 
@@ -53,7 +53,7 @@ export default function loadConfirmRegistration() {
 
     $("#submit-button").click(syncify(async (): BluebirdPromise<void> => {
       try {
-        await confirmRegistration(<string>crInputBox.val());
+        await confirmRegistration(<string>crInputBox.val(), email);
 
         // we're logged in
         window.location.href = "/sys/login";

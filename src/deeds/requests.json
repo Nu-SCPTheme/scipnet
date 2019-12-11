@@ -146,7 +146,7 @@
     "plural-verb": "reset passwords",
     "body": [
       { "name": "email", "type": "string" },
-      { "name" : "new-password", "type": "string" }
+      { "name" : "new-password", "type": "string", "param-name": "newPassword" }
     ]
   },
   {

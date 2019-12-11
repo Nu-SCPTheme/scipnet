@@ -70,13 +70,13 @@ export default function setupRegistration() {
       // check for confirmations
       if (email !== cEmail) {
         isError = true;
-        $().add(email).add(cEmail).css("border-color", "red");
+        $().add(emailInput).add(cEmailInput).css("border-color", "red");
         emailError.text("Emails do not match");
       }
 
       if (password !== cPassword) {
         isError = true;
-        $().add(password).add(cPassword).css("border-color", "red");
+        $().add(passwordInput).add(cPasswordInput).css("border-color", "red");
         passwordError.text("Passwords do not match");
       }
 

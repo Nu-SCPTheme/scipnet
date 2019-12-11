@@ -1,5 +1,16 @@
 [
   {
+    "name": "beginResetPassword",
+    "method": "reset-password",
+    "method-class": "auth",
+    "request-type": "POST",
+    "singular-verb": "reset your password",
+    "plural-verb": "reset passwords",
+    "body": [
+      { "name": "email", "type": "string" }
+    ],
+  },
+  {
     "name": "cancelEditLock",
     "method": "cancel-editlock",
     "method-class": "page",
@@ -16,17 +27,21 @@
     "singular-verb": "confirm registration",
     "plural-verb": "confirm registration",
     "body": [
-      { "name": "code", "type": "string" }
+      { "name": "code", "type": "string" },
+      { "name": "email", "type": "string" }
     ]
   },
   {
-    "name": "setEditLock",
-    "method": "edit-lock",
+    "name": "getHistory",
+    "method": "history",
     "method-class": "page",
-    "request-type": "POST",
-    "singular-verb": "set edit lock",
-    "plural-verb": "set edit locks",
-    "body": [ ]
+    "request-type": "GET",
+    "singular-verb": "retrieve the history",
+    "plural-verb": "retrieve the history",
+    "body": [
+      { "name": "page", "type": "number" },
+      { "name": "revisions-per-page", "type": "number", "param-name": "revisionsPerPage" }
+    ]
   },
   {
     "name": "getParent",
@@ -36,6 +51,37 @@
     "singular-verb": "get parent",
     "plural-verb": "get parents",
     "body": [ ]
+  },
+  {
+    "name": "getRatingModule",
+    "method": "rating-module",
+    "method-class": "page",
+    "request-type": "GET",
+    "singular-verb": "retrieve rating module",
+    "plural-verb": "retrieve rating modules",
+    "body": [ ]
+  },
+  {
+    "name": "getRenderedRevision",
+    "method": "rendered-revision",
+    "method-class": "page",
+    "request-type": "GET",
+    "singular-verb": "get the rendered revision",
+    "plural-verb": "get rendered revisions",
+    "body": [ 
+      { "name": "rev-key", "type": "number", "param-name": "revKey" }
+    ]
+  },
+  {
+    "name": "getRevision",
+    "method": "revision",
+    "method-class": "page",
+    "request-type": "GET",
+    "singular-verb": "retrieve revision",
+    "plural-verb": "retrieve revisions",
+    "body": [
+      { "name": "rev-key", "type": "number", "param-name": "revKey" }
+    ]
   },
   {
     "name": "getSource",
@@ -56,18 +102,6 @@
     "body": [ ]
   },
   {
-    "name": "getHistory",
-    "method": "history",
-    "method-class": "page",
-    "request-type": "GET",
-    "singular-verb": "retrieve the history",
-    "plural-verb": "retrieve the history",
-    "body": [
-      { "name": "page", "type": "number" },
-      { "name": "revisions-per-page", "type": "number", "param-name": "revisionsPerPage" }
-    ]
-  },
-  {
     "name": "login",
     "method": "login",
     "method-class": "auth",
@@ -78,6 +112,62 @@
       { "name": "username", "type": "string" },
       { "name": "password", "type": "string" }
     ]
+  },
+  {
+    "name": "register",
+    "method": "register",
+    "method-class": "auth",
+    "request-type": "POST",
+    "singular-verb": "register new user",
+    "plural-verb": "register new users",
+    "body": [ 
+      { "name": "username", "type": "string" },
+      { "name": "email", "type": "string" },
+      { "name": "password", "type": "string" }
+    ]
+  },
+  {
+    "name": "renamePage",
+    "method": "rename",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "rename page",
+    "plural-verb": "rename pages",
+    "body": [
+      { "name": "new-slug", "type": "string", "param-name": "newSlug" }
+    ]
+  },
+  {
+    "name": "resetPassword",
+    "method": "rename",
+    "method-class": "page",
+    "request-type": "PUT",
+    "singular-verb": "reset your password",
+    "plural-verb": "reset passwords",
+    "body": [
+      { "name": "email", "type": "string" },
+      { "name" : "new-password", "type": "string" }
+    ]
+  },
+  {
+    "name": "revertToRevision",
+    "method": "revert-revision",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "revert to past revision",
+    "plural-verb": "revert to past revisions",
+    "body": [
+      { "name": "rev-key", "type": "number", "param-name": "revKey" }
+    ]
+  },
+  {
+    "name": "setEditLock",
+    "method": "edit-lock",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "set edit lock",
+    "plural-verb": "set edit locks",
+    "body": [ ]
   },
   {
     "name": "setParent",
@@ -112,72 +202,6 @@
     "plural-verb": "set tags",
     "body": [ 
       { "name": "tags", "type": "Array<string>" }
-    ]
-  },
-  {
-    "name": "getRatingModule",
-    "method": "rating-module",
-    "method-class": "page",
-    "request-type": "GET",
-    "singular-verb": "retrieve rating module",
-    "plural-verb": "retrieve rating modules",
-    "body": [ ]
-  },
-  {
-    "name": "register",
-    "method": "register",
-    "method-class": "auth",
-    "request-type": "POST",
-    "singular-verb": "register new user",
-    "plural-verb": "register new users",
-    "body": [ 
-      { "name": "username", "type": "string" },
-      { "name": "email", "type": "string" },
-      { "name": "password", "type": "string" }
-    ]
-  },
-  {
-    "name": "renamePage",
-    "method": "rename",
-    "method-class": "page",
-    "request-type": "POST",
-    "singular-verb": "rename page",
-    "plural-verb": "rename pages",
-    "body": [
-      { "name": "new-slug", "type": "string", "param-name": "newSlug" }
-    ]
-  },
-  {
-    "name": "getRenderedRevision",
-    "method": "rendered-revision",
-    "method-class": "page",
-    "request-type": "GET",
-    "singular-verb": "get the rendered revision",
-    "plural-verb": "get rendered revisions",
-    "body": [ 
-      { "name": "rev-key", "type": "number", "param-name": "revKey" }
-    ]
-  },
-  {
-    "name": "revertToRevision",
-    "method": "revert-revision",
-    "method-class": "page",
-    "request-type": "POST",
-    "singular-verb": "revert to past revision",
-    "plural-verb": "revert to past revisions",
-    "body": [
-      { "name": "rev-key", "type": "number", "param-name": "revKey" }
-    ]
-  },
-  {
-    "name": "getRevision",
-    "method": "revision",
-    "method-class": "page",
-    "request-type": "GET",
-    "singular-verb": "retrieve revision",
-    "plural-verb": "retrieve revisions",
-    "body": [
-      { "name": "rev-key", "type": "number", "param-name": "revKey" }
     ]
   },
   {

@@ -26,6 +26,9 @@ import * as BluebirdPromise from "bluebird";
 import register from "./../deeds/register";
 import syncify from "./../utils/syncify";
 
+// email regex
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 export default function setupRegistration() {
   const registerBlock = $("#register-form");
   if (registerBlock.length) {
@@ -75,6 +78,13 @@ export default function setupRegistration() {
         isError = true;
         $().add(password).add(cPassword).css("border-color", "red");
         passwordError.text("Passwords do not match");
+      }
+
+      // make sure the email is proper
+      if (!isError && !emailRegex.test(email)) {
+        isError = true;
+        $().add(email).add(cEmail).css("border-color", "red");
+        emailError.text("Email is not a valid email address");
       }
 
       if (isError) {

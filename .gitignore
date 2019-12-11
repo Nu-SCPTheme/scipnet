@@ -2,5 +2,6 @@ node_modules
 dist/
 jquery/
 lib/
+bin/__pycache__
 
 mekhane-html-generation/

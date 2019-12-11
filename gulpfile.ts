@@ -174,7 +174,21 @@ gulp.task("uglify", () => {
 
 // build a replacement version of jquery
 gulp.task("custom-jquery", () => (
-  child_process.spawn("python3", ["bin/build-custom-jquery.py"], { stdio: "inherit" })
+  child_process.spawn("python3", ["bin/build_custom_jquery.py"], { stdio: "inherit" })
+));
+
+// build the deeds index.d.ts file
+gulp.task("generate-deeds-typings", () => (
+  child_process.spawn("python3", ["bin/generate_deeds_typings.py"], { stdio: "inherit" })
+));
+
+// build deeds with built in functions
+gulp.task("compile-deeds-typings", () => (
+  child_process.spawn("python3", ["bin/generate_deeds_typings.py", "compile"], { stdio: "inherit" })
+));
+
+gulp.task("cleanup-deeds-typings", () => (
+  child_process.spawn("python3", ["bin/generate_deeds_typings.py", "cleanup"], { stdio: "inherit" })
 ));
 
 let tasks: Array<any> = ["typescript", "browserify"];

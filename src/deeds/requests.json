@@ -1,0 +1,194 @@
+[
+  {
+    "name": "cancelEditLock",
+    "method": "cancel-editlock",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "cancel edit lock",
+    "plural-verb": "cancel edit locks",
+    "body": [] 
+  },
+  {
+    "name": "confirmRegistration",
+    "method": "confirm-register",
+    "method-class": "auth",
+    "request-type": "POST",
+    "singular-verb": "confirm registration",
+    "plural-verb": "confirm registration",
+    "body": [
+      { "name": "code", "type": "string" }
+    ]
+  },
+  {
+    "name": "setEditLock",
+    "method": "edit-lock",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "set edit lock",
+    "plural-verb": "set edit locks",
+    "body": [ ]
+  },
+  {
+    "name": "getParent",
+    "method": "parent",
+    "method-class": "page",
+    "request-type": "GET",
+    "singular-verb": "get parent",
+    "plural-verb": "get parents",
+    "body": [ ]
+  },
+  {
+    "name": "getSource",
+    "method": "source",
+    "method-class": "page",
+    "request-type": "GET",
+    "singular-verb": "get the page source",
+    "plural-verb": "get the page source",
+    "body": [ ]
+  },
+  {
+    "name": "getTags",
+    "method": "tags",
+    "method-class": "page",
+    "request-type": "GET",
+    "singular-verb": "get tags",
+    "plural-verb": "get tags",
+    "body": [ ]
+  },
+  {
+    "name": "getHistory",
+    "method": "history",
+    "method-class": "page",
+    "request-type": "GET",
+    "singular-verb": "retrieve the history",
+    "plural-verb": "retrieve the history",
+    "body": [
+      { "name": "page", "type": "number" },
+      { "name": "revisions-per-page", "type": "number", "param-name": "revisionsPerPage" }
+    ]
+  },
+  {
+    "name": "login",
+    "method": "login",
+    "method-class": "auth",
+    "request-type": "POST",
+    "singular-verb": "login",
+    "plural-verb": "login",
+    "body": [
+      { "name": "username", "type": "string" },
+      { "name": "password", "type": "string" }
+    ]
+  },
+  {
+    "name": "setParent",
+    "method": "parent",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "set parent",
+    "plural-verb": "set parents",
+    "body": [ 
+      { "name": "parents", "type": "Array<string>" }
+    ]
+  },
+  {
+    "name": "setSource",
+    "method": "source",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "edit page",
+    "plural-verb": "edit pages",
+    "body": [
+      { "name": "src", "type": "string" },
+      { "name": "title", "type": "string" },
+      { "name": "comment", "type": "string" }
+    ]
+  },
+  {
+    "name": "setTags",
+    "method": "tags",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "set tags",
+    "plural-verb": "set tags",
+    "body": [ 
+      { "name": "tags", "type": "Array<string>" }
+    ]
+  },
+  {
+    "name": "getRatingModule",
+    "method": "rating-module",
+    "method-class": "page",
+    "request-type": "GET",
+    "singular-verb": "retrieve rating module",
+    "plural-verb": "retrieve rating modules",
+    "body": [ ]
+  },
+  {
+    "name": "register",
+    "method": "register",
+    "method-class": "auth",
+    "request-type": "POST",
+    "singular-verb": "register new user",
+    "plural-verb": "register new users",
+    "body": [ 
+      { "name": "username", "type": "string" },
+      { "name": "email", "type": "string" },
+      { "name": "password", "type": "string" }
+    ]
+  },
+  {
+    "name": "renamePage",
+    "method": "rename",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "rename page",
+    "plural-verb": "rename pages",
+    "body": [
+      { "name": "new-slug", "type": "string", "param-name": "newSlug" }
+    ]
+  },
+  {
+    "name": "getRenderedRevision",
+    "method": "rendered-revision",
+    "method-class": "page",
+    "request-type": "GET",
+    "singular-verb": "get the rendered revision",
+    "plural-verb": "get rendered revisions",
+    "body": [ 
+      { "name": "rev-key", "type": "number", "param-name": "revKey" }
+    ]
+  },
+  {
+    "name": "revertToRevision",
+    "method": "revert-revision",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "revert to past revision",
+    "plural-verb": "revert to past revisions",
+    "body": [
+      { "name": "rev-key", "type": "number", "param-name": "revKey" }
+    ]
+  },
+  {
+    "name": "getRevision",
+    "method": "revision",
+    "method-class": "page",
+    "request-type": "GET",
+    "singular-verb": "retrieve revision",
+    "plural-verb": "retrieve revisions",
+    "body": [
+      { "name": "rev-key", "type": "number", "param-name": "revKey" }
+    ]
+  },
+  {
+    "name": "vote",
+    "method": "vote",
+    "method-class": "page",
+    "request-type": "POST",
+    "singular-verb": "vote on page",
+    "plural-verb": "vote on page",
+    "body": [
+      { "name": "rating", "type": "number" }
+    ]
+  }
+]

@@ -56,7 +56,7 @@ for deeds_function in deeds_functions:
   body.append(",".join(body_parts))
   body.append("}")
 
-  fn_signature = "export function {}({}): BluebirdPromise<DeedsSuccessResult>".format(deeds_function["name"], ",".join(args)) 
+  fn_signature = "export {}function {}({}): BluebirdPromise<DeedsSuccessResult>".format("async " if "compile" in sys.argv else "", deeds_function["name"], ",".join(args)) 
   fn = [fn_signature]
 
   if "compile" in sys.argv: 
@@ -81,13 +81,7 @@ if "compile" in sys.argv:
   shutil.copyfile("src/deeds/index.js", "src/deeds/index-backup.js")
   os.remove("src/deeds/index.js")
   with open("src/deeds/index.ts", "w") as f:
-    f.write("".join(deeds_typings))
-  
-  # run typescript
-  tsc = subprocess.Popen(["tsc", "src/deeds/index.ts"])
-  print(tsc.communicate()[0].decode("utf-8"))
-  if tsc.wait() != 0:
-    sys.exit(1)
+    f.write("".join(deeds_typings)) 
 else:
   with open("src/deeds/index.d.ts", "w") as f:
     f.write("".join(deeds_typings))

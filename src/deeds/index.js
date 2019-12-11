@@ -1,3 +1,5 @@
+"use strict";
+
 /*
  * deeds/index.js
  *

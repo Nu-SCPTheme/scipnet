@@ -46,16 +46,16 @@ export interface DeedsFunctionSummary {
 
 export function createDeedsFunction(summary: DeedsFunctionSummary): Function {
   // pre load function with needed variables
-  let deedsFunction = ((
+  let deedsFunction = (function(
     method: string,
     methodClass: DeedsMethodClass,
-    requestType: DeedsMethodType,
+    requestType: DeedsRequestType,
     singularVerb: string,
     pluralVerb: string,
     body: Array<DeedsParameter>
-  ) => {
+  ) {
     return async (...args: Array<any>): BluebirdPromise<DeedsSuccessResult> => {
-      let reqBody = {};
+      let reqBody: { [key: string]: string } = {};
       let i = 0;
       for (const parameter of body) {
         reqBody[parameter.name] = args[i];
@@ -65,16 +65,16 @@ export function createDeedsFunction(summary: DeedsFunctionSummary): Function {
       return await makeDeedsRequest({
         reqInformation: { method, methodClass, requestType },
         body: reqBody
-      }
+      }, singularVerb, pluralVerb);
     };
-  }(
+  })(
     summary.method, 
     summary["method-class"], 
     summary["request-type"],
     summary["singular-verb"],
     summary["plural-verb"],
     summary.body
-  ));
-  deedsFunction.name = summary.name;
+  );
+  //deedsFunction.name = summary.name;
   return deedsFunction;
 }

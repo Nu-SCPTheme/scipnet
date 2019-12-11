@@ -56,7 +56,7 @@ for deeds_function in deeds_functions:
   body.append(",".join(body_parts))
   body.append("}")
 
-  fn_signature = "export async function {}({}): BluebirdPromise<DeedsSuccessResult>".format(deeds_function["name"], ",".join(args)) 
+  fn_signature = "export function {}({}): BluebirdPromise<DeedsSuccessResult>".format(deeds_function["name"], ",".join(args)) 
   fn = [fn_signature]
 
   if "compile" in sys.argv: 

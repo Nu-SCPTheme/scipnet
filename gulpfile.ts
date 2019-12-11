@@ -43,6 +43,7 @@ const target = process.env.TS_TRANSPILE_TARGET || "es3";
 // other assorted env variables
 const debug = (process.env.DEBUG === undefined ? false : process.env.DEBUG === "true");
 const customJquery = (process.env.CUSTOM_JQUERY === undefined ? !debug : process.env.CUSTOM_JQUERY === "true");
+const fullDeedsCompile = (process.env.FULL_DEEDS_COMPILE === undefined ? false : process.env.FULL_DEEDS_COMPILE === "true");
 const includeCoreJs = (process.env.INCLUDE_CORE_JS === undefined ? true : process.env.INCLUDE_CORE_JS === "true");
 const includeHelpers = (process.env.INCLUDE_HELPERS === undefined ? true : process.env.INCLUDE_HELPERS === "true");
 const minify = (process.env.MINIFY === undefined ? false : process.env.MINIFY === "true");
@@ -193,6 +194,14 @@ gulp.task("cleanup-deeds-typings", () => (
 
 let tasks: Array<any> = ["typescript", "browserify"];
 let preBrowserifyTasks = [];
+
+if (fullDeedsCompile) {
+  tasks.splice(0, 0, "compile-deeds-typings");
+  preBrowserifyTasks.push("cleanup-deeds-typings");
+} else {
+  tasks.splice(0, 0, "generate-deeds-typings");
+}
+
 if (!includeCoreJs) {
   preBrowserifyTasks.push("remove-corejs");
 }
@@ -215,7 +224,7 @@ if (customJquery) {
 }
 
 // add preBrowserifyTasks to tasks
-tasks.splice(1, 0, preBrowserifyTasks);
+tasks.splice(2, 0, preBrowserifyTasks);
 
 // flatten the array, this isn't standard in TS but is imported above via core-js
 // @ts-ignore

@@ -51,9 +51,27 @@ Confirm a registration via a code sent by email.
 
 **Parameters:**
 * `code: string` - MUST be the code sent to the user via email.
+* `email: string` - MUST be the email that the code was sent to.
 
 **Results:**
 None
+
+**Errors:**
+* `invalid-code` - The code used was not valid.
+
+### `POST /sys/auth/confirm-reset-password`
+
+Confirm a request to reset the password via a code sent by email.
+
+**Parameters:**
+* `code: string` - MUST be the code sent to the user via email.
+* `email: string` - MUST be the email that the code was sent to.
+
+**Results:**
+None
+
+**Errors:**
+* `invalid-code` - The code used was not valid.
 
 ### `POST /sys/auth/login`
 
@@ -96,8 +114,34 @@ None
 **Errors:**
 * `username-already-exists` or `email-already-exists` - Either the user or the email already exist in the system.
 
+### `POST /sys/auth/reset-password`
+
+Begin the request to reset the password.
+
+**Parameters:**
+* `email: string`- MUST be the user's email registered to their account.
+
+**Results:**
+None
+
 **Errors:**
-* `invalid-code` - The code used was not valid.
+* `email-not-found` - The email was not found in the database.
+
+### `PUT /sys/auth/reset-password`
+
+Reset the user's password.
+
+**Parameters:**
+* `email: string` - MUST be email of the user whose password is to be reset.
+* `new-password: string` - MUST be the new password of the user. MUST not be identical to their current one.
+
+**Results:**
+None
+
+**Errors:**
+* `email-not-found` - The email was not found in the database.
+* `unauthorized` - The request was not proceeded by an earlier `POST /sys/auth/confirm-reset-password` request.
+* `passwords-identical` - The passwords chosen are identical.
 
 *Note:* For all operations of prefix `/sys/page`, the server MUST expect parameter `pagename` containing a string corresponding to the page's slug, and MUST return error `"page-not-found"` if this slug does not correspond to a page.
 

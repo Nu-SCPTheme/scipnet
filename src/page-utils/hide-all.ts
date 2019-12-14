@@ -28,7 +28,8 @@ const utilityBlockIds = [
   "utility-tags-block",
   "utility-history-block",
   "utility-pagesrc-block",
-  "utility-parent-block"
+  "utility-parent-block",
+  "utility-rename-block"
 ];
 
 const utilityBlockSelector = $.map(utilityBlockIds, (utilityBlockId: string): string => {

@@ -1,5 +1,5 @@
 /*
- * login/login.ts
+ * login/reset-password.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,36 +18,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// setup for the login form
-// TODO: create my own cookie setting framework
-import * as Cookies from "js-cookie";
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
+import * as Cookies from "js-cookie";
 
-import { login } from "./../deeds";
+import { resetPassword } from "./../deeds";
+
 import syncify from "./../utils/syncify";
 
-export default function setupLogin(): boolean {
-  const loginBlock = $("#login-form");
-  if (loginBlock.length) {
-    const usernameInput = $("#username");
-    const passwordInput = $("#password");
-    const rememberMe = $("#remember-me");
-  
+// form to finish the password reset process
+export default function setupResetPassword(): boolean {
+  const resetPasswordBlock = $("#reset-password");
+  if (resetPasswordBlock.length) {
+    const newPasswordInput = $("#new-password");
+    const cNewPasswordInput = $("#confirm-new-password");
+
+    const email = Cookies.get("reset-password-email");
+ 
     const errorMessage = $("#error-message");
 
     $("#submit-button").click(syncify(async (): BluebirdPromise<void> => {
+      const newPassword = <string>newPasswordInput.val();
+      const cNewPassword = <string>cNewPasswordInput.val();
+
+      if (newPassword !== cNewPassword) {
+        errorMessage.text("Passwords do not match");
+        return;
+      }
+
       try {
-        const { result } = await login(<string>usernameInput.val(), <string>passwordInput.val());
-        const authSession = <string>result["auth-session"];
-        const cookiePreserveTime = <number>result["cookie-preserve-time"];
-
-        Cookies.set("auth-session", authSession, { expires: cookiePreserveTime });
-
-        // reload to main page
-        window.location.href = "/";
+        await resetPassword(email, newPassword);
+        window.location.href = "/login";
       } catch (err) {
-        // deeds/basic-request already formats the errors for us
         errorMessage.text(err.message);
       }
     }));

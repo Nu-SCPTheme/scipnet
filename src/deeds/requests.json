@@ -32,6 +32,18 @@
     ]
   },
   {
+    "name": "confirmResetPassword",
+    "method": "confirm-reset-password",
+    "method-class": "auth",
+    "request-type": "POST",
+    "singular-verb": "confirm password reset request",
+    "plural-verb": "confirm password reset requests",
+    "body": [
+      { "name": "code", "type": "string" },
+      { "name": "email", "type": "string" }
+    ]
+  },
+  {
     "name": "getHistory",
     "method": "history",
     "method-class": "page",

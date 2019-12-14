@@ -19,12 +19,16 @@
  */
 
 // this function will simply run all of the other functions within this folder
+import loadBeginResetPassword from "./begin-reset-password";
 import setupConfirmRegistration from "./confirm-register";
+import setupResetPassword from "./reset-password";
 import setupLogin from "./login";
 import setupRegistration from "./register";
 
 export default function setupAuth() {
-  setupConfirmRegistration();
-  setupLogin();
-  setupRegistration();
+  if (loadBeginResetPassword()) return;
+  if (setupResetPassword()) return;
+  if (setupConfirmRegistration()) return;
+  if (setupLogin()) return;
+  if (setupRegistration()) return;
 }

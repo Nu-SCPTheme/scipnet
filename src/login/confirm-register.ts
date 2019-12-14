@@ -34,7 +34,7 @@ const noConfEmail =
 const enterCodeBegin = "Please enter the code recieved by the email address ";
 const enterCodeEnd = " into to finish registering your account.";
 
-export default function loadConfirmRegistration() {
+export default function loadConfirmRegistration(): boolean {
   const crBlock = $("#confirm-register-form");
   if (crBlock.length) {
     // check to see if there is a registration attempt cookie
@@ -61,5 +61,9 @@ export default function loadConfirmRegistration() {
         errorMessage.text(err.message); 
       }
     }));
+
+    return true;
   }
+
+  return false;
 }

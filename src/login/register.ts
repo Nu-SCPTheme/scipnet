@@ -29,7 +29,7 @@ import syncify from "./../utils/syncify";
 // email regex
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; // eslint-disable-line no-useless-escape
 
-export default function setupRegistration() {
+export default function setupRegistration(): boolean {
   const registerBlock = $("#register-form");
   if (registerBlock.length) {
     const usernameInput = $("#username");
@@ -102,5 +102,9 @@ export default function setupRegistration() {
         errorMessage.text(err.message);
       }
     }));
+
+    return true;
   }
+
+  return false;
 }

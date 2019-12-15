@@ -360,7 +360,7 @@ TODO: more errors
 Gets a user's info by its ID.
 
 **Parameters:**
-* `extended: boolean` - Whether or not the user info should include fields that are nullable.
+* `extended: boolean` - Whether or not the user info should include fields that are not required to display the user module.
 * `userid: number` - MUST be the ID of the user in the database
 
 **Results:**
@@ -374,7 +374,7 @@ Gets a user's info by its ID.
 Gets a user's info by its username.
 
 **Parameters:**
-* `extended: boolean` - Whether or not the user info should include fields that are nullable.
+* `extended: boolean` - Whether or not the user info should include fields that are not required to display the user module.
 * `username: string` - MUST be the username of the user in the database
 
 **Results:**

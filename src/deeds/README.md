@@ -360,6 +360,7 @@ TODO: more errors
 Gets a user's info by its ID.
 
 **Parameters:**
+* `extended: boolean` - Whether or not the user info should include fields that are nullable.
 * `userid: number` - MUST be the ID of the user in the database
 
 **Results:**
@@ -373,7 +374,8 @@ Gets a user's info by its ID.
 Gets a user's info by its username.
 
 **Parameters:**
-* `username` - MUST be the username of the user in the database
+* `extended: boolean` - Whether or not the user info should include fields that are nullable.
+* `username: string` - MUST be the username of the user in the database
 
 **Results:**
 * `user-info: UserInfo` - Information regarding the selected user.

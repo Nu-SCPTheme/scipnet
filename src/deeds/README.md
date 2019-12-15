@@ -346,13 +346,13 @@ Rate the page.
 Sets new information for a user.
 
 **Parameters:**
-*`user-info: UserInfo` - Object containing changes in the user's information. Also contains the user id used to select the user.
+* `user-info: UserInfo` - Object containing changes in the user's information. Also contains the user id used to select the user.
 
 **Results:**
 None
 
 **Errors:**
-*`user-not-found` - The user ID did not correspond to a user in the database.
+* `user-not-found` - The user ID did not correspond to a user in the database.
 TODO: more errors
 
 ### `GET /sys/user/info/by-id`
@@ -360,23 +360,23 @@ TODO: more errors
 Gets a user's info by its ID.
 
 **Parameters:**
-*`userid: number` - MUST be the ID of the user in the database
+* `userid: number` - MUST be the ID of the user in the database
 
 **Results:**
-*`user-info: UserInfo` - Information regarding the selected user.
+* `user-info: UserInfo` - Information regarding the selected user.
 
 **Errors:**
-*`user-not-found` - The user ID did not correspond to a user in the database.
+* `user-not-found` - The user ID did not correspond to a user in the database.
 
 ### `GET /sys/user/info/by-username`
 
 Gets a user's info by its username.
 
 **Parameters:**
-*`username` - MUST be the username of the user in the database
+* `username` - MUST be the username of the user in the database
 
 **Results:**
-*`user-info: UserInfo` - Information regarding the selected user.
+* `user-info: UserInfo` - Information regarding the selected user.
 
 **Errors:**
-*`user-not-found` - The username did not correspond to a user in the database.
+* `user-not-found` - The username did not correspond to a user in the database.

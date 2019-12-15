@@ -7,15 +7,15 @@ User information will be sent from the server to the client in the following JSO
   "userid": number,
   "username": string,
   "profile-picture-url": string | null;
-  "current-role": number; // corresponds to role ID
+  "current-role": number | null; // corresponds to role ID
   
   "realname": string | null;
   "gender": string | null;
   "website": string | null;
-  "joined-site": string; // ISO8601 date
+  "joined-site": string | null; // ISO8601 date
   "about-me": string | null;
   "from": string | null;
-  "role-description": string;
+  "role-description": string | null;
 }
 ```
 

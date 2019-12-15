@@ -50,6 +50,7 @@ export default function loadBeginResetPassword(): boolean {
         emailInput.addClass("vanished");
         codeInput.removeClass("vanished");
  
+        submitButton.off("click");
         ((em: string) => { submitButton.click(syncify(async (): BluebirdPromise<void> => {
           const code = <string>codeInput.val();
 

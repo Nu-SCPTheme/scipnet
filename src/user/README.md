@@ -7,7 +7,7 @@ User information will be sent from the server to the client in the following JSO
   "userid": number,
   "username": string,
   "profile-picture-url": string | null;
-  "current-role": number; // corresponds to role ID
+  "current-role": number | null; // corresponds to role ID
   
   "realname": string | null;
   "gender": string | null;

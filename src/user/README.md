@@ -15,7 +15,7 @@ User information will be sent from the server to the client in the following JSO
   "joined-site": string; // ISO8601 date
   "about-me": string | null;
   "from": string | null;
-  "role-description": string;
+  "role-description": string | null;
 }
 ```
 

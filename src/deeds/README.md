@@ -378,7 +378,11 @@ Gets a user's info by its username.
 * `username: string` - MUST be the username of the user in the database
 
 **Results:**
+<<<<<<< HEAD
 * `user-info: [UserInfo](https://github.com/Nu-SCPTheme/scipnet/blob/master/src/user/README.md)` - Information regarding the selected user.
+=======
+* `user-info: UserInfo` - Information regarding the selected user.
+>>>>>>> ecc56c10207d5de2967596bae3159de347c1ed39
 
 **Errors:**
 * `user-not-found` - The username did not correspond to a user in the database.

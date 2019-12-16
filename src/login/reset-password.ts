@@ -20,8 +20,8 @@
 
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
-import * as Cookies from "js-cookie";
 
+import { deleteCookie, getCookie } from "./../cookies";
 import { resetPassword } from "./../deeds";
 
 import syncify from "./../utils/syncify";
@@ -33,7 +33,7 @@ export default function setupResetPassword(): boolean {
     const newPasswordInput = $("#new-password");
     const cNewPasswordInput = $("#confirm-new-password");
 
-    const email = Cookies.get("reset-password-email");
+    const email = getCookie("reset-password-email");
  
     const errorMessage = $("#error-message");
 
@@ -48,6 +48,7 @@ export default function setupResetPassword(): boolean {
 
       try {
         await resetPassword(email, newPassword);
+        deleteCookie("reset-password-email");
         window.location.href = "/login";
       } catch (err) {
         errorMessage.text(err.message);

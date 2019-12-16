@@ -19,12 +19,12 @@
  */
 
 // setup for the login form
-// TODO: create my own cookie setting framework
-import * as Cookies from "js-cookie";
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
 import { login } from "./../deeds";
+import { setCookie } from "./../cookies";
+
 import syncify from "./../utils/syncify";
 
 export default function setupLogin(): boolean {
@@ -42,7 +42,7 @@ export default function setupLogin(): boolean {
         const authSession = <string>result["auth-session"];
         const cookiePreserveTime = <number>result["cookie-preserve-time"];
 
-        Cookies.set("auth-session", authSession, { expires: cookiePreserveTime });
+        setCookie("auth-session", authSession, cookiePreserveTime);
 
         // reload to main page
         window.location.href = "/";

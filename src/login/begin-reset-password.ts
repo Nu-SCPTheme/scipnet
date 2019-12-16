@@ -20,9 +20,9 @@
 
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
-import * as Cookies from "js-cookie";
 
 import { beginResetPassword, confirmResetPassword } from "./../deeds";
+import { setCookie } from "./../cookies";
 
 import syncify from "./../utils/syncify";
 
@@ -58,7 +58,7 @@ export default function loadBeginResetPassword(): boolean {
             await confirmResetPassword(code, em);
 
             // successful, set email cookie and move on
-            Cookies.set("reset-password-email", em, { expires: 7 * 864000 });
+            setCookie("reset-password-email", em, 7);
             window.location.href = "/reset-password";
           } catch(err) {
             errorMessage.text(err.message);

@@ -19,11 +19,12 @@
  */
 
 // setup the registration form
-import * as Cookies from "js-cookie";
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
 import { register } from "./../deeds";
+import { setCookie } from "./../cookies";
+
 import syncify from "./../utils/syncify";
 
 // email regex
@@ -94,7 +95,7 @@ export default function setupRegistration(): boolean {
       try {
         await register(username, email, password);
         
-        Cookies.set("registration-attempt-email", email, { expires: 7 * 864000 });
+        setCookie("registration-attempt-email", email, 7);
 
         // go to confirmation page
         window.location.href = "/sys/confirm-register";

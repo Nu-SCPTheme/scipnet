@@ -346,7 +346,7 @@ Rate the page.
 Sets new information for a user.
 
 **Parameters:**
-* `user-info: UserInfo` - Object containing changes in the user's information. Also contains the user id used to select the user.
+* `user-info: [UserInfo](https://github.com/Nu-SCPTheme/scipnet/blob/master/src/user/README.md)` - Object containing changes in the user's information. Also contains the user id used to select the user.
 
 **Results:**
 None
@@ -364,7 +364,7 @@ Gets a user's info by its ID.
 * `userid: number` - MUST be the ID of the user in the database
 
 **Results:**
-* `user-info: UserInfo` - Information regarding the selected user.
+* `user-info: [UserInfo](https://github.com/Nu-SCPTheme/scipnet/blob/master/src/user/README.md)` - Information regarding the selected user.
 
 **Errors:**
 * `user-not-found` - The user ID did not correspond to a user in the database.
@@ -378,7 +378,7 @@ Gets a user's info by its username.
 * `username: string` - MUST be the username of the user in the database
 
 **Results:**
-* `user-info: UserInfo` - Information regarding the selected user.
+* `user-info: [UserInfo](https://github.com/Nu-SCPTheme/scipnet/blob/master/src/user/README.md)` - Information regarding the selected user.
 
 **Errors:**
 * `user-not-found` - The username did not correspond to a user in the database.

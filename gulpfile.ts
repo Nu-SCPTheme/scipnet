@@ -43,7 +43,6 @@ const target = process.env.TS_TRANSPILE_TARGET || "es3";
 // other assorted env variables
 const debug = (process.env.DEBUG === undefined ? false : process.env.DEBUG === "true");
 const customJquery = (process.env.CUSTOM_JQUERY === undefined ? !debug : process.env.CUSTOM_JQUERY === "true");
-const fullDeedsCompile = (process.env.FULL_DEEDS_COMPILE === undefined ? false : process.env.FULL_DEEDS_COMPILE === "true");
 const includeCoreJs = (process.env.INCLUDE_CORE_JS === undefined ? true : process.env.INCLUDE_CORE_JS === "true");
 const includeHelpers = (process.env.INCLUDE_HELPERS === undefined ? true : process.env.INCLUDE_HELPERS === "true");
 const minify = (process.env.MINIFY === undefined ? false : process.env.MINIFY === "true");
@@ -126,7 +125,7 @@ function createPromiseReplacementTask(name: string, promiseName: string, libName
     createReplaceOnAllTask(mrName, `require("${libName}");`, `require("${libName}").Promise;`);
     tasks.push(mrName);
   }
-  
+
   gulp.task(name, gulp.series(tasks));
 }
 
@@ -136,7 +135,7 @@ createPromiseReplacementTask("es6-promise", "Es6Promise", "es6-promise", true);
 // create a task to copy a file
 function createCopyTask(name: string, fr: string, to: string) {
   gulp.task(name, () => {
-    return fs.createReadStream(fr).pipe(fs.createWriteStream(to));
+      return fs.createReadStream(fr).pipe(fs.createWriteStream(to));
   });
 }
 
@@ -145,74 +144,56 @@ createCopyTask("copy-over-requests.json", "src/deeds/requests.json", "dist/sourc
 
 // lint typescript code
 gulp.task("lint", () => {
-  return gulp.src("src/**/*.ts")
+    return gulp.src("src/**/*.ts")
     .pipe(eslint())
     .pipe(eslint.formatEach("compact", process.stderr))
     .pipe(eslint.failAfterError());
-});
+    });
 
 // compile typescript to javascript
 gulp.task("typescript", () => {
-  createDir("dist");
-  createDir("dist/sources");
-  return gulp.src("src/**/*.ts")
+    createDir("dist");
+    createDir("dist/sources");
+    return gulp.src("src/**/*.ts")
     .pipe(tsProject())
     .pipe(gulp.dest("dist/sources"));
-});
+    });
 
 // bundle all javscript files into one package
 gulp.task("browserify", () => {
-  createDir("dist");
-  return browserify("dist/sources/_entry.js")
+    createDir("dist");
+    return browserify("dist/sources/_entry.js")
     .transform("babelify", { presets: ["@babel/preset-env"] })
     .bundle()
     .pipe(fs.createWriteStream("dist/bundle.js"));
-});
+    });
 
 // minify the resulting bundle
 gulp.task("uglify", () => {
-  createDir("dist");
-  return gulp.src("dist/bundle.js")
+    createDir("dist");
+    return gulp.src("dist/bundle.js")
     .pipe(sourcemaps.init())
     .pipe(terser({
-      "compress": {
-        "properties": false
-      }
-    }))
+          "compress": {
+          "properties": false
+          }
+          }))
     .pipe(sourcemaps.write("./"))
     .pipe(gulp.dest("dist"));
-});
+    });
 
 // build a replacement version of jquery
 gulp.task("custom-jquery", () => (
-  child_process.spawn("python3", ["bin/build_custom_jquery.py"], { stdio: "inherit" })
-));
+      child_process.spawn("python3", ["bin/build_custom_jquery.py"], { stdio: "inherit" })
+      ));
 
 // build the deeds index.d.ts file
 gulp.task("generate-deeds-typings", () => (
-  child_process.spawn("python3", ["bin/generate_deeds_typings.py"], { stdio: "inherit" })
+      child_process.spawn("python3", ["bin/generate_deeds_typings.py"], { stdio: "inherit" })
 ));
 
-// build deeds with built in functions
-gulp.task("compile-deeds-typings", () => (
-  child_process.spawn("python3", ["bin/generate_deeds_typings.py", "compile"], { stdio: "inherit" })
-));
-
-gulp.task("cleanup-deeds-typings", () => (
-  child_process.spawn("python3", ["bin/generate_deeds_typings.py", "cleanup"], { stdio: "inherit" })
-));
-
-let tasks: Array<any> = ["typescript", "browserify"];
-let preBrowserifyTasks = [];
-
-if (fullDeedsCompile) {
-  tasks.splice(0, 0, "compile-deeds-typings");
-  preBrowserifyTasks.push("cleanup-deeds-typings");
-} else {
-  tasks.splice(0, 0, "generate-deeds-typings");
-  preBrowserifyTasks.push("copy-over-deeds-index.js");
-  preBrowserifyTasks.push("copy-over-requests.json");
-}
+let tasks: Array<any> = ["generate-deeds-typings", "typescript", "browserify"];
+let preBrowserifyTasks: Array<any> = [gulp.parallel(["copy-over-deeds-index.js", "copy-over-requests.json"])];
 
 if (!includeCoreJs) {
   preBrowserifyTasks.push("remove-corejs");

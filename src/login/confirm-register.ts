@@ -19,11 +19,11 @@
  */
 
 // setup the form to confirm registration
-import * as Cookies from "js-cookie";
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
 import { confirmRegistration } from "./../deeds";
+import { deleteCookie, getCookie } from "./../cookies";
 import syncify from "./../utils/syncify";
 
 const noConfEmail = 
@@ -38,7 +38,7 @@ export default function loadConfirmRegistration(): boolean {
   const crBlock = $("#confirm-register-form");
   if (crBlock.length) {
     // check to see if there is a registration attempt cookie
-    const email = <string>Cookies.get("registration-attempt-email");
+    const email = getCookie("registration-attempt-email");
     if (!email) {
       crBlock.html(noConfEmail);
       return; 
@@ -56,6 +56,7 @@ export default function loadConfirmRegistration(): boolean {
         await confirmRegistration(<string>crInputBox.val(), email);
 
         // we're logged in
+        deleteCookie("registration-attempt-email");
         window.location.href = "/sys/login";
       } catch (err) {
         errorMessage.text(err.message); 

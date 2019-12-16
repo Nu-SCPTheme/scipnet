@@ -114,6 +114,30 @@
     "body": [ ]
   },
   {
+    "name": "getUserInfoById",
+    "method": "info/by-id",
+    "method-class": "user",
+    "request-type": "GET",
+    "singular-verb": "get user info",
+    "plural-verb": "get user info",
+    "body": [
+      { "name": "extended", "type": "boolean" },
+      { "name": "userid", "type": "number" }
+    ]
+  },
+  {
+    "name": "getUserInfoByUsername",
+    "method": "info/by-username",
+    "method-class": "user",
+    "request-type": "GET",
+    "singular-verb": "get user info",
+    "plural-verb": "get user info",
+    "body": [
+       { "name": "extended", "type": "boolean" },
+       { "name": "username", "type": "string" }
+    ]
+  },
+  {
     "name": "login",
     "method": "login",
     "method-class": "auth",
@@ -214,6 +238,17 @@
     "plural-verb": "set tags",
     "body": [ 
       { "name": "tags", "type": "Array<string>" }
+    ]
+  },
+  {
+    "name": "setUserInfo",
+    "method": "info",
+    "method-class": "user",
+    "request-type": "POST",
+    "singular-verb": "set user info",
+    "plural-verb": "set user info",
+    "body": [
+      { "name": "user-info", "type": "ExtendedUserInfo", "param-name": "userInfo" }
     ]
   },
   {

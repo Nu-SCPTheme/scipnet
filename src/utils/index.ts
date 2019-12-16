@@ -26,42 +26,7 @@ export type Nullable<T> = T | null;
 export async function timeout(ms: number): BluebirdPromise<void> {
   return new BluebirdPromise((resolve: () => void) => {
     setTimeout(resolve, ms);
-  }); 
-}
-
-// potentially compromised object- e.g. bad data may be put into it
-export class PotentiallyCompromised {
-  public isCompromised: boolean;
-  protected continueIfCompromised: boolean;
-
-  constructor() {
-    this.isCompromised = false;
-    this.continueIfCompromised = false;
-  }
-
-  protected deserializeProperty<TIn, TOut>(
-    propName: string,
-    input: TIn,
-    converter: (input: TIn) => TOut = x => <TOut>(<any>x),
-    constraint: (input: TOut) => boolean = x => true
-  ) {
-    if (!this.continueIfCompromised && this.isCompromised) {
-      return;
-    }
-
-    // attempt to get a property
-    try {
-      const val = converter(input); 
-      if (!val || !constraint(val)) {
-        throw new Error(`Value ${val} does not meet constraints`);
-      }
-
-      (<any>this)[propName] = val;
-    } catch (err) {
-      console.error(`An error occurred during deserialization: ${err}`);
-      this.isCompromised = true;
-    }
-  } 
+  });
 }
 
 // make a closure out of a class method

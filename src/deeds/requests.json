@@ -248,7 +248,7 @@
     "singular-verb": "set user info",
     "plural-verb": "set user info",
     "body": [
-      { "name": "user-info", "type": "ExtendedUserInfo", "param-name": "userInfo" }
+      { "name": "user-info", "type": "UserInfo", "param-name": "userInfo" }
     ]
   },
   {

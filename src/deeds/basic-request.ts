@@ -25,10 +25,11 @@ import * as BluebirdPromise from "bluebird";
 
 import getSlug from "./../slug";
 import { Nullable } from "./../utils";
+import { UserInfo } from "./../user/info";
 
 export type DeedsRequestType = "GET" | "POST" | "PUT" | "DELETE";
 
-export type DeedsDataTypeSingular = string | number | boolean | null;
+export type DeedsDataTypeSingular = string | number | boolean | UserInfo | null;
 export type DeedsArrayDataType = Array<DeedsDataTypeSingular>;
 export type DeedsDictDataType = { [key: string]: DeedsDataTypeSingular | DeedsArrayDataType };
 export type DeedsDataType = DeedsDataTypeSingular | DeedsArrayDataType | DeedsDictDataType;

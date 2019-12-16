@@ -34,6 +34,8 @@ import setupAuth from "./login";
 import setupMarkdown from "./markdown";
 import setupPageUtils from "./page-utils";
 
+import { setupUserTrigger } from "./user/user-module";
+
 // document onload
 $(() => {
   console.log("Initialize SCIPNET onload scripts...");
@@ -41,4 +43,5 @@ $(() => {
   setupMarkdown();
   setupAuth();
   setupPageUtils();
+  setupUserTrigger();
 });

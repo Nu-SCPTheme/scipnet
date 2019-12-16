@@ -24,7 +24,7 @@
 import * as BluebirdPromise from "bluebird";
 
 import { flagFromString, Flag, Flags } from "./flags";
-import { PotentiallyCompromised } from "./../utils";
+import { passThruNumber, PotentiallyCompromised, stringToDate } from "./../utils/potentially-compromised";
 
 import { getRenderedRevision, getRevision, revertToRevision } from "./../deeds";
 
@@ -48,13 +48,13 @@ export class Revision extends PotentiallyCompromised {
     rev.deserializeProperty<number, number>(
       "revKey", 
       obj["rev-key"] || obj.revKey, 
-      (x: number): number => x, 
+      passThruNumber, 
       (x: number): boolean => x > 0
     );
     rev.deserializeProperty<number, number>(
       "revId", 
       obj["rev-id"] === undefined ? obj.revId : obj["rev-id"],
-      (x: number): number => x,
+      passThruNumber,
       (x: number): boolean => (x >= 0)
     );
     rev.deserializeProperty<string, Flag>(
@@ -66,7 +66,7 @@ export class Revision extends PotentiallyCompromised {
     rev.deserializeProperty<string, Date>(
       "editedOn", 
       obj["edited-on"] || obj.editedOn,
-      (x: string): Date => new Date(x)
+      stringToDate
     );
     rev.deserializeProperty<string, string>("comment", obj.comment);
 

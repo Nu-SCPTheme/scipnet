@@ -184,15 +184,20 @@ gulp.task("uglify", () => {
 
 // build a replacement version of jquery
 gulp.task("custom-jquery", () => (
-      child_process.spawn("python3", ["bin/build_custom_jquery.py"], { stdio: "inherit" })
-      ));
+  child_process.spawn("python3", ["bin/build_custom_jquery.py"], { stdio: "inherit" })
+));
+
+// build the username module code
+gulp.task("username-module", () => (
+  child_process.spawn("python3", ["bin/build_scp_username_module.py"], { stdio: "inherit" })
+));
 
 // build the deeds index.d.ts file
 gulp.task("generate-deeds-typings", () => (
-      child_process.spawn("python3", ["bin/generate_deeds_typings.py"], { stdio: "inherit" })
+  child_process.spawn("python3", ["bin/generate_deeds_typings.py"], { stdio: "inherit" })
 ));
 
-let tasks: Array<any> = ["generate-deeds-typings", "typescript", "browserify"];
+let tasks: Array<any> = [gulp.parallel(["generate-deeds-typings", "username-module"]), "typescript", "browserify"];
 let preBrowserifyTasks: Array<any> = [gulp.parallel(["copy-over-deeds-index.js", "copy-over-requests.json"])];
 
 if (!includeCoreJs) {

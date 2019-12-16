@@ -46,7 +46,6 @@ excluded_modules = [
   "dimensions",
   "effects",
   "events/trigger",
-  "offset",
   "exports"
 ]
 

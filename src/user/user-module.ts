@@ -23,6 +23,7 @@ import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
 import { getUserInfoById as uiById, getUserInfoByUsername as uiByName } from "./../deeds";
+import { Modal, ModalButton } from "./../modal";
 import { Nullable } from "./../utils";
 import { UserInfo, UserInformation, ExtendedUserInformation } from "./info";
 
@@ -112,9 +113,14 @@ export function setupUserTrigger() {
       // spawn the hoverer
       promise.then((hoverer: JQuery) => {
         hoverer.removeClass("vanished")
-          // you can pass an object into the CSS function, but typescript doesn't seem to think so
-          // @ts-ignore
-          .css(jThis.find("img").position());
+          // you can pass an object into the CSS function
+          .css(((item: JQuery): { [key: string]: string} => { 
+            const pos = jThis.find("img").position();
+            return {
+              left: `${pos.left}px`,
+              top: `${pos.top}px`
+            };
+          })(jThis));
       }).catch((err: Error) => { }); // just absorb any errors
     }, function(this: HTMLElement) {
       const jThis = $(this);
@@ -123,7 +129,48 @@ export function setupUserTrigger() {
       } 
 
       $(`#avatar-hover-container #avatar-${jThis.attr("id")}`).addClass("vanished");
-    }).click(() => {
-      // TODO: modal setup 
+    }).click(function(this: HTMLElement) {
+      getUserInfoById(parseInt($(this).attr("id"), 10), true).then((userInfo: UserInformation) => {
+        const user = <ExtendedUserInformation> userInfo;
+
+        // generate a modal
+        const modal = new Modal(
+          "User info",
+          $("<div></div>")
+            .append($(`<img src="${user["profile-picture-url"]}" alt=""></img>`)
+              .attr("style", "float:left; padding: 2px 8px; background-color: #FFF;")) // eslint-disable-line indent
+            .append($(`<h1>${user.username}</h1>`))
+            .append($("<table>")
+              .append(((): JQuery => {
+                // user characteristics
+                const body = $("<tbody>");
+                function appendRow(name: string, value: string) {
+                  $(`<tr><td><b>${name}</b></td><td>${value}</td></tr>`).appendTo(body);
+                }
+
+                if (user.realname) {
+                  appendRow("Real name", user.realname);
+                }
+                if (user.gender) {
+                  appendRow("Gender", user.gender);
+                }
+                if (user["from"]) {
+                  appendRow("From", user["from"]);
+                }
+                if (user.website) {
+                  appendRow("Website", user.website);
+                }
+                if (user["joined-site"]) {
+                  appendRow("User since:", user.joinedSite.toUTCString()); // TODO: standardize this
+                }
+                if (user["role-description"]) {
+                  appendRow("Role on this site", user["role-description"]);
+                }
+
+                return body;
+              })())),
+          [ new ModalButton("Close window", "close") ]
+        );
+      });
     }).addClass(".trigger-setup");
 }

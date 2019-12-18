@@ -21,7 +21,6 @@
 // exports a function that closes out all other utility blocks
 import * as $ from "jquery";
 
-// the map statement stores jquery here to reduce load times
 const utilityBlockIds = [
   "utility-rating-module",
   "utility-edit-block",
@@ -32,6 +31,7 @@ const utilityBlockIds = [
   "utility-rename-block"
 ];
 
+// construct a selector to select all of the utilities
 const utilityBlockSelector = $.map(utilityBlockIds, (utilityBlockId: string): string => {
   return `#${utilityBlockId}`;
 }).join(", ");

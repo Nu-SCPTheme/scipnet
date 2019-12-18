@@ -32,9 +32,9 @@ export async function timeout(ms: number): BluebirdPromise<void> {
 // make a closure out of a class method
 export function classMethodToClosure(obj: any, methodName: string): Function {
   return (function(instance: any): Function {
-    const func = obj.prototype[methodName];
+    const func = instance.prototype[methodName];
     return function(): any { 
-      return func.apply(obj, arguments);
+      return func.apply(instance, arguments);
     };
   })(obj);
 }

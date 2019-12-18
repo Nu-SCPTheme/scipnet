@@ -40,8 +40,6 @@ return_code = subprocess.call(["npm", "i"])
 log("Invoking grunt to build jquery...")
 
 excluded_modules = [
-  "ajax/jsonp",
-  "ajax/script",
   "css/showHide",
   "dimensions",
   "effects",

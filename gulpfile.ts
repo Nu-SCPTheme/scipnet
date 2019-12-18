@@ -197,7 +197,7 @@ gulp.task("generate-deeds-typings", () => (
   child_process.spawn("python3", ["bin/generate_deeds_typings.py"], { stdio: "inherit" })
 ));
 
-let tasks: Array<any> = [gulp.parallel(["generate-deeds-typings", "username-module"]), "typescript", "browserify"];
+let tasks: Array<any> = [gulp.parallel(["generate-deeds-typings"/*, "username-module"*/]), "typescript", "browserify"];
 let preBrowserifyTasks: Array<any> = [gulp.parallel(["copy-over-deeds-index.js", "copy-over-requests.json"])];
 
 if (!includeCoreJs) {

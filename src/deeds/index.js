@@ -21,7 +21,7 @@
  */
 
 /*
-  An explanation for this file's reasoning.
+  An explanation for this file.
 
 In the past versions of scipnet, each DEEDS request had its own file. Look back in the Git history to see this
 in action. There were two problems with this system:
@@ -35,7 +35,7 @@ in action. There were two problems with this system:
 
 To counteract this, there were two possible options.
 
- 1). Put every DEEDS request type into one file. This would be the fastest option, but it would result in a large,
+ 1). Put every DEEDS request into one file. This would be the fastest option, but it would result in a large,
      hard-to-edit file that would somewhat ameliorate, but not entirely solve, the size issue.
  2). Summarize every DEEDS request type via a JSON file (in this directory as "requests.json") and create
      functions at runtime based off of them.
@@ -43,10 +43,7 @@ To counteract this, there were two possible options.
 I have chosen to use Option 2, since in most modern browsers the creation of these functions will not incur a
 noticeable loss in runtime performance. In the "bin" directory in the git root, there is a file called
 "generate-deeds-typings.py" which will read requests.json and generate a type bindings file to ensure type
-safety. Alternatively, if performance is a concern (e.g. for older browsers), "compile-deeds-typings.py" can be
-run after Typescript compilation to roll every DEEDS request into one file. These should both be called by the
-gulp system.
-
+safety. 
 */
 
 const { createDeedsFunction } = require("./deeds-function");

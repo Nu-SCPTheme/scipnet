@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "target": "es3",
+    "target": "es5",
     "removeComments": false,
     "sourceMap": true,
     "strict": true,
@@ -13,6 +13,7 @@
     "module": "commonjs",
     "downlevelIteration": true,
     "noImplicitAny": true,
+    "importHelpers": true,
 
     "lib": ["es6", "dom"],
     "noLib": false,

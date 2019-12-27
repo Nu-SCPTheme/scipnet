@@ -37,15 +37,16 @@ export interface PagerState {
 
 // a button within a pager
 interface PagerButtonProps {
-  text: string;
+  onClick: () => void;
   selected: boolean;
+  text: string;
 }
 
 function PagerButton(props: PagerButtonProps) {
   if (props.selected) {
-    return <span class="current">{props.text}</span>;
+    return <span class="current" onClick={props.onClick}>{props.text}</span>;
   } else {
-    return <span class="target"><a>{props.text}</a></span>;
+    return <span class="target"> onClick={props.onClick}<a>{props.text}</a></span>;
   }
 }
 
@@ -55,7 +56,7 @@ export class Pager extends Component<PagerProps, PagerState> {
     super(props);
    
     this.state = {
-      currentPage: this.props.totalPages
+      currentPage: this.props.startPage
     }
   }
 
@@ -69,8 +70,8 @@ export class Pager extends Component<PagerProps, PagerState> {
   }
 
   doPageSwitch(page: number) {
-    this.onPageSwitch(page).then(() => {
-      this.setState((state: PagerState): PagerState) => {
+    this.props.onPageSwitch(page).then(() => {
+      this.setState((state: PagerState): PagerState => {
         return { currentPage: page };
       });
     });
@@ -91,19 +92,14 @@ export class Pager extends Component<PagerProps, PagerState> {
         selectedPages.push(pageNum - i);
       }
     }
-    selectedPages = selectedPages.filter((x: number): boolean => x >= 0 && x < totalPageNum); 
-
-    // generate the "previous" button
-    if (selectedPages[0] !== pageNum) {
-      createButton("« previous", false, pageNum - 1); 
-    }
+    selectedPages = selectedPages.filter((x: number): boolean => x >= 0 && x < this.props.totalPages); 
 
     const prevButton = selectedPages[0] !== pageNum
       ? <PagerButton text="« previous" selected={false} onClick={() => this.doPageSwitch(pageNum - 1)}/>
       : "";
 
     const nextButton = selectedPages[selectedPages.length - 1] !== pageNum
-      ? <PagerButton text="next »" selected={false} onClick={() => this.doPageSwtich(pageNum + 1)}/>
+      ? <PagerButton text="next »" selected={false} onClick={() => this.doPageSwitch(pageNum + 1)}/>
       : "";
 
     // generate the first two page numbers, if applicable
@@ -118,29 +114,18 @@ export class Pager extends Component<PagerProps, PagerState> {
       }
     }*/
 
-    // generate numbers for selected pages
-    for (const selectedPage of selectedPages) {
-      const isCurrentPage = selectedPage === pageNum;
-
-      createButton(
-        `${selectedPage + 1}`, 
-        isCurrentPage,
-        selectedPage
-      );
-    }
+    const mainButtons = selectedPages.map((pageDest: number) => 
+      <PagerButton text={`${pageDest}`}
+        selected={pageDest === pageNum}
+        onClick={() => this.doPageSwitch(pageDest)}
+      />
+    );
 
     return (
       <div class="pager">
         <span class="pager-no">{pageNum}</span>
         {prevButton}
-        {
-          selectedPages.map((pageDest: number) => {
-            return <PagerButton text={`${pageDest}`}
-                                selected={pageDest === pageNum}
-                                onClick={() => this.doPageSwitch(pageDest)}
-                    />;
-          });
-        }
+        {mainButtons}
         {nextButton}
       </div>
     );

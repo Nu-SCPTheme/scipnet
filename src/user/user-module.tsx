@@ -31,7 +31,7 @@ import { UserInfo, UserInformation, ExtendedUserInformation } from "./info";
 import syncify from "./../utils/syncify";
 
 // the "window" var will have a variable with the necessary JSON in it
-const { storedUserInfo } = <any>window;
+const { storedUserInfo } = window as any;
 
 // load user information by id
 export async function getUserInfoById(id: number, extended: boolean): BluebirdPromise<UserInformation> {
@@ -44,7 +44,7 @@ export async function getUserInfoById(id: number, extended: boolean): BluebirdPr
   }
 
   // manually load via ajax
-  const userInfo = <UserInfo>(await uiById(extended, id)).result["user-info"];
+  const userInfo = (await uiById(extended, id)).result["user-info"] as UserInfo;
   if (extended) {
     return ExtendedUserInformation.deserialize(userInfo);
   }
@@ -62,7 +62,7 @@ export async function getUserInfoByUsername(name: string, extended: boolean): Bl
   }
 
   // manually load via ajax
-  const userInfo = <UserInfo>(await uiByName(extended, name)).result["user-info"];
+  const userInfo = (await uiByName(extended, name)).result["user-info"] as UserInfo;
   if (extended) {
     return ExtendedUserInformation.deserialize(userInfo);
   }
@@ -117,10 +117,10 @@ export function setupUserTrigger() {
         hoverer.removeClass("vanished")
           // you can pass an object into the CSS function
           .css(((item: JQuery): { [key: string]: string} => { 
-            const pos = jThis.find("img").position();
+            const pos = item.find("img").position();
             return {
               left: `${pos.left}px`,
-              top: `${pos.top}px`
+              "top": `${pos.top}px`
             };
           })(jThis));
       }).catch((err: Error) => { }); // just absorb any errors
@@ -133,20 +133,20 @@ export function setupUserTrigger() {
       $(`#avatar-hover-container #avatar-${jThis.attr("id")}`).addClass("vanished");
     }).click(function(this: HTMLElement) {
       getUserInfoById(parseInt($(this).attr("id"), 10), true).then((userInfo: UserInformation) => {
-        const user = <ExtendedUserInformation> userInfo;
+        const user = userInfo as ExtendedUserInformation;
 
         // generate a modal
         const pfpImgStyle = {
-          float: "left",
+          "float": "left",
           padding: "2px 8px", 
-          "background-color": "#FFF";
+          "background-color": "#FFF"
         };
 
         // minor component to render a table's row
         function UTableRow(props: { name: string, value: string | null }) {
           if (props.value) {
             return (
-              <tr><td><b>{name}</b></td><td>${value}</td></tr>
+              <tr><td><b>{props.name}</b></td><td>${props.value}</td></tr>
             );
           } else {
             return (<span></span>);
@@ -157,7 +157,7 @@ export function setupUserTrigger() {
         render((
           <Modal title="User info" buttons={ [ { text: "Close window", click: "close" } ] }>
             <div>
-              <img src={`${user["profile-picture-url"}`} alt="" style={pfpImgStyle}></img>
+              <img src={user["profile-picture-url"]} alt="" style={pfpImgStyle}></img>
               <h1>{user.username}</h1>
               <table>
                 <UTableRow name="Real name" value={user.realname} />
@@ -167,9 +167,9 @@ export function setupUserTrigger() {
                 {
                   (() => {
                     if (user["joined-site"]) {
-                      return <UTableRow name="User since:" value={user.joinedSite.toUTCString()} />
+                      return <UTableRow name="User since:" value={user.joinedSite.toUTCString()} />;
                     } else {
-                      return <span></span>
+                      return <span></span>;
                     }
                   })()
                 }

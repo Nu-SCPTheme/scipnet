@@ -1,5 +1,5 @@
 /*
- * page-utils/history.ts
+ * page-utils/history.tsx
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -21,6 +21,7 @@
 import * as BluebirdPromise from "bluebird";
 import * as $ from "jquery";
 
+import { h, render } from "preact";
 import { HistoryWidget } from "./../history";
 
 import closeUtilities from "./hide-all";
@@ -29,6 +30,6 @@ const hBlock = $("#utility-history-block");
 
 export async function openHistoryBlock(): BluebirdPromise<void> {
   closeUtilities();
-  let hw = await HistoryWidget.getInstance(hBlock);
+  render(<HistoryWidget />, hBlock.get(0));
   hBlock.removeClass("vanished");
 }

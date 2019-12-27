@@ -43,12 +43,12 @@ interface ModalButtonProps {
 
 function ModalButton(props: ModalButtonProps) {
   const ocMethod = props.click === "close" 
-    ? props.parentModal.prototype.destroy.bind(props.parentModal) 
-    : <ModalButtonClick>props.click;
+    ? props.parentModal.destroy.bind(props.parentModal) 
+    : props.click as ModalButtonClick;
 
   return (
     <a class="btn btn-danger" onClick={ocMethod}>
-      {this.props.text}
+      {props.text}
     </a>
   );
 }
@@ -61,7 +61,7 @@ export interface ModalButtonDef {
 
 export interface ModalProps {
   title: string;
-  buttons: Array<ModalButtonDef>
+  buttons: Array<ModalButtonDef>;
 }
 
 // store the window in a jquery constant to reduce execution time
@@ -69,7 +69,7 @@ const jWindow = $(window);
 
 // manages the modal
 export class Modal extends Component<ModalProps, {}> implements Closable {
-  innerRef: JQuery;
+  innerRef: HTMLElement | null;
 
   constructor(props: ModalProps) {
     super(props);
@@ -84,6 +84,10 @@ export class Modal extends Component<ModalProps, {}> implements Closable {
       top: `${vCenter}px`
     };
 
+    const buttons = this.props.buttons.map((mbd: ModalButtonDef) =>
+      <ModalButton text={mbd.text} click={mbd.click} parentModal={this} />
+    );
+
     return (
       <span ref={(r: HTMLElement | null) => this.innerRef = r}>
         <div class="modal-shader"></div>
@@ -92,13 +96,7 @@ export class Modal extends Component<ModalProps, {}> implements Closable {
             <div class="modal-title">{this.props.title}</div>
             <div class="modal-content">{this.props.children}</div>
             <div class="modal-buttons">
-              {
-                this.props.buttons.map((mbd: ModalButtonDef) => {
-                  return (
-                    <ModalButton text={mbd.text} click={mbd.click} parentModal={this} />
-                  );
-                });
-              }
+              {buttons}
             </div>
           </div>
         </div>

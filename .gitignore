@@ -4,4 +4,7 @@ bin/__pycache__
 
 src/deeds/index.d.ts
 
+test/server/data/temp.db
+test/server/data/dist/
+
 mekhane-html-generation/

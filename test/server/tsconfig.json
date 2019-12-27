@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "removeComments": false,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "baseUrl": ".",
+    "sourceMap": true,
+    "outDir": "dist/",
+    "noEmitOnError": true,
+    "module": "commonjs",
+    "downlevelIteration": true,
+    "noImplicitAny": true,
+    
+    "declaration": true
+  }, 
+  "exclude": [
+    "node_modules"
+  ]
+}

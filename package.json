@@ -4,6 +4,7 @@
   "description": "Frontend code scripts for Mekhane project",
   "main": "index.js",
   "scripts": {
+    "build-server": "cd test/server && npx tsc --build tsconfig.json",
     "test": "node node_modules/mocha/bin/mocha --require ts-node/register --watch-extensions ts,tsx \"test/**/*.{ts,tsx}\" --timeout 60000",
     "lint": "npx eslint src",
     "webpack": "python3 bin/generate_deeds_typings.py && npx webpack --display-modules"

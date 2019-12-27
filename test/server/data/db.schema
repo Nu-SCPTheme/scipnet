@@ -1,0 +1,23 @@
+CREATE TABLE Users (
+  userid BIGSERIAL PRIMARY KEY,
+  username TEXT NOT NULL,
+  pfpurl TEXT NOT NULL,
+  realname TEXT,
+  gender TEXT,
+  joindate TIMESTAMP NOT NULL,
+  placefrom TEXT 
+);
+CREATE TABLE Pages (
+  pageid BIGSERIAL PRIMARY KEY,
+  slug TEXT NOT NULL,
+  title TEXT NOT NULL,
+  source TEXT NOT NULL,
+  tags TEXT NOT NULL,
+  parent INTEGER,
+  locked INTEGER
+);
+CREATE TABLE Votes (
+  pageid INTEGER REFERENCES Pages(pageid),
+  userid INTEGER REFERENCES Users(userid),
+  value INTEGER
+);

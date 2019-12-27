@@ -1,7 +1,5 @@
-"use strict";
-
 /*
- * deeds/index.js
+ * deeds/index.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -44,7 +42,10 @@ I have chosen to use Option 2, since in most modern browsers the creation of the
 noticeable loss in runtime performance. In the "bin" directory in the git root, there is a file called
 "generate-deeds-typings.py" which will read requests.json and generate a type bindings file to ensure type
 safety. 
+
 */
+
+exports.__esModule = true;
 
 const { createDeedsFunction } = require("./deeds-function");
 const deedsFunctions = require("./requests.json");

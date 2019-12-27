@@ -8,7 +8,7 @@
     "strictNullChecks": false,
     "baseUrl": ".",
     "sourceMap": true,
-    "outDir": "dist/sources",
+    "outDir": "dist/",
     "noEmitOnError": true,
     "module": "commonjs",
     "downlevelIteration": true,

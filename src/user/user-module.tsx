@@ -1,5 +1,5 @@
 /*
- * user/user-module.ts
+ * user/user-module.tsx
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -23,7 +23,8 @@ import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
 import { getUserInfoById as uiById, getUserInfoByUsername as uiByName } from "./../deeds";
-import { Modal, ModalButton } from "./../modal";
+import { h, render } from "preact";
+import { Modal, ModalButtonDef } from "./../modal";
 import { Nullable } from "./../utils";
 import { UserInfo, UserInformation, ExtendedUserInformation } from "./info";
 
@@ -71,6 +72,7 @@ export async function getUserInfoByUsername(name: string, extended: boolean): Bl
 let avatarHoverBlock: JQuery;
 
 // setup triggers on a user module
+// TODO: a lot of this could be converted to React, but I'm not sure how...
 export function setupUserTrigger() {
   $(".printuser:not(.trigger-setup)")
     .hover(function(this: HTMLElement) {
@@ -134,43 +136,48 @@ export function setupUserTrigger() {
         const user = <ExtendedUserInformation> userInfo;
 
         // generate a modal
-        const modal = new Modal(
-          "User info",
-          $("<div></div>")
-            .append($(`<img src="${user["profile-picture-url"]}" alt=""></img>`)
-              .attr("style", "float:left; padding: 2px 8px; background-color: #FFF;")) // eslint-disable-line indent
-            .append($(`<h1>${user.username}</h1>`))
-            .append($("<table>")
-              .append(((): JQuery => {
-                // user characteristics
-                const body = $("<tbody>");
-                function appendRow(name: string, value: string) {
-                  $(`<tr><td><b>${name}</b></td><td>${value}</td></tr>`).appendTo(body);
-                }
+        const pfpImgStyle = {
+          float: "left",
+          padding: "2px 8px", 
+          "background-color": "#FFF";
+        };
 
-                if (user.realname) {
-                  appendRow("Real name", user.realname);
-                }
-                if (user.gender) {
-                  appendRow("Gender", user.gender);
-                }
-                if (user["from"]) {
-                  appendRow("From", user["from"]);
-                }
-                if (user.website) {
-                  appendRow("Website", user.website);
-                }
-                if (user["joined-site"]) {
-                  appendRow("User since:", user.joinedSite.toUTCString()); // TODO: standardize this
-                }
-                if (user["role-description"]) {
-                  appendRow("Role on this site", user["role-description"]);
-                }
+        // minor component to render a table's row
+        function UTableRow({name: string, value: string | null}) {
+          if (props.value) {
+            return (
+              <tr><td><b>{name}</b></td><td>${value}</td></tr>
+            );
+          } else {
+            return (<span></span>);
+          }
+        }
 
-                return body;
-              })())),
-          [ new ModalButton("Close window", "close") ]
-        );
+        // render the modal
+        render((
+          <Modal title="User info" buttons={ [ { text: "Close window", click: "close" } ] }>
+            <div>
+              <img src={`${user["profile-picture-url"}`} alt="" style={pfpImgStyle}></img>
+              <h1>{user.username}</h1>
+              <table>
+                <UTableRow name="Real name" value={user.realname} />
+                <UTableRow name="Gender" value={user.gender} />
+                <UTableRow name="From" value={user["from"]} />
+                <UTableRow name="Website" value={user.website} />
+                {
+                  (() => {
+                    if (user["joined-site"]) {
+                      return <UTableRow name="User since:" value={user.joinedSite.toUTCString()} />
+                    } else {
+                      return <span></span>
+                    }
+                  })()
+                }
+                <UTableRow name="Role on this site:" value={user["role-description"]} />
+              </table>
+            </div>
+          </Modal>
+        ), document.body);
       });
     }).addClass(".trigger-setup");
 }

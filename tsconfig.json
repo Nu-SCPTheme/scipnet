@@ -15,7 +15,10 @@
     "noImplicitAny": true,
 
     "lib": ["es6", "dom"],
-    "noLib": false
+    "noLib": false,
+
+    "jsx": "react",
+    "jsxFactory": "h"
   },
   "include": [
     "src"

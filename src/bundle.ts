@@ -19,7 +19,6 @@
  */
 
 import * as $ from "jquery";
-import * as BluebirdPromise from "bluebird";
 
 import setupAccountOptions from "./account-options";
 import setupAuth from "./login";

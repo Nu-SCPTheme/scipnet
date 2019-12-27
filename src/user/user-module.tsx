@@ -143,7 +143,7 @@ export function setupUserTrigger() {
         };
 
         // minor component to render a table's row
-        function UTableRow({name: string, value: string | null}) {
+        function UTableRow(props: { name: string, value: string | null }) {
           if (props.value) {
             return (
               <tr><td><b>{name}</b></td><td>${value}</td></tr>

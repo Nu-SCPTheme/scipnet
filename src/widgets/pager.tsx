@@ -1,5 +1,5 @@
 /*
- * widgets/pager.ts
+ * widgets/pager.tsx
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -21,23 +21,68 @@
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
 
-export class Pager {
-  private pager: JQuery;
+import { h, Component } from "preact";
 
-  constructor(
-    private frame: JQuery,
-    private pageSwitchFunction: (page: number) => void, 
-    private totalPages: number,
-    private startPage: number = 0
-  ) {
-    this.renderPager(this.startPage, this.totalPages);
+export type PageSwitchFunction = (page: number) => Promise<void>;
+
+export interface PagerProps {
+  onPageSwitch: PageSwitchFunction;
+  totalPages: number;
+  startPage: number;
+};
+
+export interface PagerState {
+  currentPage: number;
+};
+
+// a button within a pager
+interface PagerButtonProps {
+  text: string;
+  selected: boolean;
+}
+
+function PagerButton(props: PagerButtonProps) {
+  if (props.selected) {
+    return <span class="current">{props.text}</span>;
+  } else {
+    return <span class="target"><a>{props.text}</a></span>;
+  }
+}
+
+// pager for switching between pages
+export class Pager extends Component<PagerProps, PagerState> {
+  constructor(props: PagerProps) {
+    super(props);
+   
+    this.state = {
+      currentPage: this.props.totalPages
+    }
   }
 
-  renderPager(pageNum: number, totalPageNum: number) {
+  // default properties
+  static get defaultProps(): PagerProps {
+    return {
+      onPageSwitch: Promise.resolve,
+      totalPages: 1,
+      startPage: 0
+    }
+  }
+
+  doPageSwitch(page: number) {
+    this.onPageSwitch(page).then(() => {
+      this.setState((state: PagerState): PagerState) => {
+        return { currentPage: page };
+      });
+    });
+  }
+
+  render() {
     // configurable constants
     const numPagesFromCurrent = 2;
     const numAtBeginning = 2;
     const numAtEnd = 0;
+    
+    const pageNum = this.state.currentPage;
 
     let selectedPages = [];
     for (let i = 0; i <= numPagesFromCurrent; i++) {
@@ -47,31 +92,19 @@ export class Pager {
       }
     }
     selectedPages = selectedPages.filter((x: number): boolean => x >= 0 && x < totalPageNum); 
- 
-    // empty the frame
-    this.frame.empty(); 
-
-    // create a button within a pager
-    const that = this;
-    function createButton(text: string, selected: boolean, destPage: number): JQuery {
-      let textElem; 
-      if (selected) {
-        textElem = $(`<span>${text}</span>`);
-      } else {
-        textElem = $(`<a>${text}</a>`).click(() => { that.pageSwitchFunction(destPage); });
-      }
-
-      return textElem.appendTo(
-        $("<span></span>")
-          .addClass(selected ? "current" : "target")
-          .appendTo(that.pager)
-      );
-    }
 
     // generate the "previous" button
     if (selectedPages[0] !== pageNum) {
       createButton("« previous", false, pageNum - 1); 
     }
+
+    const prevButton = selectedPages[0] !== pageNum
+      ? <PagerButton text="« previous" selected={false} onClick={() => this.doPageSwitch(pageNum - 1)}/>
+      : "";
+
+    const nextButton = selectedPages[selectedPages.length - 1] !== pageNum
+      ? <PagerButton text="next »" selected={false} onClick={() => this.doPageSwtich(pageNum + 1)}/>
+      : "";
 
     // generate the first two page numbers, if applicable
     // TODO: fix this when I have time
@@ -96,8 +129,20 @@ export class Pager {
       );
     }
 
-    if (selectedPages[selectedPages.length - 1] !== pageNum) {
-      createButton("next »", false, pageNum + 1);
-    }
+    return (
+      <div class="pager">
+        <span class="pager-no">{pageNum}</span>
+        {prevButton}
+        {
+          selectedPages.map((pageDest: number) => {
+            return <PagerButton text={`${pageDest}`}
+                                selected={pageDest === pageNum}
+                                onClick={() => this.doPageSwitch(pageDest)}
+                    />;
+          });
+        }
+        {nextButton}
+      </div>
+    );
   }
 }

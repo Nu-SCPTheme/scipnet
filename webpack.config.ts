@@ -1,4 +1,6 @@
-module.exports = {
+import * as webpack from "webpack";
+
+const config: webpack.Configuration = {
   mode: "production",
   devtool: "source-map",
 
@@ -32,4 +34,6 @@ module.exports = {
   output: {
     filename: "bundle.js"
   }
-}
+};
+
+export default config;

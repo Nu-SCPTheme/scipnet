@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha --require ts-node/register --watch-extensions ts,tsx \"test/**/*.{ts,tsx}\" --timeout 60000",
+    "lint": "npx eslint src",
     "webpack": "python3 bin/generate_deeds_typings.py && npx webpack --display-modules"
   },
   "repository": {

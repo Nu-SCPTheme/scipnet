@@ -45,6 +45,8 @@ safety.
 
 */
 
+/* eslint no-undef: 0 */
+
 exports.__esModule = true;
 
 const { createDeedsFunction } = require("./deeds-function");

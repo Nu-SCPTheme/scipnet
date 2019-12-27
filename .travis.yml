@@ -9,6 +9,7 @@ before_script:
  - npm run webpack
 
 script:
+ - npm run lint
  - echo "Tests are currently disabled"
 
 notifications:

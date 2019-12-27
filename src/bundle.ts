@@ -1,5 +1,5 @@
 /*!
- * _entry.ts
+ * bundle.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -17,14 +17,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-// note: this is called _entry.ts so it comes first in the browserify bundle
-// this way, it's better to setup global polyfills here than anywhere else
-
-// imports from core-js, should polyfill out most standards
-import "core-js/stable";
-
-// promise polyfill, if needed, will be put here
 
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";

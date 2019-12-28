@@ -1,5 +1,5 @@
 /*
- * test/server/routes/index.ts
+ * test/server/cookie.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,10 +18,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import voteRouteFactory from "./vote";
+import { ClientRequest as Request } from "http";
 
-import { Application } from "express";
+export type CookieArray = { [key: string]: string };
 
-export default function setupRoutes(app: Application) {
-  voteRouteFactory(app);
+export function parseCookies(req: ClientRequest): CookieArray {
+  const cookies = req.headers.cookie || [];
+  let map: CookieArray = {};
+
+  cookies.split(";").forEach((cookie: string) => {
+    const parts = cookie.split("=");
+    map[parts.shift().trim()] = decodeURI(cookie);
+  });
+
+  return map;
 }

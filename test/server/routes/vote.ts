@@ -19,28 +19,11 @@
  */
 
 // functions related to voting on pages
-import { Application, Request, Response } from "express";
+import { ClientRequest as Request, ServerResponse as Response } from "http";
 import { calculateScore } from "./../deeds/score";
 import { checkValidSession } from "./../deeds/util";
 import { deedsVote } from "./../deeds/vote";
-import { RouteFactory } from "./types";
 
-export default function voteRouteFactory(app: Application) {
-  app.post("/sys/page/vote", async (req: Request, res: Response): Promise<void> => {
-    if (checkValidSession(req, res)) {
-      try {
-        await deedsVote(req.cookies["session-id"], req.body.pagename, req.body.rating);
-        res.json({
-          result: {
-            score: await calculateScore(req.body.pagename)
-          }
-        });
-      } catch (err) {
-        res.json({
-          "err-type": "internal-error",
-          "error": err.message
-        });
-      }
-    }
-  });
+export default function voteRoute(req: Request, res: Response) {
+  
 }

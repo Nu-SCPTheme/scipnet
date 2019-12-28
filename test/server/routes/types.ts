@@ -19,6 +19,6 @@
  */
 
 // define types used in routes
-import { Application } from "express";
+import { ClientRequest as Request, ServerResponse as Response } from "http";
 
-export type RouteFactory = (app: Application) => void;
+export type Route = (req: Request, res: Response) => any;

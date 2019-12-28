@@ -19,26 +19,17 @@
  */
 
 /*
-  Karma and other test runners will work better with a dedicated testing server. This file will export that 
-  server.
+  Karma and other test runners will work better with a dedicated testing server. This file will export functions
+  used to create that server.
 */
-
-import * as bodyParser from "body-parser";
-import * as cookieParser from "cookie-parser";
-import * as express from "express";
 
 import { initializeSql } from "./sql";
 
-import setupRoutes from "./routes";
+import { Route } from "./routes/types";
+import { voteRoute } from "./routes/vote";
 
-export default function createTestServer(): express.Application {
-  // basic express configuration
-  const app = express();
-  app.use(cookieParser());
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
-
-  setupRoutes(app);
-
-  return app;
+export default function getRoutes(): Array<Route> {
+  return [
+    voteRoute
+  ];
 }

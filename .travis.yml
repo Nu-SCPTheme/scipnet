@@ -7,6 +7,7 @@ cache:
 
 before_script:
  - npm run webpack
+ - npm run build-server
 
 script:
  - npm run lint

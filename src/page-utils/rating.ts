@@ -55,9 +55,3 @@ export async function openRatingBlock(): BluebirdPromise<void> {
   ratingBlock.removeClass("vanished");
   ratingBlock.html(ratingModule); 
 }
-
-// put ratePage into the global namespace for testing
-declare var global: any;
-if (global) {
-  global.ratePage = ratePage;
-}

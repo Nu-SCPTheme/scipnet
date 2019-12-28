@@ -3,8 +3,6 @@ import * as webpack from "webpack";
 const config: webpack.Configuration = {
   mode: "production",
   devtool: "source-map",
-
-  entry: "./src/bundle.ts",
   
   resolve: {
     extensions: [ ".ts", ".tsx", ".js", ".jsx" ]
@@ -30,11 +28,19 @@ const config: webpack.Configuration = {
     "bluebird": "Promise",
     "jquery": "$",
     "preact": "preact"
-  },
-
-  output: {
-    filename: "bundle.js"
   }
 };
 
-export default config;
+const bundleConfig = Object.assign({}, config, {
+  entry: "./src/bundle.ts",
+  output: { filename: "bundle.js" }
+});
+
+const testConfig = Object.assign({}, config, {
+  entry: "./test/test.ts",
+  output: { filename: "test.js" }
+});
+
+const configs = [bundleConfig, testConfig];
+
+export default configs;

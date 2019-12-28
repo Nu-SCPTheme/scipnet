@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Fri Dec 27 2019 16:11:58 GMT-0800 (Pacific Standard Time)
+const serv = require("./test/server/dist");
 
 module.exports = function(config) {
   config.set({
@@ -55,7 +56,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Firefox', 'Chrome', 'Safari', 'IE', 'Opera'],
+    browsers: ['Firefox', 'Chrome'],
 
 
     // Continuous Integration mode
@@ -64,6 +65,26 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
+    concurrency: Infinity,
+
+    // middleware
+    middleware: ["deeds-api"],
+
+    plugins: [
+      "karma-*",
+      {
+        // handle the deeds API
+        "middleware:deeds-api": ["factory", function(config) {
+          const server = serv();
+          const deedsUrl = /^\/sys\/(page|auth|user)/;
+
+          return function(req, res, next) {
+            if (deedsUrl.match(req.path)) {
+              
+            }
+          }
+        }]
+      }
+    ] 
   })
 }

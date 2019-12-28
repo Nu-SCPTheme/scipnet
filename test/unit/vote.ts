@@ -1,5 +1,5 @@
 /*
- * test/server/index.ts
+ * test/unit/vote.ts
  *
  * scipnet - Frontend scripts for mekhane
  * Copyright (C) 2019 not_a_seagull
@@ -18,27 +18,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
-  Karma and other test runners will work better with a dedicated testing server. This file will export that 
-  server.
-*/
+// setup modules for rating
+import * as $ from "jquery";
+import * as BluebirdPromise from "bluebird";
 
-import * as bodyParser from "body-parser";
-import * as cookieParser from "cookie-parser";
-import * as express from "express";
+import { expect } from "chai";
 
-import { initializeSql } from "./sql";
+const ratingRecept = $('<span class="rating"></span>').appendTo(document.body);
 
-import setupRoutes from "./routes";
+import { ratePage } from "./../../src/page-utils/rating";
 
-export default function createTestServer(): express.Application {
-  // basic express configuration
-  const app = express();
-  app.use(cookieParser());
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+describe("Rating tests", () => {
+  function doRatingTest(rate: number) {
+    it(`should result in a rating of ${rate}`, async (): BluebirdPromise<void> => {
+      await ratePage(rate);
+      expect(ratingRecept.text()).to.equal(`rating: ${rate}`);
+    });
+  }
 
-  setupRoutes(app);
-
-  return app;
-}
+  doRatingTest(1);
+  doRatingTest(0);
+  doRatingTest(-1);
+});

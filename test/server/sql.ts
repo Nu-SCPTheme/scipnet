@@ -56,6 +56,11 @@ export async function initializeSql(): Promise<void> {
 
 // execute a database query
 export async function runSql(query: string): Promise<Array<any>> {
+  // create the server
+  if (!db) {
+    await initializeSql();
+  }
+
   return new Promise((resolve: (res: Array<any>) => void, reject: (err: Error) => void) => {
     db.all(query, (err: Error, rows: Array<any>) => {
       if (err) {

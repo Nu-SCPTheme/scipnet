@@ -41,7 +41,7 @@ export async function initializeSql(): Promise<void> {
 
   // db is set, import schema file
   const schemaFile = path.join(__dirname, "data", "db.schema");
-  const schema = await readFile(schemaFile);
+  const schema = (await readFile(schemaFile)).toString();
  
   await new Promise((resolve: () => void, reject: (err: Error) => void) => {
     db.all(schema, (err: Error) => {

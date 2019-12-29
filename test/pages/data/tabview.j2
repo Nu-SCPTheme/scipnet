@@ -1,0 +1,17 @@
+<!-- expects list of "tabs" objects with "name" and "content"
+<div class="tabview">
+  <ul class="tab-selectors">
+    {% for tab in tabs %}
+      <li class="tab-selector">
+        <a>{{ tab.name }}</a>
+      </li>
+    {% endfor &}
+  </ul>
+  <div class="tab-container">
+    {% for tab in tabs %}
+      <div class="tab-content">
+        {{ tab.content }}
+      </div>
+    {% endfor %}
+  </div>
+</div>

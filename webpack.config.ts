@@ -26,6 +26,7 @@ const config: webpack.Configuration = {
 
   externals: {
     "bluebird": "Promise",
+    "chai", "chai",
     "jquery": "$",
     "preact": "preact"
   }
@@ -33,11 +34,11 @@ const config: webpack.Configuration = {
 
 const bundleConfig = Object.assign({}, config, {
   entry: "./src/bundle.ts",
-  output: { filename: "bundle.js" }
+  output: { filename: "bundle.js" } 
 });
 
 const testConfig = Object.assign({}, config, {
-  entry: "./test/test.ts",
+  entry: "./test/unit/index.ts",
   output: { filename: "test.js" }
 });
 

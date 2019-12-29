@@ -11,7 +11,7 @@ before_script:
 
 script:
  - npm run lint
- - echo "Tests are currently disabled"
+ - npm run test
 
 notifications:
   email:

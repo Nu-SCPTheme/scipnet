@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ meta_title }}SCP Foundation</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/sys/css/wikidot/wikidot-basic.css">
+    <link rel="stylesheet" type="text/css" href="/sys/css/wikidot/odialog.css">
+    <link rel="stylesheet" type="text/css" href="/sys/css/wikidot/forums.css">
+    <link rel="stylesheet" type="text/css" href="/sys/css/sigma-9/sigma-9.css">
+    <link rel="stylesheet" type="text/css" href="/sys/css/tabs.css">
+    <link rel="stylesheet" type="text/css" href="/sys/css/modal.css">
+    <link rel="stylesheet" type="text/css" href="/sys/css/pager.css">
+
+    <script type="text/javascript" src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+    <script type="text/javascript">
+      // automatically include needed user information
+      window.storedUserInfo = [
+        {% for user in stored_user_info %}
+          \\{
+              userid: {{ user.userid }},
+              username: {{ "\"" + user.username + "\"" }},
+              "profile-picture-url":
+                {% if user["profile-picture-url"] is defined %}
+                  {{ "\"" + user["profile-picture-url"] + "\"" }}
+                {% else %}
+                  null
+                {% endif %}
+          \\},
+        {% endfor %}
+      ];
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/bluebird@3.7.2/js/browser/bluebird.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/preact@10.1.1/dist/preact.umd.js"></script>
+    <script type="text/javascript" src="/sys/bundle.js"></script>
+  </head>
+  <body>
+    <div id="container-wrap-wrap">
+      <div id="container-wrap">
+        <div id="container">
+
+          <!-- header at top of page, also top bar -->
+          <div id="header">
+            <h1>
+              <a href="/">{{ site_name }}</a>
+            </h1>
+            <h2>{{ site_subtext }}</h2>
+            
+            <div id="top-bar">
+              {{ top_bar }}
+            </div>
+
+            <div id="login-status">
+              {% if my_user_module is defined %}
+                {{ my_user_module }}
+                <a href="/user/myaccount">My Account</a>
+                <a href="/user/myaccount/messages">
+                  <strong>{{ message_count }}</strong>
+                </a>
+                <a id="account-topbutton">▼</a>
+                <div id="account-options">
+                  <ul>
+                    <li><a href="/user/myaccount/activity">Activity</a></li>
+                    <li><a href="/user/myaccount/messages">Messages</a></li>
+                    <li><a href="/user/myaccount/settings">Settings</a></li>
+                    <li><a href="/user/myaccount/sites">Sites</a></li>
+                    <li><a href="/user/myaccount/activity">Activity</a></li>
+                    <li><a id="logout-button">Logout</a></li>
+                  </ul>
+                </div>
+              {% else %}
+                <p><a href="/login/register">Create Account</a> or <a href="/login/login">Login</a></p>
+              {% endif %}
+            </div>
+          </div>
+
+          <div id="content-wrap">
+            <div id="side-bar">
+              {{ side_bar }}
+            </div>
+            
+            <div id="main-content">
+              <div id="page-content">
+                {{ content }}
+              </div>
+              <div class="page-tags">
+                <span>
+                  {% for tag in tags %}
+                    <a href="/sys/tagcloud/{{ tag }}">{{ tag }}</a>
+                  {% endfor %}
+                </span>
+              </div>
+              <div id="page-info-break"></div>
+              <div id="page-options-container">
+                <div id="page-info">
+                  {{ page_info }}
+                </div>
+                <div class="page-watch-options">
+                  {{ page_watch_options }}
+                </div>
+                <div id="utilities-links-1" class="page-options-bottom">
+                  <!-- TODO: links to utilitites -->
+                  <a id="utility-edit-link">Edit</a>
+                  <a id="utility-rating-link">Rate ({{ rating }})</a>
+                  <a id="utility-tags-link">Tags</a>
+                  <a id="utility-discuss-link">Discuss</a>
+                  <a id="utility-history-link">History</a>
+                  <a id="utility-files-link">Files</a>
+                  <a id="utility-more-link">+ Options</a>
+                </div>
+                <div id="utilities-links-2" class="page-options-bottom">
+                  <a id="utility-pagesrc-link">Page Source</a>
+                  <a id="utility-parent-link">Parent</a>
+                  <a id="utility-rename-link">Rename</a>
+                </div>
+              </div>
+              <div id="utility-block">
+                <!-- TODO: page utilities -->
+                <div id="utility-rating-module" class="vanished">
+                </div>
+
+                <div id="utility-edit-block" class="vanished">
+                  <form id="edit-page-form">
+                    <!-- title box -->
+                    <table style="width: 100%">
+                      <tr>
+                        <td style="width: 30%">
+                          <p>Page Title:</p>
+                        </td>
+                        <td style="width: 60%">
+                          <input id="edit-title-box" name="edit-title-box" style="width: 100%; text-align: left" />
+                        </td>
+                      </tr>
+                    </table>
+                    <p>
+                      <textarea name="edit-source-box" id="edit-source-box" style="width: 95%; height: 400px;" cols="50" rows="10">
+                      </textarea>
+                    </p>
+                    <!-- comment box -->
+                    <table>
+                      <tr>
+                        <td>
+                          <div>
+                            Short description of changes:<br />
+                            <textarea id="edit-comment-box" name="edit-comment-box" rows="2" cols="40">
+                            </textarea>
+                          </div>
+                        </td>
+                        <td>
+                          <blockquote id="edit-editlock-notification">
+                          </blockquote>
+                        </td>
+                      </tr>
+                    </table>
+                    <div id="edit-buttons">
+                      <input type="button" id="edit-cancel-button" name="edit-cancel-button" value="Cancel" />
+                      <input type="button" id="edit-sac-button" name="edit-sac-button" value="Save and Continue" />
+                      <input type="button" id="edit-save-button" name="edit-save-button" value="Save" />
+                    </div>
+                  </form>
+                </div>
+                <div id="utility-tags-block" class="vanished">
+                  <form id="tag-page-form">
+                    <div style="text-align: center;">
+                      <h1>Edit page</h1>
+                      <p><input id="tags-box" name="tags-box" style="width: 80%;" /></p>
+                      <table>
+                        <tr>
+                          <td>
+                            <input type="button" id="tags-submit-button" value="Submit" />
+                          </td>
+                          <td>
+                            <input type="button" id="tags-clear-button" value="Clear Tags" />
+                          </td>
+                          <td>
+                            <input type="button" id="tags-cancel-button" value="Cancel" />
+                          </td>
+                        </tr> 
+                      </table>
+                    </div>                   
+                  </form>
+                </div>
+                <div id="utility-history-block" class="vanished">
+                </div>
+                <div id="utility-pagesrc-block" class="vanished">
+                  <h1>Page Source</h1>
+                  <div class="page-source">
+                  </div>
+                </div> 
+                <div id="utility-parent-block" class="vanished">
+                  <form id="parent-set-form" style="text-align: center">
+                    <h1>Set parent</h1>
+                    <p><input id="parent-box" name="parent-box" style="width: 80%;" /></p>
+                    <table>
+                      <tr>
+                        <td>
+                          <input type="button" id="parent-submit-button" value="Submit" />
+                        </td>
+                        <td>
+                          <input type="button" id="parent-cancel-button" value="Cancel" />
+                        </td>
+                      <tr>
+                    </table>
+                  </form>
+                </div>
+                <div id="utility-rename-block" class="vanished">
+                  <form id="rename-set-form" style="text-align: center;">
+                    <h1>Rename page</h1>
+                    <p><input id="rename-box" name="rename-box" style="width: 50%;" /></p>
+                    <table>
+                      <tr>
+                        <td>
+                          <input type="button" id="rename-submit-button" value="Submit" />
+                        </td>
+                        <td>
+                          <input type="button" id="rename-cancel-button" value="Cancel" />
+                        </td>
+                      </tr>
+                    </table>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="footer"></div>
+          <div id="license-area" class="license-area">
+            {{ licensing_info }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

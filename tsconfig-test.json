@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "es6",
+    "removeComments": false,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "baseUrl": ".",
+    "sourceMap": true,
+    "outDir": "dist/",
+    "noEmitOnError": true,
+    "module": "commonjs",
+    "downlevelIteration": true,
+    "noImplicitAny": true,
+    "importHelpers": true,
+
+    "lib": ["es6", "dom"],
+    "noLib": false,
+
+    "jsx": "react",
+    "jsxFactory": "h"
+  },
+  "include": [
+    "src",
+    "test"
+  ],
+  "exclude": [
+    "node_modules",
+    "test/server"
+  ]
+}

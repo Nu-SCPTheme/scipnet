@@ -26,7 +26,7 @@ import {
   passThruNString, 
 	stringToDate,
 	UnsafeObject
-} from "./../utils/potentially-compromised";
+} from "./../utils/unsafe";
 
 export interface UserInfo {
   userid: number;

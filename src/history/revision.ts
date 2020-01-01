@@ -24,7 +24,7 @@
 import * as BluebirdPromise from "bluebird";
 
 import { flagFromString, Flag, Flags } from "./flags";
-import { passThruNumber, stringToDate, UnsafeObject } from "./../utils/potentially-compromised";
+import { passThruNumber, stringToDate, UnsafeObject } from "./../utils/unsafe";
 
 import { getRenderedRevision, getRevision, revertToRevision } from "./../deeds";
 

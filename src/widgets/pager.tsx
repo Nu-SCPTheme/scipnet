@@ -46,7 +46,7 @@ function PagerButton(props: PagerButtonProps) {
   if (props.selected) {
     return <span class="current" onClick={props.onClick}>{props.text}</span>;
   } else {
-    return <span class="target"> onClick={props.onClick}<a>{props.text}</a></span>;
+    return <span class="target" onClick={props.onClick}><a>{props.text}</a></span>;
   }
 }
 

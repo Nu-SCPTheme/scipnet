@@ -46,7 +46,7 @@ export interface DeedsFunctionSummary {
 
 export function createDeedsFunction(summary: DeedsFunctionSummary): Function {
   // pre load function with needed variables
-  let deedsFunction = (function(
+  return (function(
     method: string,
     methodClass: DeedsMethodClass,
     requestType: DeedsRequestType,
@@ -75,6 +75,4 @@ export function createDeedsFunction(summary: DeedsFunctionSummary): Function {
     summary["plural-verb"],
     summary.body
   );
-  //deedsFunction.name = summary.name;
-  return deedsFunction;
 }

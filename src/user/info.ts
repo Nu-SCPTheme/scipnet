@@ -24,8 +24,8 @@ import {
   passThruNumber, 
   passThruString, 
   passThruNString, 
-  PotentiallyCompromised,
-  stringToDate
+	stringToDate,
+	UnsafeObject
 } from "./../utils/potentially-compromised";
 
 export interface UserInfo {
@@ -47,7 +47,7 @@ export interface UserInfo {
 const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/; // eslint-disable-line no-useless-escape
 
 // an instantiated version of these structs
-export class UserInformation extends PotentiallyCompromised implements UserInfo {
+export class UserInformation extends UnsafeObject implements UserInfo {
   "profile-picture-url": Nullable<string>
 
   constructor(
@@ -62,19 +62,19 @@ export class UserInformation extends PotentiallyCompromised implements UserInfo 
   static deserialize(obj: UserInfo): UserInformation {
     const userInfo = new UserInformation(-1,"",null);
 
-    userInfo.deserializeProperty<number, number>(
+    userInfo.sanitizeProperty<number, number>(
       "userid",
       userInfo.userid,
       passThruNumber, 
       (x: number): boolean => x > 0
     );
-    userInfo.deserializeProperty<string, string>(
+    userInfo.sanitizeProperty<string, string>(
       "username",
       userInfo.username,
       passThruString, 
       (x: string): boolean => x.length > 0
     );
-    userInfo.deserializeProperty<Nullable<string>, Nullable<string>>(
+    userInfo.sanitizeProperty<Nullable<string>, Nullable<string>>(
       "profile-picture-url",
       userInfo["profile-picture-url"],
       passThruNString 
@@ -124,43 +124,43 @@ export class ExtendedUserInformation extends UserInformation implements UserInfo
       return userInfo;
     }
 
-    userInfo.deserializeProperty<number, number>(
+    userInfo.sanitizeProperty<number, number>(
       "current-role",
       obj["current-role"],
       passThruNumber, 
       (x: number): boolean => x > 0
     );
-    userInfo.deserializeProperty<Nullable<string>, Nullable<string>>(
+    userInfo.sanitizeProperty<Nullable<string>, Nullable<string>>(
       "realname",
       obj["realname"],
       passThruNString 
     );
-    userInfo.deserializeProperty<Nullable<string>, Nullable<string>>(
+    userInfo.sanitizeProperty<Nullable<string>, Nullable<string>>(
       "gender",
       obj["gender"],
       passThruNString
     );
-    userInfo.deserializeProperty<Nullable<string>, Nullable<string>>(
+    userInfo.sanitizeProperty<Nullable<string>, Nullable<string>>(
       "website",
       obj["website"],
       passThruNString,
     );
-    userInfo.deserializeProperty<string, string>(
+    userInfo.sanitizeProperty<string, string>(
       "joined-site",
       obj["joined-site"], 
       passThruString
     );
-    userInfo.deserializeProperty<string, Date>(
+    userInfo.sanitizeProperty<string, Date>(
       "joinedSite",
       obj["joined-site"],
       stringToDate
     );
-    userInfo.deserializeProperty<Nullable<string>, Nullable<string>>(
+    userInfo.sanitizeProperty<Nullable<string>, Nullable<string>>(
       "from",
       obj["from"],
       passThruNString
     );
-    userInfo.deserializeProperty<string, string>(
+    userInfo.sanitizeProperty<string, string>(
       "role-description",
       obj["role-description"],
       passThruString

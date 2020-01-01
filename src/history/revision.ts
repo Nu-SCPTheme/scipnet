@@ -24,11 +24,11 @@
 import * as BluebirdPromise from "bluebird";
 
 import { flagFromString, Flag, Flags } from "./flags";
-import { passThruNumber, PotentiallyCompromised, stringToDate } from "./../utils/potentially-compromised";
+import { passThruNumber, stringToDate, UnsafeObject } from "./../utils/potentially-compromised";
 
 import { getRenderedRevision, getRevision, revertToRevision } from "./../deeds";
 
-export class Revision extends PotentiallyCompromised {
+export class Revision extends UnsafeObject {
   constructor(
     public revKey: number, // primary key to revision object in database
     public revId: number, // the number of the revision (e.g. 2 for the 2nd revision after the original)
@@ -45,30 +45,30 @@ export class Revision extends PotentiallyCompromised {
   static deserialize(obj: any): Revision {
     const rev = new Revision(-1,-1,Flag.SourceChanged,"",new Date(),"");
 
-    rev.deserializeProperty<number, number>(
+    rev.sanitizeProperty<number, number>(
       "revKey", 
       obj["rev-key"] || obj.revKey, 
       passThruNumber, 
       (x: number): boolean => x > 0
     );
-    rev.deserializeProperty<number, number>(
+    rev.sanitizeProperty<number, number>(
       "revId", 
       obj["rev-id"] === undefined ? obj.revId : obj["rev-id"],
       passThruNumber,
       (x: number): boolean => (x >= 0)
     );
-    rev.deserializeProperty<string, Flag>(
+    rev.sanitizeProperty<string, Flag>(
       "flag", 
       obj.flag, 
       flagFromString, 
       (x: Flag): boolean => Flags.indexOf(x) !== -1
     );
-    rev.deserializeProperty<string, Date>(
+    rev.sanitizeProperty<string, Date>(
       "editedOn", 
       obj["edited-on"] || obj.editedOn,
       stringToDate
     );
-    rev.deserializeProperty<string, string>("comment", obj.comment);
+    rev.sanitizeProperty<string, string>("comment", obj.comment);
 
     return rev;
   }

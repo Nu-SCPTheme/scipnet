@@ -21,7 +21,7 @@
 // potentially compromised object- e.g. bad data may be put into it
 import { Nullable } from "./index";
 
-export class PotentiallyCompromised {
+export class UnsafeObject {
   public isCompromised: boolean;
   protected continueIfCompromised: boolean;
 
@@ -30,7 +30,7 @@ export class PotentiallyCompromised {
     this.continueIfCompromised = false;
   }
 
-  protected deserializeProperty<TIn, TOut>(
+  protected sanitizeProperty<TIn, TOut>(
     propName: string,
     input: TIn,
     converter: (input: TIn) => TOut = x => <TOut>(<any>x),

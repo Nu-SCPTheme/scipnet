@@ -35,7 +35,7 @@ Scipnet MUST recieve of the following in response:
 * `"page-locked"`
 * One of the errors specified below.
 
-## If the operation was sucessful:
+## If the operation was successful:
 
 ```
 {

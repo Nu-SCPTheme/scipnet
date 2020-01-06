@@ -23,12 +23,12 @@ Scipnet MUST recieve of the following in response:
 
 ```
 {
-  "err-type": "not-logged-in",
-  "error": "User is not logged in"
+  "error": "not-logged-in",
+  "message": "User is not logged in"
 }
 ```
 
-`err-type` MAY only have an impact on the error relayed to the user if it is one of the following:
+`error` MAY only have an impact on the error relayed to the user if it is one of the following:
 
 * `"not-logged-in"`
 * `"internal-error"`

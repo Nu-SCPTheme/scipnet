@@ -20,5 +20,5 @@
 
 // a simple function to retrieve the slug
 export default function getSlug() {
-  return window.location.pathname.split("/")[1];
+  return (<any>window).pageslug;
 }

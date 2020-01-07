@@ -21,11 +21,12 @@
 // contains methods for geting and converting page history, as well as a widget
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
+import * as definition from "../../locales/en.json";
 
 import { DeedsSuccessResult } from "./../deeds/basic-request";
 import { getHistory } from "./../deeds";
 import { h, Component } from "preact";
-import { IntlProviders, Text as IntlText } from "preact-i18n";
+import { IntlProvider, Text as IntlText } from "preact-i18n";
 import { Nullable } from "./../utils";
 import { Pager } from "./../widgets/pager";
 import { Revision } from "./revision";

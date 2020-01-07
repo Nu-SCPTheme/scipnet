@@ -20,7 +20,7 @@
 
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
-import * as definition from "../locales/en.json";
+import * as definition from "../../locales/en.json";
 
 import { h, Component } from "preact";
 import { IntlProvider, Text as IntlText } from "preact-i18n";

@@ -25,6 +25,7 @@ import * as BluebirdPromise from "bluebird";
 import { DeedsSuccessResult } from "./../deeds/basic-request";
 import { getHistory } from "./../deeds";
 import { h, Component } from "preact";
+import { IntlProviders, Text as IntlText } from "preact-i18n";
 import { Nullable } from "./../utils";
 import { Pager } from "./../widgets/pager";
 import { Revision } from "./revision";
@@ -166,7 +167,11 @@ export class HistoryWidget extends Component<{}, HistoryWidgetState> {
 
     // if we're still loading, just display a simple loading block
     if (this.state.doingInitLoading) {
-      return <p style="text-align: center">Loading...</p>
+      return (
+        <IntlProvider definition={definition}>
+          <p style="text-align: center"><IntlText id="history.load">Loading...</IntlText></p>
+        </IntlProvider>
+      );
     }
 
     const rppOptions = revisionsPerPageOptions.map((rpp: number) => {
@@ -179,51 +184,53 @@ export class HistoryWidget extends Component<{}, HistoryWidgetState> {
     });
 
     return (
-      <form id="utility-history-block">
-        <table class="form">
-          <tbody>
-            <tr>
-              <td>Revisions per page:</td>
-              <td>
-                <select onChange={(e: Event) => this.changeRevisionsPerPage(e)}>
-                  {rppOptions}
-                </select>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div id="buttons">
-          <input id="update-button"
-                 class="btn btn-default btn-sm"
-                 type="button"
-                 value="Update List" 
-                 onClick={this.loadRevisions.bind(this) }/>
-          <input id="compare-button"
-                 class="btn btn-default btn-sm"
-                 type="button"
-                 value="Compare versions" />
-        </div>
-        <div id="revision-list">
-          <Pager totalPages={this.state.totalPages} 
-            startPage={this.state.page} 
-            onPageSwitch={pageSwitchFunction} 
-          />
-          <table class="page-history">
+      <IntlProvider definition={definition}>
+        <form id="utility-history-block">
+          <table class="form">
             <tbody>
               <tr>
-                <td>rev.</td>
-                <td>&nbsp;</td>
-                <td>flags</td>
-                <td>actions</td>
-                <td>by</td>
-                <td>date</td>
-                <td>comments</td>
+                <td><IntlText id="rpp">Revisions per page:</IntlText></td>
+                <td>
+                  <select onChange={(e: Event) => this.changeRevisionsPerPage(e)}>
+                    {rppOptions}
+                  </select>
+                </td>
               </tr>
-              {revisionList}
             </tbody>
           </table>
-        </div>
-      </form>
+          <div id="buttons">
+            <input id="update-button"
+                   class="btn btn-default btn-sm"
+                   type="button"
+                   value="Update List" 
+                   onClick={this.loadRevisions.bind(this)} />
+            <input id="compare-button"
+                   class="btn btn-default btn-sm"
+                   type="button"
+                   value="Compare versions" />
+          </div>
+          <div id="revision-list">
+            <Pager totalPages={this.state.totalPages} 
+              startPage={this.state.page} 
+              onPageSwitch={pageSwitchFunction} 
+            />
+            <table class="page-history">
+              <tbody>
+                <tr>
+                  <td><IntlText id="history.rev">rev.</IntlText></td>
+                  <td>&nbsp;</td>
+                  <td><IntlText id="history.flags">flags</IntlText></td>
+                  <td><IntlText id="history.ations">actions</IntlText></td>
+                  <td><IntlText id="history.by">by</IntlText></td>
+                  <td><IntlText id="history.date">date</IntlText></td>
+                  <td><IntlText id="history.comments">comments</IntlText></td>
+                </tr>
+                {revisionList}
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </IntlProvider>
     );
   }
 }

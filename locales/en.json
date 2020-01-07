@@ -1,0 +1,16 @@
+{
+  "pager": {
+    "next": "next »",
+    "previous": "« previous"
+  },
+  "history": {
+    "load": "Loading...",
+    "rpp": "Revisions per page:",
+    "rev": "rev.",
+    "flags": "flags",
+    "actions": "actions",
+    "by": "by",
+    "date": "date",
+    "comments": "comments"
+  }
+}

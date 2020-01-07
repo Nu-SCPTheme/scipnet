@@ -20,8 +20,10 @@
 
 import * as $ from "jquery";
 import * as BluebirdPromise from "bluebird";
+import * as definition from "../locales/en.json";
 
 import { h, Component } from "preact";
+import { IntlProvider, Text as IntlText } from "preact-i18n";
 
 export type PageSwitchFunction = (page: number) => Promise<void>;
 
@@ -35,18 +37,32 @@ export interface PagerState {
   currentPage: number;
 };
 
+enum PagerButtonType {
+  Next,
+  Previous,
+  Num
+}
+
 // a button within a pager
 interface PagerButtonProps {
   onClick: () => void;
   selected: boolean;
   text: string;
+  buttonType: PagerButtonType;
 }
 
 function PagerButton(props: PagerButtonProps) {
   if (props.selected) {
     return <span class="current" onClick={props.onClick}>{props.text}</span>;
   } else {
-    return <span class="target"> onClick={props.onClick}<a>{props.text}</a></span>;
+    let innerText;
+    if (props.buttonType === PagerButtonType.Num) {
+      innerText = props.text;
+    } else {
+      const label = props.buttonType === PagerButtonType.Next ? "next" : "previous";
+      innerText = <IntlText id={`pager/${label}`}>{props.text}</IntlText>;
+    }
+    return <span class="target"> onClick={props.onClick}<a>{innerText}</a></span>;
   }
 }
 
@@ -94,40 +110,38 @@ export class Pager extends Component<PagerProps, PagerState> {
     }
     selectedPages = selectedPages.filter((x: number): boolean => x >= 0 && x < this.props.totalPages); 
 
+    // create the buttons that enable page-switching
     const prevButton = selectedPages[0] !== pageNum
-      ? <PagerButton text="« previous" selected={false} onClick={() => this.doPageSwitch(pageNum - 1)}/>
+      ? <PagerButton text="« previous" 
+                     buttonType={PagerButtonType.Previous} 
+                     selected={false} 
+                     onClick={() => this.doPageSwitch(pageNum - 1)}/>
       : "";
 
     const nextButton = selectedPages[selectedPages.length - 1] !== pageNum
-      ? <PagerButton text="next »" selected={false} onClick={() => this.doPageSwitch(pageNum + 1)}/>
+      ? <PagerButton text="next »" 
+                     buttonType={PagerButtonType.Next}
+                     selected={false} 
+                     onClick={() => this.doPageSwitch(pageNum + 1)}/>
       : "";
-
-    // generate the first two page numbers, if applicable
-    // TODO: fix this when I have time
-    /*if (selectedPages[0] >= numAtBeginning) {
-      for (let i = 0; i < numAtBeginning; i++) {
-        createButton(`${i + 1}`, false, classMethodToClosure(this, "switchToPage", i));
-      }
-
-      if (selectedPages[0] > numAtBeginning) {
-        $(`<span class="dots">. . .</span>`).appendTo(this.pager);
-      }
-    }*/
 
     const mainButtons = selectedPages.map((pageDest: number) => 
       <PagerButton text={`${pageDest}`}
-        selected={pageDest === pageNum}
-        onClick={() => this.doPageSwitch(pageDest)}
+                   buttonType={PagerButtonType.Num}
+                   selected={pageDest === pageNum}
+                   onClick={() => this.doPageSwitch(pageDest)}
       />
     );
 
     return (
-      <div class="pager">
-        <span class="pager-no">{pageNum}</span>
-        {prevButton}
-        {mainButtons}
-        {nextButton}
-      </div>
+      <IntlProvider definition={definition}>
+        <div class="pager">
+          <span class="pager-no">{pageNum}</span>
+          {prevButton}
+          {mainButtons}
+          {nextButton}
+        </div>
+      </IntlProvider>
     );
   }
 }

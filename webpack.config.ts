@@ -29,7 +29,8 @@ const config: webpack.Configuration = {
   externals: {
     "bluebird": "Promise",
     "jquery": "$",
-    "preact": "preact"
+		"preact": "preact",
+		"preact-i18n": "preactLocalize"
   },
 
   output: {

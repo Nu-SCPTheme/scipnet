@@ -81,7 +81,7 @@ export class Modal extends Component<ModalProps, {}> implements Closable {
 
     const windowStyle = {
       left: `${hCenter}px`,
-      top: `${vCenter}px`
+      "top": `${vCenter}px`
     };
 
     const buttons = this.props.buttons.map((mbd: ModalButtonDef) =>

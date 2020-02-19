@@ -177,11 +177,10 @@ Gets a list of revisions from the page's history.
 
 **Parameters:**
 
-* `page: number` - A number between 0 and the number of pages of revisions the page's history has, that represents which page of the history should be viewed.
-* `revisions-per-page: number` - A number that MUST be between 1 and 200 and SHOULD be between 10 and 200. 
+* `revision-start` - The start of the set of revisions to load.
+* `revision-count` - The number of revisions to load.
 
 **Result:**
-* `total-pages: number` - The number of total pages that would be existant using the current `revisions-per-page` parameter.
 * `revisions: object[]` - An array that MUST consist of JSON objects of the following structure:
 ```
 {

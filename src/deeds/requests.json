@@ -17,7 +17,7 @@
     "request-type": "POST",
     "singular-verb": "cancel edit lock",
     "plural-verb": "cancel edit locks",
-    "body": [] 
+    "body": []
   },
   {
     "name": "confirmRegistration",
@@ -51,8 +51,8 @@
     "singular-verb": "retrieve the history",
     "plural-verb": "retrieve the history",
     "body": [
-      { "name": "page", "type": "number" },
-      { "name": "revisions-per-page", "type": "number", "param-name": "revisionsPerPage" }
+      { "name": "revisions-start", "type": "number", "param-name": "revisionsStart" },
+      { "name": "revisions-count", "type": "number", "param-name": "revisionsCount" }
     ]
   },
   {
@@ -80,7 +80,7 @@
     "request-type": "GET",
     "singular-verb": "get the rendered revision",
     "plural-verb": "get rendered revisions",
-    "body": [ 
+    "body": [
       { "name": "rev-key", "type": "number", "param-name": "revKey" }
     ]
   },
@@ -156,7 +156,7 @@
     "request-type": "POST",
     "singular-verb": "register new user",
     "plural-verb": "register new users",
-    "body": [ 
+    "body": [
       { "name": "username", "type": "string" },
       { "name": "email", "type": "string" },
       { "name": "password", "type": "string" }
@@ -212,7 +212,7 @@
     "request-type": "POST",
     "singular-verb": "set parent",
     "plural-verb": "set parents",
-    "body": [ 
+    "body": [
       { "name": "parents", "type": "Array<string>" }
     ]
   },
@@ -236,7 +236,7 @@
     "request-type": "POST",
     "singular-verb": "set tags",
     "plural-verb": "set tags",
-    "body": [ 
+    "body": [
       { "name": "tags", "type": "Array<string>" }
     ]
   },

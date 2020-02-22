@@ -93,7 +93,7 @@ export interface HistoryWidgetState {
 export class HistoryWidget extends Component<{}, HistoryWidgetState> {
   ongoingRequest: Nullable<BluebirdPromise<void>>;
 
-  constructor(props: {}) { 
+  constructor(props: {}) {
     super(props);
 
     this.ongoingRequest = null;
@@ -103,21 +103,22 @@ export class HistoryWidget extends Component<{}, HistoryWidgetState> {
       page: 0,
       revisionsPerPage: 20,
       totalPages: 0,
- 
+
       doingInitLoading: true
     };
   }
 
   // load new revisions
   private loadRevisions() {
-    this.ongoingRequest = getHistory(this.state.page, this.state.revisionsPerPage)
+    const revsStart = this.state.page * this.state.revisionsPerPage;
+    this.ongoingRequest = getHistory(revsStart, this.state.revisionsPerPage)
       .then((res: DeedsSuccessResult) => {
         const { result } = res;
 
         this.ongoingRequest = null;
         this.setState((prevState: HistoryWidgetState): HistoryWidgetState => {
           const revisions = (result.revisions as Array<any>).map(Revision.deserialize);
-          return Object.assign({}, prevState, { 
+          return Object.assign({}, prevState, {
             doingInitLoading: false,
             revisions,
             totalPages: result.totalPages as number
@@ -125,7 +126,7 @@ export class HistoryWidget extends Component<{}, HistoryWidgetState> {
         });
       });
   }
- 
+
   // run when component has mounted
   componentDidMount() {
     this.loadRevisions();
@@ -203,7 +204,7 @@ export class HistoryWidget extends Component<{}, HistoryWidgetState> {
             <input id="update-button"
                    class="btn btn-default btn-sm"
                    type="button"
-                   value="Update List" 
+                   value="Update List"
                    onClick={this.loadRevisions.bind(this)} />
             <input id="compare-button"
                    class="btn btn-default btn-sm"
@@ -211,9 +212,9 @@ export class HistoryWidget extends Component<{}, HistoryWidgetState> {
                    value="Compare versions" />
           </div>
           <div id="revision-list">
-            <Pager totalPages={this.state.totalPages} 
-              startPage={this.state.page} 
-              onPageSwitch={pageSwitchFunction} 
+            <Pager totalPages={this.state.totalPages}
+              startPage={this.state.page}
+              onPageSwitch={pageSwitchFunction}
             />
             <table class="page-history">
               <tbody>

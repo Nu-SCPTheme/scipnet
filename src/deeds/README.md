@@ -16,7 +16,7 @@ Scipnet MUST send an AJAX request to the specified URL, using either the GET, PO
 ```
 
 Elements within `params` SHOULD be either strings, numbers, or null.
- 
+
 Scipnet MUST recieve of the following in response:
 
 ## If there was an error:
@@ -160,7 +160,7 @@ None outside of standard errors.
 
 ### `POST /sys/page/edit-lock`
 
-Set an edit lock on the page. 
+Set an edit lock on the page.
 
 **Parameters:**
 None
@@ -171,14 +171,14 @@ None
 **Errors:**
 None outside of standard errors.
 
-### `GET /sys/page/history` 
+### `GET /sys/page/history`
 
-Gets a list of revisions from the page's history. 
+Gets a list of revisions from the page's history.
 
 **Parameters:**
 
-* `revision-start` - The start of the set of revisions to load.
-* `revision-count` - The number of revisions to load.
+* `revisions-start` - The start of the set of revisions to load.
+* `revisions-count` - The number of revisions to load.
 
 **Result:**
 * `revisions: object[]` - An array that MUST consist of JSON objects of the following structure:
@@ -209,7 +209,7 @@ None
 **Errors:**
 No special errors.
 
-### `POST /sys/page/parent` 
+### `POST /sys/page/parent`
 
 Sets the parent(s) of the page.
 
@@ -250,7 +250,7 @@ Gets the rendered version of a source for a revision.
 
 ### `POST /sys/page/rename`
 
-Renames the page. 
+Renames the page.
 
 **Parameters:**
 * `new-slug: string` - MUST be a string to change the target page's slug to. This slug MUST be unique.
@@ -263,10 +263,10 @@ Result MUST be ignored. Result SHOULD be a null value.
 
 ### `POST /sys/page/revert-revision`
 
-Reverts to a past revision. 
+Reverts to a past revision.
 
 **Parameters:**
-* `rev-key: number` - A primary key that MUST correspond to a revision in the database. 
+* `rev-key: number` - A primary key that MUST correspond to a revision in the database.
 
 **Result:**
 Result MUST be ignored. Result SHOULD be a null value.
@@ -274,7 +274,7 @@ Result MUST be ignored. Result SHOULD be a null value.
 **Errors:**
 * `"rev-key-not-found"` - The provided `rev-key` did not correspond to a revision in the database.
 
-### `GET /sys/page/revision` 
+### `GET /sys/page/revision`
 
 Gets either the source of a particular revision.
 
@@ -289,7 +289,7 @@ Gets either the source of a particular revision.
 
 ### `GET /sys/page/source`
 
-Gets the source of the page. 
+Gets the source of the page.
 
 **Parameters:**
 None
@@ -300,12 +300,12 @@ None
 **Errors:**
 No special errors.
 
-### `POST /sys/page/source` 
+### `POST /sys/page/source`
 
 Edits the page.
 
-**Parameters:** 
-* `src: string` - The new page source to append. 
+**Parameters:**
+* `src: string` - The new page source to append.
 * `title: string` - The new title for the page.
 * `comment: string` - The commit message for the edit.
 
@@ -336,7 +336,7 @@ Rate the page.
 * `rating: number` - A number which MUST be of value -1, 0, or 1. If the method is `DELETE`, this parameter is not required and is assumed to be zero.
 
 **Result:**
-* `score: number` - A number which MUST be the score of the page as evaluated by the 
+* `score: number` - A number which MUST be the score of the page as evaluated by the
 
 
 

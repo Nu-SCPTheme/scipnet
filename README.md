@@ -2,7 +2,7 @@
 
 <a href="https://travis-ci.org/Nu-SCPTheme/scipnet/"><img src="https://travis-ci.org/Nu-SCPTheme/scipnet.svg?branch=master" alt="Travis Build" /></a>
 
-Scipnet is the name given to the scripts that run on the client side of Project Mekhane (a project to create a sustainable open-source wiki site). The main responsibilities of Scipnet are to manage esoteric markdown elements (such as collapsibles) and to handle events (such as upvoting a page).
+scipnet is the name given to the scripts that run on the client side of a shared wiki site. The main responsibilities of scipnet are to manage esoteric markdown elements (such as collapsibles) and to handle events (such as upvoting a page).
 
 ## Installation
 
@@ -43,7 +43,7 @@ Portability was taken into account during design. At a minimum, Scipnet should w
 
 **GNU AGPL**
 
-scipnet - Frontend scripts for mekhane
+scipnet
 Copyright (C) 2019 not_a_seagull
 
 This program is free software: you can redistribute it and/or modify
